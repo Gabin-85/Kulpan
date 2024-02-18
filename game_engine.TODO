@@ -33,3 +33,36 @@ Layers :
     - Animated layer (moving, low_grouped)
     - Items layer (entity)
     - Mob layer (entity)
+
+Tree:
+
+    -Engine (library)
+    -Game application (exe or deb)
+    -Hot-reloadable game code
+    -Testing bench (executable)
+    -Editor (executable)
+
+Features:
+
+    -Lightweight
+    -Low_level
+    -Multi-platform
+    -Logger
+    -Exeternal files reading
+    -Layer for application
+    -Renderer + abstraction layer
+    -Memory managment
+    -Entity component system
+    -Profiling
+    -Scripting support
+    -Physics system
+
+Engine architecture:
+
+    -Platform layer (linux and windows)
+    -Core layer (biggest part of the engine)
+    -Ressources management layer
+    -Renderer (front)
+    -Renderer (back)
+    -Audio layer
+    -Other layer
