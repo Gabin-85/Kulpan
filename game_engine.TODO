@@ -1,0 +1,35 @@
+Voxels :
+
+    Strutural voxels [
+        - Different types
+        - Hardcoded coordonates
+        - High voxels merging
+    ## Most efficient ## ],
+    
+    Sliding voxels [
+        - Different types
+        - Integers coordonates
+        - Possible merging
+    ## Possibly light ## ],
+    
+    Moving voxels [
+        - Same type
+        - Variable and floating pointed coordonates
+        - Possible merging
+    ## Medium weight ## ],
+    
+    Entity voxels [
+        - Different types
+        - variable and floating pointed coordonates and rotation
+        - Zero merging
+    ## Heavy and intensive ## ] 
+
+Layers :
+
+    - Map layer (structural)
+    - Liquid layer (sliding)
+    - Struct layer (structural, high_grouped)
+    - Objet layer (structural, low_grouped)
+    - Animated layer (moving, low_grouped)
+    - Items layer (entity)
+    - Mob layer (entity)
