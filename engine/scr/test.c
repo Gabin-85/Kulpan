@@ -2,6 +2,6 @@
 
 #include <stdio.h>
 
-coid print_int(i32 i) {
+void print_int(i32 i) {
     printf("The number is: %i", i);
 }
