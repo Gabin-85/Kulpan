@@ -1,4 +1,4 @@
-#include <test.h>
+#include "../../engine/scr/test.h"
 
 int main(void) {
     print_int(42);
