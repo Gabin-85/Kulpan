@@ -3,14 +3,14 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\msys64\\ucrt64\\bin"
+                "C:\\Program Files\\LLVM\\bin"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\msys64\\ucrt64\\bin\\clang.exe",
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
             "cStandard": "c23",
             "cppStandard": "c++23",
             "intelliSenseMode": "windows-clang-x64"
