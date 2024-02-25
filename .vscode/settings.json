@@ -5,6 +5,8 @@
         "logger.h": "c",
         "windowsx.h": "c",
         "defines.h": "c",
-        "platform.h": "c"
-    }
+        "platform.h": "c",
+        "xiosbase": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
