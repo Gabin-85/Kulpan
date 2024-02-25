@@ -34,7 +34,7 @@ KAPI void report_assertion_failure(const char* expression, const char* message, 
     }                                                                       \
 
 #ifdef _DEBUG
-#define KASSERT_DEBUG(expr)                                                   \
+#define KASSERT_DEBUG(expr)                                                 \
     {                                                                       \
         if (expr) {                                                         \
         } else {                                                            \
