@@ -1,6 +1,9 @@
+#pragma once
+
 #include "core/application.h"
 #include "core/logger.h"
 #include "game_types.h"
+#include "core/kmemory.h"
 
 //Externally-defined function
 extern b8 create_game(game* out_game);
@@ -10,6 +13,8 @@ Main entry point of the application
 */
 int main(void) {
 
+    initialize_memory();
+
     //Request the game instance frome the application
     game game_inst;
     if (!create_game(&game_inst)) {
@@ -18,7 +23,7 @@ int main(void) {
     }
 
     //Ensure the function pointers exist
-    if (!game_inst.render || !game_inst.update || !game_inst.initialize || !game_inst.on_resize){
+    if (!game_inst.render || !game_inst.update || !game_inst.initialize || !game_inst.on_resize) {
         KFATAL("The game's function pointers must be assigned!");
         return -2; //False
     }
@@ -34,6 +39,8 @@ int main(void) {
         KINFO("Application did not shutdown gracefully\n");
         return 2; //False
     }
+
+    shutdown_memory();
 
     return 0;
 }
