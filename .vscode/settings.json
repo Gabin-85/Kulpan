@@ -11,6 +11,8 @@
         "xstring": "c",
         "utility": "cpp",
         "event.h": "c",
-        "input.h": "c"
+        "input.h": "c",
+        "kmemory.h": "c",
+        "game_types.h": "c"
     }
 }
