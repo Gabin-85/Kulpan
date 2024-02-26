@@ -48,7 +48,7 @@ Features:
     -Low_level
     -Multi-platform
     -Logger
-    -Exeternal files reading
+    -External files reading
     -Layer for application
     -Renderer + abstraction layer
     -Memory managment
