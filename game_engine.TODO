@@ -59,7 +59,7 @@ Features:
 
 Engine architecture:
 
-    -Platform layer (linux and windows)
+    -Platform layer (linux and windows) --> DONE
     -Core layer (biggest part of the engine)
     -Ressources management layer
     -Renderer (front)

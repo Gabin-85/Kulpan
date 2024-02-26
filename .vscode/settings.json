@@ -6,7 +6,9 @@
         "windowsx.h": "c",
         "defines.h": "c",
         "platform.h": "c",
-        "xiosbase": "c"
+        "xiosbase": "c",
+        "asserts.h": "c",
+        "xstring": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
