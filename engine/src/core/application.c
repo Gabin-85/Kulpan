@@ -31,7 +31,7 @@ b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context
 
 b8 application_create(game* game_inst) {
     if (initialized) {
-        KERROR("application_create called more than once.");
+        KERROR("Application_create called more than once.");
         return FALSE;
     }
 
@@ -40,14 +40,6 @@ b8 application_create(game* game_inst) {
     //initialize subsystem
     initialize_logging();
     input_initialize();
-
-    //TODO: Remove this
-    KFATAL("A test message: %f", 3.14f);
-    KERROR("A test message: %f", 3.14f);
-    KWARN("A test message: %f", 3.14f);
-    KINFO("A test message: %f", 3.14f);
-    KDEBUG("A test message: %f", 3.14f);
-    KTRACE("A test message: %f", 3.14f);
 
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
