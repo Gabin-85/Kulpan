@@ -46,6 +46,8 @@
         "event.h": "c",
         "input.h": "c",
         "kmemory.h": "c",
-        "game_types.h": "c"
+        "game_types.h": "c",
+        "vulkan_types.inl": "c",
+        "vulkan.h": "c"
     }
 }

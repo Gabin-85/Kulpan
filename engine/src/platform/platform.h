@@ -4,10 +4,10 @@
 
 typedef struct platform_state {
     void* internal_state;
-} plateform_state;
+} platform_state;
 
 b8 platform_startup(
-    plateform_state* plat_state,
+    platform_state* plat_state,
     const char* application_name,
     i32 x,
     i32 y,
