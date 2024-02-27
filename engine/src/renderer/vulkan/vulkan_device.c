@@ -121,6 +121,18 @@ b8 vulkan_device_create(vulkan_context* context) {
 
     KINFO("Queues obtained.");
 
+    // Create command pool for graphics queue.
+    KINFO("Creating graphics command pool...")
+    VkCommandPoolCreateInfo pool_create_info = {VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO};
+    pool_create_info.queueFamilyIndex = context->device.graphics_queue_index;
+    pool_create_info.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+    VK_CHECK(vkCreateCommandPool(
+        context->device.logical_device,
+        &pool_create_info,
+        context->allocator,
+        &context->device.graphics_command_pool));
+    KINFO("Graphics command pool created!");
+
     return TRUE;
 }
 
@@ -130,6 +142,12 @@ void vulkan_device_destroy(vulkan_context* context) {
     context->device.graphics_queue = 0;
     context->device.present_queue = 0;
     context->device.transfer_queue = 0;
+
+    KINFO("Destroying command pools...");
+    vkDestroyCommandPool(
+        context->device.logical_device,
+        context->device.graphics_command_pool,
+        context->allocator);
 
     // Destroy logical device
     KINFO("Destroying logical device...");
@@ -285,36 +303,36 @@ b8 select_physical_device(vulkan_context* context) {
             &context->device.swapchain_support);
 
         if (result) {
-            KINFO("Selected device: '%s'.", properties.deviceName);
+            KINFO("    Selected device: '%s'.", properties.deviceName);
             // GPU type, etc.
             switch (properties.deviceType) {
                 default:
                 case VK_PHYSICAL_DEVICE_TYPE_OTHER:
-                    KINFO("GPU type is Unknown.");
+                    KINFO("    GPU type is Unknown.");
                     break;
                 case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
-                    KINFO("GPU type is Integrated.");
+                    KINFO("    GPU type is Integrated.");
                     break;
                 case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
-                    KINFO("GPU type is Descrete.");
+                    KINFO("    GPU type is Descrete.");
                     break;
                 case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
-                    KINFO("GPU type is Virtual.");
+                    KINFO("    GPU type is Virtual.");
                     break;
                 case VK_PHYSICAL_DEVICE_TYPE_CPU:
-                    KINFO("GPU type is CPU.");
+                    KINFO("    GPU type is CPU.");
                     break;
             }
 
             KINFO(
-                "GPU Driver version: %d.%d.%d",
+                "    GPU Driver version: %d.%d.%d",
                 VK_VERSION_MAJOR(properties.driverVersion),
                 VK_VERSION_MINOR(properties.driverVersion),
                 VK_VERSION_PATCH(properties.driverVersion));
 
             // Vulkan API version.
             KINFO(
-                "Vulkan API version: %d.%d.%d",
+                "    Vulkan API version: %d.%d.%d",
                 VK_VERSION_MAJOR(properties.apiVersion),
                 VK_VERSION_MINOR(properties.apiVersion),
                 VK_VERSION_PATCH(properties.apiVersion));
@@ -323,9 +341,9 @@ b8 select_physical_device(vulkan_context* context) {
             for (u32 j = 0; j < memory.memoryHeapCount; ++j) {
                 f32 memory_size_gib = (((f32)memory.memoryHeaps[j].size) / 1024.0f / 1024.0f / 1024.0f);
                 if (memory.memoryHeaps[j].flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
-                    KINFO("Local GPU memory: %.2f GiB", memory_size_gib);
+                    KINFO("    Local GPU memory: %.2f GiB", memory_size_gib);
                 } else {
-                    KINFO("Shared System memory: %.2f GiB", memory_size_gib);
+                    KINFO("    Shared System memory: %.2f GiB", memory_size_gib);
                 }
             }
 
@@ -373,7 +391,7 @@ b8 physical_device_meets_requirements(
     //Discrete GPU?
     if (requirements->discrete_gpu) {
         if (properties->deviceType != VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-            KINFO("Device is not a discrete GPU, and one is required. Skipping.");
+            KINFO("The device named '%s' is not a discrete GPU, and one is required. Skipping.", properties->deviceName);
             return FALSE;
         }
     }
@@ -384,7 +402,7 @@ b8 physical_device_meets_requirements(
     vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_families);
 
     //Look at each queue and see what queues it supports
-    KINFO("Graphical | Present | Compute | Transfer | Name");
+    KINFO("    Graphical | Present | Compute | Transfer | Name");
     u8 min_transfer_score = 255;
     for (u32 i = 0; i < queue_family_count; i++) {
         u8 current_transfer_score = 0;
@@ -420,23 +438,23 @@ b8 physical_device_meets_requirements(
     }
 
     // Print out some info about the device
-    KINFO("        %d |       %d |       %d |        %d | %s",
+    KINFO("            %d |       %d |       %d |        %d | %s",
           out_queue_info->graphics_family_index != -1,
           out_queue_info->present_family_index != -1,
           out_queue_info->compute_family_index != -1,
           out_queue_info->transfer_family_index != -1,
           properties->deviceName);
-    
+
     if (
         (!requirements->graphics || (requirements->graphics && out_queue_info->graphics_family_index != -1)) &&
         (!requirements->present || (requirements->present && out_queue_info->present_family_index != -1)) &&
         (!requirements->compute || (requirements->compute && out_queue_info->compute_family_index != -1)) &&
         (!requirements->transfer || (requirements->transfer && out_queue_info->transfer_family_index != -1))) {
-        KINFO("Device meets queue requirements.");
-        KTRACE("Graphics Family Index: %i", out_queue_info->graphics_family_index);
-        KTRACE("Present Family Index:  %i", out_queue_info->present_family_index);
-        KTRACE("Transfer Family Index: %i", out_queue_info->transfer_family_index);
-        KTRACE("Compute Family Index:  %i", out_queue_info->compute_family_index);
+        KINFO("    Device meets queue requirements.");
+        KTRACE("    Graphics Family Index: %i", out_queue_info->graphics_family_index);
+        KTRACE("    Present Family Index:  %i", out_queue_info->present_family_index);
+        KTRACE("    Transfer Family Index: %i", out_queue_info->transfer_family_index);
+        KTRACE("    Compute Family Index:  %i", out_queue_info->compute_family_index);
 
         //Query swapchain support
         vulkan_device_query_swapchain_support(
