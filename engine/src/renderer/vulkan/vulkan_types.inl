@@ -92,7 +92,7 @@ typedef enum vulkan_command_buffer_state {
 
 typedef struct vulkan_command_buffer {
     VkCommandBuffer handle;
-    // Command buffer state.
+    //Command buffer state.
     vulkan_command_buffer_state state;
 } vulkan_command_buffer;
 
@@ -102,10 +102,10 @@ typedef struct vulkan_fence {
 } vulkan_fence;
 
 typedef struct vulkan_context {
-    // The framebuffer's current width.
-    u32 framebuffer_width;
-    // The framebuffer's current height.
-    u32 framebuffer_height;
+    u32 framebuffer_width;  //The framebuffer's current width.
+    u32 framebuffer_height; //The framebuffer's current height.
+    u64 framebuffer_size_generation;    //Current generation of framebuffer size. Recreated if the screen size change.
+    u64 framebuffer_size_last_generation;   //Old framebuffer size. Use to calculate a changment in screen size.
     VkInstance instance;
     VkAllocationCallbacks* allocator;
     VkSurfaceKHR surface;
@@ -115,12 +115,9 @@ typedef struct vulkan_context {
     vulkan_device device;
     vulkan_swapchain swapchain;
     vulkan_renderpass main_renderpass;
-    //darray
-    vulkan_command_buffer* graphics_command_buffers;
-    //darray
-    VkSemaphore* image_available_semaphores;
-    //darray
-    VkSemaphore* queue_complete_semaphores;
+    vulkan_command_buffer* graphics_command_buffers;    //darray
+    VkSemaphore* image_available_semaphores;            //darray
+    VkSemaphore* queue_complete_semaphores;             //darray
     u32 in_flight_fence_count;
     vulkan_fence* in_flight_fences;
     //Holds pointers to fences which exist and are owned elsewhere.

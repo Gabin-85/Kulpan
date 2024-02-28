@@ -59,49 +59,49 @@ KAPI b8 event_unregister(u16 code, void* listener, PFN_on_event on_event);
  */
 KAPI b8 event_fire(u16 code, void* sender, event_context context);
 
-// System internal event codes. Application should use codes beyond 255.
+//System internal event codes. Application should use codes beyond 255.
 typedef enum system_event_code {
-    // Shuts the application down on the next frame.
+    //Shuts the application down on the next frame.
     EVENT_CODE_APPLICATION_QUIT = 0x01,
 
-    // Keyboard key pressed.
+    //Keyboard key pressed.
     /* Context usage:
      * u16 key_code = data.data.u16[0];
      */
     EVENT_CODE_KEY_PRESSED = 0x02,
 
-    // Keyboard key released.
+    //Keyboard key released.
     /* Context usage:
      * u16 key_code = data.data.u16[0];
      */
     EVENT_CODE_KEY_RELEASED = 0x03,
 
-    // Mouse button pressed.
+    //Mouse button pressed.
     /* Context usage:
      * u16 button = data.data.u16[0];
      */
     EVENT_CODE_BUTTON_PRESSED = 0x04,
 
-    // Mouse button released.
+    //Mouse button released.
     /* Context usage:
      * u16 button = data.data.u16[0];
      */
     EVENT_CODE_BUTTON_RELEASED = 0x05,
 
-    // Mouse moved.
+    //Mouse moved.
     /* Context usage:
      * u16 x = data.data.u16[0];
      * u16 y = data.data.u16[1];
      */
     EVENT_CODE_MOUSE_MOVED = 0x06,
 
-    // Mouse moved.
+    //Mouse moved.
     /* Context usage:
      * u8 z_delta = data.data.u8[0];
      */
     EVENT_CODE_MOUSE_WHEEL = 0x07,
 
-    // Resized/resolution changed from the OS.
+    //Resized/resolution changed from the OS.
     /* Context usage:
      * u16 width = data.data.u16[0];
      * u16 height = data.data.u16[1];

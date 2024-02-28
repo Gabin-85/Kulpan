@@ -40,7 +40,7 @@ b8 event_initialize() {
 }
 
 void event_shutdown() {
-    // Free the events arrays. And objects pointed to should be destroyed on their own.
+    //Free the events arrays. And objects pointed to should be destroyed on their own.
     for(u16 i = 0; i < MAX_MESSAGE_CODES; ++i){
         if(state.registered[i].events != 0) {
             darray_destroy(state.registered[i].events);
@@ -61,12 +61,12 @@ b8 event_register(u16 code, void* listener, PFN_on_event on_event) {
     u64 registered_count = darray_length(state.registered[code].events);
     for(u64 i = 0; i < registered_count; ++i) {
         if(state.registered[code].events[i].listener == listener) {
-            // TODO:Warn
+            //TODO:Warn
             return FALSE;
         }
     }
 
-    // If at this point, no duplicate was found. Proceed with registration.
+    //If at this point, no duplicate was found. Proceed with registration.
     registered_event event;
     event.listener = listener;
     event.callback = on_event;
@@ -80,9 +80,9 @@ b8 event_unregister(u16 code, void* listener, PFN_on_event on_event) {
         return FALSE;
     }
 
-    // On nothing is registered for the code, boot out.
+    //On nothing is registered for the code, boot out.
     if(state.registered[code].events == 0) {
-        // TODO:Warn
+        //TODO:Warn
         return FALSE;
     }
 
@@ -90,14 +90,14 @@ b8 event_unregister(u16 code, void* listener, PFN_on_event on_event) {
     for(u64 i = 0; i < registered_count; ++i) {
         registered_event e = state.registered[code].events[i];
         if(e.listener == listener && e.callback == on_event) {
-            // Found one, remove it
+            //Found one, remove it
             registered_event popped_event;
             darray_pop_at(state.registered[code].events, i, &popped_event);
             return TRUE;
         }
     }
 
-    // Not found.
+    //Not found.
     return FALSE;
 }
 
@@ -106,7 +106,7 @@ b8 event_fire(u16 code, void* sender, event_context context) {
         return FALSE;
     }
 
-    // If nothing is registered for the code, boot out.
+    //If nothing is registered for the code, boot out.
     if(state.registered[code].events == 0) {
         return FALSE;
     }
@@ -115,11 +115,11 @@ b8 event_fire(u16 code, void* sender, event_context context) {
     for(u64 i = 0; i < registered_count; ++i) {
         registered_event e = state.registered[code].events[i];
         if(e.callback(code, sender, e.listener, context)) {
-            // Message has been handled, do not send to other listeners.
+            //Message has been handled, do not send to other listeners.
             return TRUE;
         }
     }
 
-    // Not found.
+    //Not found.
     return FALSE;
 }

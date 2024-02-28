@@ -27,42 +27,72 @@ void shutdown_logging();
 
 KAPI void log_output(log_level level, const char* message, ...);
 
+KAPI void format_log_output(log_level level, const char* message, ...);
+
+KAPI void format_jump(const int times);
+
 //Logs for fatal messages
 #define KFATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
+#define KFORMAT_FATAL(message, ...) format_log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
+#define KJUMP(times) format_jump(times);
 
 #ifndef KERROR
 //Logs for error messages
 #define KERROR(message, ...) log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
 #endif
+#ifndef KFORMAT_ERROR
+//Logs for error messages
+#define KFORMAT_ERROR(message, ...) format_log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
+#endif
+#ifndef KJUMP_ERROR
+//Logs for error jump
+#define KJUMP_ERROR(times) format_jump(times);
+#endif
 
 #if LOG_WARN_ENABLE == 1
-//Logs for warning messages
+//Logs for warning messages and jump
 #define KWARN(message, ...) log_output(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
+#define KFORMAT_WARN(message, ...) format_log_output(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
+#define KJUMP_WARN(times) format_jump(times);
 #else
 //Does nothing when false
-#define KWARN(message, ...)
+#define KWARN(message, ...);
+#define KFORMAT_WARN(message, ...);
+#define KJUMP_WARN(times);
 #endif
 
 #if LOG_INFO_ENABLE == 1
 //Logs for info messages
 #define KINFO(message, ...) log_output(LOG_LEVEL_INFO, message, ##__VA_ARGS__);
+#define KFORMAT_INFO(message, ...) format_log_output(LOG_LEVEL_INFO, message, ##__VA_ARGS__);
+#define KJUMP_INFO(times) format_jump(times);
 #else
 //Does nothing when false
-#define KINFO(message, ...)
+#define KINFO(message, ...);
+#define KFORMAT_INFO(message, ...);
+#define KJUMP_INFO(times);
 #endif
 
 #if LOG_DEBUG_ENABLE == 1
 //Logs for debuging
 #define KDEBUG(message, ...) log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
+#define KFORMAT_DEBUG(message, ...) format_log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
+#define KJUMP_DEBUG(times) format_jump(times);
 #else
 //Does nothing when false
-#define KDEBUG(message, ...)
+#define KDEBUG(message, ...);
+#define KFORMAT_DEBUG(message, ...);
+#define KJUMP_DEBUG(times);
 #endif
 
 #if LOG_TRACE_ENABLE == 1
 //Logs for tracing
 #define KTRACE(message, ...) log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
+#define KFORMAT_TRACE(message, ...) format_log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
+#define KJUMP_TRACE(times) format_jump(times);
 #else
 //Does nothing when false
-#define KTRACE(message, ...)
+#define KTRACE(message, ...);
+#define KFORMAT_TRACE(message, ...);
+#define KJUMP_TRACE(times);
 #endif

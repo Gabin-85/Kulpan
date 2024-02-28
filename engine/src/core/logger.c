@@ -8,12 +8,12 @@
 #include <stdarg.h>
 
 b8 initialize_logging() {
-    // TODO: create log file.
+    //TODO: create log file.
     return TRUE;
 }
 
 void shutdown_logging() {
-    // TODO: cleanup logging/write queued entries.
+    //TODO: cleanup logging/write queued entries.
 }
 
 void log_output(log_level level, const char* message, ...) {
@@ -21,7 +21,7 @@ void log_output(log_level level, const char* message, ...) {
     b8 is_error = level < LOG_LEVEL_WARN;
 
     //Limit of 32k characters
-    // DON'T DO THAT!
+    //DON'T DO THAT!
     const i32 msg_length = 32000;
     char out_message[msg_length];
     memset(out_message, 0, sizeof(out_message));
@@ -40,6 +40,38 @@ void log_output(log_level level, const char* message, ...) {
         platform_console_write_error(out_message2, level);
     } else {
         platform_console_write(out_message2, level);
+    }
+}
+
+void format_log_output(log_level level, const char* message, ...) {
+    b8 is_error = level < LOG_LEVEL_WARN;
+
+    //Limit of 32k characters
+    //DON'T DO THAT!
+    const i32 msg_length = 32000;
+    char out_message[msg_length];
+    memset(out_message, 0, sizeof(out_message));
+
+    //Format the message
+    __builtin_va_list arg_ptr;
+    va_start(arg_ptr, message);
+    vsnprintf(out_message, msg_length, message, arg_ptr);
+    va_end(arg_ptr);
+
+    char out_message2[msg_length];
+    sprintf(out_message2, "%s",  out_message);
+
+    //Platform-specific output.
+    if (is_error) {
+        platform_console_write_error(out_message2, level);
+    } else {
+        platform_console_write(out_message2, level);
+    }
+}
+
+void format_jump(const int times) {
+    for (int i = 0; i < times; i++) {
+        platform_console_write( "\n", 5);
     }
 }
 

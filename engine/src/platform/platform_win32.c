@@ -9,7 +9,7 @@
 #include "containers/darray.h"
 
 #include <windows.h>
-#include <windowsx.h> // param input extraction
+#include <windowsx.h> //param input extraction
 #include <stdlib.h>
 
 #include <vulkan/vulkan.h>
@@ -42,18 +42,18 @@ b8 platform_startup(
 
     state->h_instance = GetModuleHandleA(0);
 
-     // Setup and register window class.
+     //Setup and register window class.
     HICON icon = LoadIcon(state->h_instance, IDI_APPLICATION);
     WNDCLASSA wc;
     memset(&wc, 0, sizeof(wc));
-    wc.style = CS_DBLCLKS;  // Get double-clicks
+    wc.style = CS_DBLCLKS;  //Get double-clicks
     wc.lpfnWndProc = win32_process_message;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = state->h_instance;
     wc.hIcon = icon;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);  // NULL; // Manage the cursor manually
-    wc.hbrBackground = NULL;                   // Transparent
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);  //NULL; //Manage the cursor manually
+    wc.hbrBackground = NULL;                   //Transparent
     wc.lpszClassName = "kulpan_window_class";
 
     if (!RegisterClassA(&wc)) {
@@ -158,7 +158,7 @@ void *platform_set_memory(void *dest, i32 value, u64 size){
 
 void platform_console_write(const char* message, u8 colour) {
     HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    // Fatal, error, warn, info, debug, trace
+    //Fatal, error, warn, info, debug, trace
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[colour]);
     OutputDebugStringA(message);
@@ -169,7 +169,7 @@ void platform_console_write(const char* message, u8 colour) {
 
 void platform_console_write_error(const char* message, u8 colour) {
     HANDLE console_handle = GetStdHandle(STD_ERROR_HANDLE);
-    // Fatal, error, warn, info, debug, trace
+    //Fatal, error, warn, info, debug, trace
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[colour]);
     OutputDebugStringA(message);
@@ -192,9 +192,9 @@ void platform_get_required_extension_names(const char ***names_darray) {
     darray_push(*names_darray, &"VK_KHR_win32_surface");
 }
 
-// Surface creation for Vulkan
+//Surface creation for Vulkan
 b8 platform_create_vulkan_surface(platform_state *plat_state, vulkan_context *context) {
-    // Simply cold-cast to the known type.
+    //Simply cold-cast to the known type.
     internal_state *state = (internal_state *)plat_state->internal_state;
 
     VkWin32SurfaceCreateInfoKHR create_info = {VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR};
@@ -225,12 +225,17 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
             return 0;
         case WM_SIZE: {
             //get the updated size
-            //RECT r;
-            //GetClientRect(hwnd, &r);
-            //u32 width = r.right - r.left;
-            //u32 height = r.bottom - r.top
+            RECT r;
+            GetClientRect(hwnd, &r);
+            u32 width = r.right - r.left;
+            u32 height = r.bottom - r.top;
 
-            //TODO:Fire an event for window resize
+            //Fire the event. The application layer should pick this up, but not handle it
+            //as it shouldn be visible to other parts of the application.
+            event_context context;
+            context.data.u16[0] = (u16)width;
+            context.data.u16[1] = (u16)height;
+            event_fire(EVENT_CODE_RESIZED, 0, context);
         } break;
         case WM_KEYDOWN:
         case WM_SYSKEYDOWN:

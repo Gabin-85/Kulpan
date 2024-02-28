@@ -7,7 +7,7 @@ void vulkan_fence_create(
     b8 create_signaled,
     vulkan_fence* out_fence) {
     
-    // Make sure to signal the fence if required.
+    //Make sure to signal the fence if required.
     out_fence->is_signaled = create_signaled;
     VkFenceCreateInfo fence_create_info = {VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
     if (out_fence->is_signaled) {
@@ -61,7 +61,7 @@ b8 vulkan_fence_wait(vulkan_context* context, vulkan_fence* fence, u64 timeout_n
                 break;
         }
     } else {
-        // If already signaled, do not wait.
+        //If already signaled, do not wait.
         return TRUE;
     }
 

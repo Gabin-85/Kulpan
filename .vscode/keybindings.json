@@ -1,4 +1,4 @@
-// Replace keybindings in your keybindings.json in the use folder to use these.
+//Replace keybindings in your keybindings.json in the use folder to use these.
 [
     {
         "key": "ctrl+r ctrl+t",

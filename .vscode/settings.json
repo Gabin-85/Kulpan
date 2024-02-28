@@ -48,6 +48,7 @@
         "kmemory.h": "c",
         "game_types.h": "c",
         "vulkan_types.inl": "c",
-        "vulkan.h": "c"
+        "vulkan.h": "c",
+        "system_error": "c"
     }
 }

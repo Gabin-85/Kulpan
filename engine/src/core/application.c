@@ -28,6 +28,7 @@ static application_state app_state;
 //Event handler
 b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context);
 b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context context);
+b8 application_on_resized(u16 code, void* sender, void* listener_inst, event_context context);
 
 b8 application_create(game* game_inst) {
     if (initialized) {
@@ -52,6 +53,7 @@ b8 application_create(game* game_inst) {
     event_register(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_register(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
+    event_register(EVENT_CODE_RESIZED, 0, application_on_resized);
 
     if(!platform_startup(
         &app_state.platform,
@@ -140,10 +142,10 @@ b8 application_run() {
                     frame_count++;
                 }
 
-                // NOTE: Input update/state copying should always be handled
-                // after any input should be recorded; I.E. before this line.
-                // As a safety, input is the last thing to be updated before
-                // this frame ends.
+                //NOTE: Input update/state copying should always be handled
+                //after any input should be recorded; I.E. before this line.
+                //As a safety, input is the last thing to be updated before
+                //this frame ends.
                 input_update(delta);
 
                 //Update last time
@@ -153,7 +155,7 @@ b8 application_run() {
 
     app_state.is_running = FALSE;
 
-    // Shutdown event system.
+    //Shutdown event system.
     event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
@@ -187,14 +189,14 @@ b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context
     if (code == EVENT_CODE_KEY_PRESSED) {
         u16 key_code = context.data.u16[0];
         if (key_code == KEY_ESCAPE) {
-            // NOTE: Technically firing an event to itself, but there may be other listeners.
+            //NOTE: Technically firing an event to itself, but there may be other listeners.
             event_context data = {};
             event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
 
-            // Block anything else from processing this.
+            //Block anything else from processing this.
             return TRUE;
         } else if (key_code == KEY_A) {
-            // Example on checking for a key
+            //Example on checking for a key
             KDEBUG("Explicit - A key pressed!");
         } else {
             KDEBUG("'%c' key pressed in window.", key_code);
@@ -202,11 +204,43 @@ b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context
     } else if (code == EVENT_CODE_KEY_RELEASED) {
         u16 key_code = context.data.u16[0];
         if (key_code == KEY_B) {
-            // Example on checking for a key
+            //Example on checking for a key
             KDEBUG("Explicit - B key released!");
         } else {
             KDEBUG("'%c' key released in window.", key_code);
         }
     }
+    return FALSE;
+}
+
+b8 application_on_resized(u16 code, void* sender, void* listener_inst, event_context context) {
+    if (code == EVENT_CODE_RESIZED) {
+        u16 width = context.data.u16[0];
+        u16 height = context.data.u16[1];
+
+        //Check if different. If so, trigger a resize event.
+        if (width != app_state.width || height != app_state.height) {
+            app_state.width = width;
+            app_state.height = height;
+
+            KDEBUG("Window resize: %i, %i", width, height);
+
+            //Handle minimization
+            if (width == 0 || height == 0) {
+                KINFO("Window minimized, suspending application.");
+                app_state.is_suspended = TRUE;
+                return TRUE;
+            } else {
+                if (app_state.is_suspended) {
+                    KINFO("Window restored, resuming application.");
+                    app_state.is_suspended = FALSE;
+                }
+                app_state.game_inst->on_resize(app_state.game_inst, width, height);
+                renderer_on_resized(width, height);
+            }
+        }
+    }
+
+    //Event purposely not handled to allow other listeners to get this.
     return FALSE;
 }

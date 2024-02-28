@@ -76,7 +76,7 @@ void* _darray_pop_at(void* array, u64 index, void* dest) {
     u64 addr = (u64)array;
     kcopy_memory(dest, (void*)(addr + (index * stride)), stride);
 
-    // If not on the last element, snip out the entry and copy the rest inward.
+    //If not on the last element, snip out the entry and copy the rest inward.
     if (index != length - 1) {
         kcopy_memory(
             (void*)(addr + (index * stride)),
@@ -100,7 +100,7 @@ void* _darray_insert_at(void* array, u64 index, void* value_ptr) {
 
     u64 addr = (u64)array;
 
-    // If not on the last element, copy the rest outward.
+    //If not on the last element, copy the rest outward.
     if (index != length - 1) {
         kcopy_memory(
             (void*)(addr + ((index + 1) * stride)),
@@ -108,7 +108,7 @@ void* _darray_insert_at(void* array, u64 index, void* value_ptr) {
             stride * (length - index));
     }
 
-    // Set the value at the index
+    //Set the value at the index
     kcopy_memory((void*)(addr + (index * stride)), value_ptr, stride);
 
     _darray_field_set(array, DARRAY_LENGTH, length + 1);

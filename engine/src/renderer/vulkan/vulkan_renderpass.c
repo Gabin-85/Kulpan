@@ -10,6 +10,19 @@ void vulkan_renderpass_create(
     f32 depth,
     u32 stencil) {
 
+    out_renderpass->x = x;
+    out_renderpass->y = y;
+    out_renderpass->w = w;
+    out_renderpass->h = h;
+
+    out_renderpass->r = r;
+    out_renderpass->g = g;
+    out_renderpass->b = b;
+    out_renderpass->a = a;
+
+    out_renderpass->depth = depth;
+    out_renderpass->stencil = stencil;
+
     //Main subpass
     VkSubpassDescription subpass = {};
     subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
@@ -33,7 +46,7 @@ void vulkan_renderpass_create(
     attachment_descriptions[0] = color_attachment;
 
     VkAttachmentReference color_attachment_reference;
-    color_attachment_reference.attachment = 0;  // Attachment description array index
+    color_attachment_reference.attachment = 0;  //Attachment description array index
     color_attachment_reference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
     subpass.colorAttachmentCount = 1;
@@ -57,19 +70,19 @@ void vulkan_renderpass_create(
     depth_attachment_reference.attachment = 1;
     depth_attachment_reference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
-    // TODO: other attachment types (input, resolve, preserve)
+    //TODO: other attachment types (input, resolve, preserve)
     
-    // Depth stencil data
+    //Depth stencil data
         subpass.pDepthStencilAttachment = &depth_attachment_reference;
 
-    // Input from a shader
+    //Input from a shader
         subpass.inputAttachmentCount = 0;
         subpass.pInputAttachments = 0;
 
-    // Attachments used for multisampling colour attachments
+    //Attachments used for multisampling colour attachments
         subpass.pResolveAttachments = 0;
 
-    // Attachments not used in this subpass, but must be preserved for the next
+    //Attachments not used in this subpass, but must be preserved for the next
         subpass.preserveAttachmentCount = 0;
         subpass.pPreserveAttachments = 0;
 
