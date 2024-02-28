@@ -114,6 +114,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
             }
 
             if (!found) {
+                KJUMP(1);
                 KFATAL("Required validation layer is missing: %s", required_validation_layer_names[i]);
                 return FALSE;
             }
@@ -124,8 +125,9 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
     create_info.enabledLayerCount = required_validation_layer_count;
     create_info.ppEnabledLayerNames = required_validation_layer_names;
 
+    KINFO("Creating Vulkan instance...");
     VK_CHECK(vkCreateInstance(&create_info, context.allocator, &context.instance));
-    KINFO("Vulkan Instance created.");
+    KINFO("Vulkan instance created.");
 
     //Debugger
     #if defined(_DEBUG)

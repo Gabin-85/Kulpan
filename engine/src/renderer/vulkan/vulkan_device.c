@@ -396,7 +396,8 @@ b8 physical_device_meets_requirements(
     //Discrete GPU?
     if (requirements->discrete_gpu) {
         if (properties->deviceType != VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
-            KINFO("   The device named '%s' is not a discrete GPU, and one is required. Skipping.", properties->deviceName);
+            KFORMAT_INFO("            The device named '%s' is not a discrete GPU, and one is required. Skipping.", properties->deviceName);
+            KJUMP(1);
             return FALSE;
         }
     }
@@ -450,15 +451,14 @@ b8 physical_device_meets_requirements(
           out_queue_info->compute_family_index != -1,
           out_queue_info->transfer_family_index != -1,
           properties->deviceName);
-    KJUMP(1);
+    KJUMP_INFO(1);
 
     if (
         (!requirements->graphics || (requirements->graphics && out_queue_info->graphics_family_index != -1)) &&
         (!requirements->present || (requirements->present && out_queue_info->present_family_index != -1)) &&
         (!requirements->compute || (requirements->compute && out_queue_info->compute_family_index != -1)) &&
         (!requirements->transfer || (requirements->transfer && out_queue_info->transfer_family_index != -1))) {
-        KJUMP(1);
-        KFORMAT_INFO("            Device meets queue requirements."); KJUMP(1);
+        KFORMAT_INFO("            Device meets queue requirements."); KJUMP_INFO(1);
         KFORMAT_TRACE("            Graphics Family Index: %i", out_queue_info->graphics_family_index);  KJUMP_TRACE(1);
         KFORMAT_TRACE("            Present Family Index:  %i", out_queue_info->present_family_index);   KJUMP_TRACE(1);
         KFORMAT_TRACE("            Transfer Family Index: %i", out_queue_info->transfer_family_index);  KJUMP_TRACE(1);
@@ -477,7 +477,8 @@ b8 physical_device_meets_requirements(
             if (out_swapchain_support->present_modes) {
                 kfree(out_swapchain_support->present_modes, sizeof(VkPresentModeKHR) * out_swapchain_support->present_mode_count, MEMORY_TAG_RENDERER);
             }
-            KINFO("   The device named '%s' require swapchain support, skipping device.", properties->deviceName);
+            KFORMAT_INFO("            The device named '%s' require swapchain support, skipping device.", properties->deviceName);
+            KJUMP_INFO(1);
             return FALSE;
         }
 
@@ -509,7 +510,8 @@ b8 physical_device_meets_requirements(
                     }
 
                     if (!found) {
-                        KINFO("   The device named '%s' require this extension: '%s', skipping device.", properties->deviceName, requirements->device_extension_names[i]);
+                        KFORMAT_INFO("            The device named '%s' require this extension: '%s', skipping device.", properties->deviceName, requirements->device_extension_names[i]);
+                        KJUMP_INFO(1);
                         kfree(available_extensions, sizeof(VkExtensionProperties) * available_extension_count, MEMORY_TAG_RENDERER);
                         return FALSE;
                     }
@@ -521,7 +523,8 @@ b8 physical_device_meets_requirements(
 
         //Sampler anisotropy
         if (requirements->sampler_anisotropy && !features->samplerAnisotropy) {
-            KINFO("   The device named '%s' does not support samplerAnisotropy, skipping.", properties->deviceName);
+            KFORMAT_INFO("   The device named '%s' does not support samplerAnisotropy, skipping.", properties->deviceName);
+            KJUMP_INFO(1);
             return FALSE;
         }
 
