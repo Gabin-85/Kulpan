@@ -50,5 +50,6 @@
         "vulkan_types.inl": "c",
         "vulkan.h": "c",
         "system_error": "c"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }
