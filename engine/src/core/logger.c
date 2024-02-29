@@ -111,6 +111,9 @@ void format_jump(const int times) {
     for (int i = 0; i < times; i++) {
         platform_console_write( "\n", 5);
     }
+
+    // Queue a copy to be written to the log file.
+    append_to_log_file("\n");
 }
 
 void report_assertion_failure(const char* expression, const char* message, const char* file, i32 line) {

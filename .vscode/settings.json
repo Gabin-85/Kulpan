@@ -54,7 +54,9 @@
         "system_error": "c",
         "math_types.h": "c",
         "stdarg.h": "c",
-        "filesystem.h": "c"
+        "filesystem.h": "c",
+        "vulkan_shader_utils.h": "c",
+        "sstream": "c"
     },
     "git.ignoreLimitWarning": true
 }
