@@ -40,7 +40,7 @@ typedef struct memory_system_state {
 
 static memory_system_state* state_ptr;
 
-void initialize_memory(u64* memory_requirement, void* state) {
+void memory_system_initialize(u64* memory_requirement, void* state) {
     *memory_requirement = sizeof(memory_system_state);
     if (state == 0) {
         return;
@@ -51,7 +51,7 @@ void initialize_memory(u64* memory_requirement, void* state) {
     platform_zero_memory(&state_ptr->stats, sizeof(state_ptr->stats));
 }
 
-void shutdown_memory(void* state) {
+void memory_system_shutdown(void* state) {
     state_ptr = 0;
 }
 
@@ -77,8 +77,10 @@ void kfree(void* block, u64 size, memory_tag tag) {
         KWARN("Kfree called using MEMORY_TAG_UNKNOWN. Re-class this allocation.")
     }
 
-    state_ptr->stats.total_allocated -= size;
-    state_ptr->stats.tagged_allocations[tag] -= size;
+    if (state_ptr) {
+        state_ptr->stats.total_allocated -= size;
+        state_ptr->stats.tagged_allocations[tag] -= size;
+    }
 
     //TODO:Memory allignment
     platform_free(block, false);
