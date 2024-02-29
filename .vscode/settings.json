@@ -53,7 +53,8 @@
         "vulkan.h": "c",
         "system_error": "c",
         "math_types.h": "c",
-        "stdarg.h": "c"
+        "stdarg.h": "c",
+        "filesystem.h": "c"
     },
     "git.ignoreLimitWarning": true
 }
