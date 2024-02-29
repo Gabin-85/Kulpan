@@ -48,9 +48,12 @@
         "kmemory.h": "c",
         "game_types.h": "c",
         "vulkan_types.inl": "c",
+        "clock.h": "c",
+        "kstring.h": "c",
         "vulkan.h": "c",
         "system_error": "c",
-        "math_types.h": "c"
+        "math_types.h": "c",
+        "stdarg.h": "c"
     },
     "git.ignoreLimitWarning": true
 }

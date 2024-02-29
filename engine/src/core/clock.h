@@ -7,10 +7,10 @@ typedef struct clock {
 } clock;
 
 //Clock updating
-void clock_update(clock* clock);
+KAPI void clock_update(clock* clock);
 
 //Start the provided clock
-void clock_start(clock* clock);
+KAPI void clock_start(clock* clock);
 
 //Stop the provided clock
-void clock_stop(clock* clock);
+KAPI void clock_stop(clock* clock);
