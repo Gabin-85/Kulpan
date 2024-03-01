@@ -56,7 +56,8 @@
         "stdarg.h": "c",
         "filesystem.h": "c",
         "vulkan_shader_utils.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "vulkan_backend.h": "c"
     },
     "git.ignoreLimitWarning": true
 }
