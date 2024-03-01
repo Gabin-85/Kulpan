@@ -11,13 +11,13 @@ layout(set = 0, binding = 0) uniform global_uniform_object {
 
 layout(push_constant) uniform push_constants {
 
-	// Only guaranteed a total of 128 bytes.
-	mat4 model; // 64 bytes
+	//Only guaranteed a total of 128 bytes.
+	mat4 model; //64 bytes
 } u_push_constants;
 
 layout(location = 0) out int out_mode;
 
-// Data Transfer Object
+//Data Transfer Object
 layout(location = 1) out struct dto {
 	vec2 tex_coord;
 } out_dto;

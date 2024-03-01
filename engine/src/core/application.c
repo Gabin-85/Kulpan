@@ -12,6 +12,9 @@
 
 #include "../renderer/renderer_frontend.h"
 
+// systems
+#include "systems/texture_system.h"
+
 typedef struct application_state {
     game* game_inst;
     b8 is_running;
@@ -21,18 +24,27 @@ typedef struct application_state {
     clock clock;
     f64 last_time;
     linear_allocator systems_allocator;
+
     u64 event_system_memory_requirement;
     void* event_system_state;
+
     u64 memory_system_memory_requirement;
     void* memory_system_state;
+
     u64 logging_system_memory_requirement;
     void* logging_system_state;
+
     u64 input_system_memory_requirement;
     void* input_system_state;
+
     u64 platform_system_memory_requirement;
     void* platform_system_state;
+
     u64 renderer_system_memory_requirement;
     void* renderer_system_state;
+
+    u64 texture_system_memory_requirement;
+    void* texture_system_state;
 } application_state;
 
 static application_state* app_state;
@@ -54,12 +66,12 @@ b8 application_create(game* game_inst) {
     app_state->is_running = false;
     app_state->is_suspended = false;
 
-    u64 systems_allocator_total_size = 64 * 1024 * 1024;  // 64 mb
+    u64 systems_allocator_total_size = 64 * 1024 * 1024;  //64 mb
     linear_allocator_create(systems_allocator_total_size, 0, &app_state->systems_allocator);
 
     //Initialize subsystem
 
-    // Events
+    //Events
     event_system_initialize(&app_state->event_system_memory_requirement, 0);
     app_state->event_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->event_system_memory_requirement);
     event_system_initialize(&app_state->event_system_memory_requirement, app_state->event_system_state);
@@ -77,7 +89,7 @@ b8 application_create(game* game_inst) {
         return false;
     }
 
-    // Input
+    //Input
     input_system_initialize(&app_state->input_system_memory_requirement, 0);
     app_state->input_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->input_system_memory_requirement);
     input_system_initialize(&app_state->input_system_memory_requirement, app_state->input_system_state);
@@ -88,7 +100,7 @@ b8 application_create(game* game_inst) {
     event_register(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
     event_register(EVENT_CODE_RESIZED, 0, application_on_resized);
 
-    // Platform
+    //Platform
     platform_system_startup(&app_state->platform_system_memory_requirement, 0, 0, 0, 0, 0, 0);
     app_state->platform_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->platform_system_memory_requirement);
     if (!platform_system_startup(
@@ -102,11 +114,21 @@ b8 application_create(game* game_inst) {
         return false;
     }
 
-    // Renderer system
+    //Renderer system
     renderer_system_initialize(&app_state->renderer_system_memory_requirement, 0, 0);
     app_state->renderer_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->renderer_system_memory_requirement);
     if (!renderer_system_initialize(&app_state->renderer_system_memory_requirement, app_state->renderer_system_state, game_inst->app_config.name)) {
         KFATAL("Failed to initialize renderer. Aborting application.")
+        return false;
+    }
+
+    //Texture system.
+    texture_system_config texture_sys_config;
+    texture_sys_config.max_texture_count = 65536;
+    texture_system_initialize(&app_state->texture_system_memory_requirement, 0, texture_sys_config);
+    app_state->texture_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->texture_system_memory_requirement);
+    if (!texture_system_initialize(&app_state->texture_system_memory_requirement, app_state->texture_system_state, texture_sys_config)) {
+        KFATAL("Failed to initialize texture system. Application cannot continue.");
         return false;
     }
 
@@ -116,7 +138,7 @@ b8 application_create(game* game_inst) {
         return false;
     }
 
-    // Call resize once to ensure the proper size has been set.
+    //Call resize once to ensure the proper size has been set.
     app_state->game_inst->on_resize(app_state->game_inst, app_state->width, app_state->height);
 
     return true;
@@ -198,9 +220,13 @@ b8 application_run() {
     event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
+
     input_system_shutdown(app_state->input_system_state);
 
+    texture_system_shutdown(app_state->texture_system_state);
+
     renderer_system_shutdown(app_state->renderer_system_state);
+
 
     platform_system_shutdown(app_state->platform_system_state);
 

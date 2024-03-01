@@ -2,9 +2,9 @@
 
 #include "defines.h"
 
-// Holds a handle to a file.
+//Holds a handle to a file.
 typedef struct file_handle {
-    // Opaque handle to internal file handle.
+    //Opaque handle to internal file handle.
     void* handle;
     b8 is_valid;
 } file_handle;

@@ -1,0 +1,6 @@
+This folder is used to place some external dependencies/header files.
+Here is a list of its names and uses cases :
+
+    -stb_image.h --> Opening textures file such as jpeg, gif, png.
+
+    -others will probably come but not now...

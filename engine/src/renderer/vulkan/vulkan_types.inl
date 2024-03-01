@@ -41,6 +41,7 @@ typedef struct vulkan_device {
     VkQueue graphics_queue;
     VkQueue present_queue;
     VkQueue transfer_queue;
+    b8 supports_device_local_host_visible;
     VkCommandPool graphics_command_pool;
     VkPhysicalDeviceProperties properties;
     VkPhysicalDeviceFeatures features;
@@ -126,46 +127,45 @@ typedef struct vulkan_pipeline {
 #define OBJECT_SHADER_STAGE_COUNT 2
 
 typedef struct vulkan_descriptor_state {
-    // One per frame
+    //One per frame
     u32 generations[3];
+    u32 ids[3];
 } vulkan_descriptor_state;
 
 #define VULKAN_OBJECT_SHADER_DESCRIPTOR_COUNT 2
 typedef struct vulkan_object_shader_object_state {
-    // Per frame
+    //Per frame
     VkDescriptorSet descriptor_sets[3];
 
-    // Per descriptor
+    //Per descriptor
     vulkan_descriptor_state descriptor_states[VULKAN_OBJECT_SHADER_DESCRIPTOR_COUNT];
 } vulkan_object_shader_object_state;
 
-// Max number of objects
+//Max number of objects
 #define VULKAN_OBJECT_MAX_OBJECT_COUNT 1024
 
-typedef struct vulkan_object_shader {
+typedef struct vulkan_material_shader {
     //Vertex, fragment
     vulkan_shader_stage stages[OBJECT_SHADER_STAGE_COUNT];
     VkDescriptorPool global_descriptor_pool;
     VkDescriptorSetLayout global_descriptor_set_layout;
-    // One descriptor set per frame - max 3 for triple-buffering.
+    //One descriptor set per frame - max 3 for triple-buffering.
     VkDescriptorSet global_descriptor_sets[3];
     b8 descriptor_updated[3];
-    // Global uniform object.
+    //Global uniform object.
     global_uniform_object global_ubo;
-    // Global uniform buffer.
+    //Global uniform buffer.
     vulkan_buffer global_uniform_buffer;
     VkDescriptorPool object_descriptor_pool;
     VkDescriptorSetLayout object_descriptor_set_layout;
-    // Object uniform buffers.
+    //Object uniform buffers.
     vulkan_buffer object_uniform_buffer;
-    // TODO: manage a free list of some kind here instead.
+    //TODO: manage a free list of some kind here instead.
     u32 object_uniform_buffer_index;
-    // TODO: make dynamic
+    //TODO: make dynamic
     vulkan_object_shader_object_state object_states[VULKAN_OBJECT_MAX_OBJECT_COUNT];
-    // Pointers to default textures.
-    texture* default_diffuse;
     vulkan_pipeline pipeline;
-} vulkan_object_shader;
+} vulkan_material_shader;
 
 typedef struct vulkan_context {
     f32 frame_delta_time;
@@ -194,7 +194,7 @@ typedef struct vulkan_context {
     u32 image_index;
     u32 current_frame;
     b8 recreating_swapchain;
-    vulkan_object_shader object_shader;
+    vulkan_material_shader material_shader;
     u64 geometry_vertex_offset;
     u64 geometry_index_offset;
     i32 (*find_memory_index)(u32 type_filter, u32 property_flags);

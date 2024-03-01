@@ -20,7 +20,7 @@ typedef struct input_state {
     mouse_state mouse_previous;
 } input_state;
 
-// Internal input state pointer
+//Internal input state pointer
 static input_state* state_ptr;
 
 void input_system_initialize(u64* memory_requirement, void* state) {
@@ -50,7 +50,7 @@ void input_update(f64 delta_time) {
 
 void input_process_key(keys key, b8 pressed) {
     if (state_ptr && state_ptr->keyboard_current.keys[key] != pressed) {
-        // Update internal state_ptr->
+        //Update internal state_ptr->
         state_ptr->keyboard_current.keys[key] = pressed;
 
         if (key == KEY_LALT) {
@@ -73,7 +73,7 @@ void input_process_key(keys key, b8 pressed) {
 
         //Only handle this if the state actually changed.
         if (state_ptr->keyboard_current.keys[key] != pressed) {
-            // Update internal state_ptr->
+            //Update internal state_ptr->
             state_ptr->keyboard_current.keys[key] = pressed;
 
             //Fire off an event for immediate processing.

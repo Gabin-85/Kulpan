@@ -15,7 +15,7 @@ static logger_system_state* state_ptr;
 
 void append_to_log_file(const char* message) {
     if (state_ptr && state_ptr->log_file_handle.is_valid) {
-        // Since the message already contains a '\n', just write the bytes directly.
+        //Since the message already contains a '\n', just write the bytes directly.
         u64 length = string_length(message);
         u64 written = 0;
         if (!filesystem_write(&state_ptr->log_file_handle, length, message, &written)) {
@@ -75,7 +75,7 @@ void log_output(log_level level, const char* message, ...) {
         platform_console_write(out_message, level);
     }
 
-    // Queue a copy to be written to the log file.
+    //Queue a copy to be written to the log file.
     append_to_log_file(out_message);
 }
 
@@ -103,7 +103,7 @@ void format_log_output(log_level level, const char* message, ...) {
         platform_console_write(out_message, level);
     }
 
-    // Queue a copy to be written to the log file.
+    //Queue a copy to be written to the log file.
     append_to_log_file(out_message);
 }
 
@@ -112,7 +112,7 @@ void format_jump(const int times) {
         platform_console_write( "\n", 5);
     }
 
-    // Queue a copy to be written to the log file.
+    //Queue a copy to be written to the log file.
     append_to_log_file("\n");
 }
 

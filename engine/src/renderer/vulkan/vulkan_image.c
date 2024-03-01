@@ -106,25 +106,25 @@ void vulkan_image_transition_layout(
     VkPipelineStageFlags source_stage;
     VkPipelineStageFlags dest_stage;
 
-    // Don't care about the old layout - transition to optimal layout (for the underlying implementation).
+    //Don't care about the old layout - transition to optimal layout (for the underlying implementation).
     if (old_layout == VK_IMAGE_LAYOUT_UNDEFINED && new_layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL) {
         barrier.srcAccessMask = 0;
         barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
 
-        // Don't care what stage the pipeline is in at the start.
+        //Don't care what stage the pipeline is in at the start.
         source_stage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
 
-        // Used for copying
+        //Used for copying
         dest_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
     } else if (old_layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL && new_layout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL) {
-        // Transitioning from a transfer destination layout to a shader-readonly layout.
+        //Transitioning from a transfer destination layout to a shader-readonly layout.
         barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
         barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
 
-        // From a copying stage to...
+        //From a copying stage to...
         source_stage = VK_PIPELINE_STAGE_TRANSFER_BIT;
 
-        // The fragment stage.
+        //The fragment stage.
         dest_stage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
     } else {
         KFATAL("unsupported layout transition!");
@@ -145,7 +145,7 @@ void vulkan_image_copy_from_buffer(
     vulkan_image* image,
     VkBuffer buffer,
     vulkan_command_buffer* command_buffer) {
-    // Region to copy
+    //Region to copy
     VkBufferImageCopy region;
     kzero_memory(&region, sizeof(VkBufferImageCopy));
     region.bufferOffset = 0;

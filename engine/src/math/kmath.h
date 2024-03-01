@@ -17,16 +17,16 @@
 #define K_DEG2RAD_MULTIPLIER K_PI / 180.0f
 #define K_RAD2DEG_MULTIPLIER 180.0f / K_PI
 
-// The multiplier to convert seconds to milliseconds.
+//The multiplier to convert seconds to milliseconds.
 #define K_SEC_TO_MS_MULTIPLIER 1000.0f
 
-// The multiplier to convert milliseconds to seconds.
+//The multiplier to convert milliseconds to seconds.
 #define K_MS_TO_SEC_MULTIPLIER 0.001f
 
-// A huge number that should be larger than any valid number used.
+//A huge number that should be larger than any valid number used.
 #define K_INFINITY 1e30f
 
-// Smallest positive number where 1.0 + FLOAT_EPSILON != 0
+//Smallest positive number where 1.0 + FLOAT_EPSILON != 0
 #define K_FLOAT_EPSILON 1.192092896e-07f
 
 KAPI f32 ksin(f32 x);
@@ -51,9 +51,9 @@ KAPI i32 krandom_in_range(i32 min, i32 max);
 KAPI f32 fkrandom();
 KAPI f32 fkrandom_in_range(f32 min, f32 max);
 
-// ------------------------------------------
-// Vector 2
-// ------------------------------------------
+//------------------------------------------
+//Vector 2
+//------------------------------------------
 
 /**
  * @brief Creates and returns a new 2-element vector using the supplied values.
@@ -240,9 +240,9 @@ KINLINE f32 vec2_distance(vec2 vector_0, vec2 vector_1) {
     return vec2_length(d);
 }
 
-// ------------------------------------------
-// Vector 3
-// ------------------------------------------
+//------------------------------------------
+//Vector 3
+//------------------------------------------
 
 /**
  * @brief Creates and returns a new 3-element vector using the supplied values.
@@ -518,9 +518,9 @@ KINLINE f32 vec3_distance(vec3 vector_0, vec3 vector_1) {
     return vec3_length(d);
 }
 
-// ------------------------------------------
-// Vector 4
-// ------------------------------------------
+//------------------------------------------
+//Vector 4
+//------------------------------------------
 
 /**
  * @brief Creates and returns a new 4-element vector using the supplied values.
@@ -1088,9 +1088,9 @@ KINLINE vec3 mat4_right(mat4 matrix) {
     return left;
 }
 
-// ------------------------------------------
-// Quaternion
-// ------------------------------------------
+//------------------------------------------
+//Quaternion
+//------------------------------------------
 
 KINLINE quat quat_identity() {
     return (quat){0, 0, 0, 1.0f};
@@ -1180,7 +1180,7 @@ KINLINE mat4 quat_to_mat4(quat q) {
     return out_matrix;
 }
 
-// Calculates a rotation matrix based on the quaternion and the passed in center point.
+//Calculates a rotation matrix based on the quaternion and the passed in center point.
 KINLINE mat4 quat_to_rotation_matrix(quat q, vec3 center) {
     mat4 out_matrix;
 
@@ -1256,12 +1256,12 @@ KINLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
     }
 
     //Since dot is in range [0, DOT_THRESHOLD], acos is safe
-    f32 theta_0 = kacos(dot);          // theta_0 = angle between input vectors
-    f32 theta = theta_0 * percentage;  // theta = angle between v0 and result
-    f32 sin_theta = ksin(theta);       // compute this value only once
-    f32 sin_theta_0 = ksin(theta_0);   // compute this value only once
+    f32 theta_0 = kacos(dot);          //theta_0 = angle between input vectors
+    f32 theta = theta_0 * percentage;  //theta = angle between v0 and result
+    f32 sin_theta = ksin(theta);       //compute this value only once
+    f32 sin_theta_0 = ksin(theta_0);   //compute this value only once
 
-    f32 s0 = kcos(theta) - dot * sin_theta / sin_theta_0;  // == sin(theta_0 - theta) / sin(theta_0)
+    f32 s0 = kcos(theta) - dot * sin_theta / sin_theta_0;  //== sin(theta_0 - theta) / sin(theta_0)
     f32 s1 = sin_theta / sin_theta_0;
 
     return (quat){

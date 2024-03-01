@@ -7,9 +7,9 @@
 #include "core/input.h"
 #include "core/kstring.h"
 #include "core/logger.h"
-#include "renderer/vulkan/vulkan_types.inl"  // For surface creation.
+#include "renderer/vulkan/vulkan_types.inl"  //For surface creation.
 
-// Include Vulkan before GLFW.
+//Include Vulkan before GLFW.
 #include <vulkan/vulkan.h>
 
 #ifndef GLFW_INCLUDE_NONE
@@ -63,7 +63,7 @@ b8 platform_system_startup(
 
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  // Required for Vulkan.
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);  //Required for Vulkan.
 
     state_ptr->glfw_window = glfwCreateWindow(width, height, application_name, 0, 0);
     if (!state_ptr->glfw_window) {
@@ -134,7 +134,7 @@ void platform_console_write_error(const char* message, u8 colour) {
 }
 
 static void platform_console_write_file(FILE* file, const char* message, u8 colour) {
-    // Colours: FATAL, ERROR, WARN, INFO, DEBUG, TRACE.
+    //Colours: FATAL, ERROR, WARN, INFO, DEBUG, TRACE.
     const char* colour_strings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
     fprintf(file, "\033[%sm%s\033[0m", colour_strings[colour], message);
 }
@@ -156,7 +156,7 @@ void platform_get_required_extension_names(const char*** names_darray) {
     const char** extensions = glfwGetRequiredInstanceExtensions(&count);
     for (u32 i = 0; i < count; ++i) {
         if (strings_equal(extensions[i], "VK_KHR_surface")) {
-            // We already include "VK_KHR_surface", so skip this.
+            //We already include "VK_KHR_surface", so skip this.
             continue;
         }
         darray_push(*names_darray, extensions[i]);
@@ -217,7 +217,7 @@ static void platform_cursor_position_callback(GLFWwindow* window, f64 xpos, f64 
 }
 
 static void platform_scroll_callback(GLFWwindow* window, f64 xoffset, f64 yoffset) {
-    // We ignore horizontal scroll and also flatten to OS-independent values (-1, +1).
+    //We ignore horizontal scroll and also flatten to OS-independent values (-1, +1).
     i8 z_delta = (i8)yoffset;
     if (z_delta != 0) {
         z_delta = (z_delta < 0) ? -1 : 1;
@@ -571,20 +571,20 @@ static keys translate_key(int key) {
             our_key = KEY_RWIN;
             break;
         default:
-            // GLFW_KEY_UNKNOWN
-            // GLFW_KEY_LAST
-            // GLFW_KEY_APOSTROPHE
-            // GLFW_KEY_LEFT_BRACKET
-            // GLFW_KEY_BACKSLASH
-            // GLFW_KEY_RIGHT_BRACKET
-            // GLFW_KEY_F25
-            // GLFW_KEY_WORLD_1
-            // GLFW_KEY_WORLD_2
-            // GLFW_KEY_MENU
+            //GLFW_KEY_UNKNOWN
+            //GLFW_KEY_LAST
+            //GLFW_KEY_APOSTROPHE
+            //GLFW_KEY_LEFT_BRACKET
+            //GLFW_KEY_BACKSLASH
+            //GLFW_KEY_RIGHT_BRACKET
+            //GLFW_KEY_F25
+            //GLFW_KEY_WORLD_1
+            //GLFW_KEY_WORLD_2
+            //GLFW_KEY_MENU
             our_key = KEYS_MAX_KEYS;
     }
 
     return our_key;
 }
 
-#endif  // KPLATFORM_APPLE
+#endif  //KPLATFORM_APPLE

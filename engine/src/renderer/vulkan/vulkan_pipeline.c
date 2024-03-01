@@ -22,14 +22,14 @@ b8 vulkan_graphics_pipeline_create(
 
     KDEBUG("Creating graphics pipeline...")
 
-    // Viewport state
+    //Viewport state
     VkPipelineViewportStateCreateInfo viewport_state = {VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO};
     viewport_state.viewportCount = 1;
     viewport_state.pViewports = &viewport;
     viewport_state.scissorCount = 1;
     viewport_state.pScissors = &scissor;
 
-    // Rasterizer
+    //Rasterizer
     VkPipelineRasterizationStateCreateInfo rasterizer_create_info = {VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO};
     rasterizer_create_info.depthClampEnable = VK_FALSE;
     rasterizer_create_info.rasterizerDiscardEnable = VK_FALSE;
@@ -42,7 +42,7 @@ b8 vulkan_graphics_pipeline_create(
     rasterizer_create_info.depthBiasClamp = 0.0f;
     rasterizer_create_info.depthBiasSlopeFactor = 0.0f;
 
-    // Multisampling.
+    //Multisampling.
     VkPipelineMultisampleStateCreateInfo multisampling_create_info = {VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO};
     multisampling_create_info.sampleShadingEnable = VK_FALSE;
     multisampling_create_info.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
@@ -51,7 +51,7 @@ b8 vulkan_graphics_pipeline_create(
     multisampling_create_info.alphaToCoverageEnable = VK_FALSE;
     multisampling_create_info.alphaToOneEnable = VK_FALSE;
 
-    // Depth and stencil testing.
+    //Depth and stencil testing.
     VkPipelineDepthStencilStateCreateInfo depth_stencil = {VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO};
     depth_stencil.depthTestEnable = VK_TRUE;
     depth_stencil.depthWriteEnable = VK_TRUE;
@@ -91,9 +91,9 @@ b8 vulkan_graphics_pipeline_create(
 
     //Vertex input
     VkVertexInputBindingDescription binding_description;
-    binding_description.binding = 0;  // Binding index
+    binding_description.binding = 0;  //Binding index
     binding_description.stride = sizeof(vertex_3d);
-    binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;  // Move to next data entry for each vertex.
+    binding_description.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;  //Move to next data entry for each vertex.
 
     //Attributes
     VkPipelineVertexInputStateCreateInfo vertex_input_info = {VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO};
@@ -110,7 +110,7 @@ b8 vulkan_graphics_pipeline_create(
     //Pipeline layout
     VkPipelineLayoutCreateInfo pipeline_layout_create_info = {VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO};
 
-    // Push constants
+    //Push constants
     VkPushConstantRange push_constant;
     push_constant.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
     push_constant.offset = sizeof(mat4) * 0;
@@ -170,13 +170,13 @@ b8 vulkan_graphics_pipeline_create(
 
 void vulkan_pipeline_destroy(vulkan_context* context, vulkan_pipeline* pipeline) {
     if (pipeline) {
-        // Destroy pipeline
+        //Destroy pipeline
         if (pipeline->handle) {
             vkDestroyPipeline(context->device.logical_device, pipeline->handle, context->allocator);
             pipeline->handle = 0;
         }
 
-        // Destroy layout
+        //Destroy layout
         if (pipeline->pipeline_layout) {
             vkDestroyPipelineLayout(context->device.logical_device, pipeline->pipeline_layout, context->allocator);
             pipeline->pipeline_layout = 0;

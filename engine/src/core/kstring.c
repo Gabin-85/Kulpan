@@ -5,6 +5,10 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#ifndef _MSC_VER
+#include <strings.h>
+#endif
+
 u64 string_length(const char* str) {
     return strlen(str);
 }
@@ -21,6 +25,15 @@ b8 strings_equal(const char* str0, const char* str1) {
     return strcmp(str0, str1) == 0;
 }
 
+//Case-insensitive string comparison. True if the same, otherwise false.
+b8 strings_equali(const char* str0, const char* str1) {
+#if defined(__GNUC__)
+    return strcasecmp(str0, str1) == 0;
+#elif (defined _MSC_VER)
+    return _strcmpi(str0, str1) == 0;
+#endif
+}
+
 i32 string_format(char* dest, const char* format, ...) {
     if (dest) {
         __builtin_va_list arg_ptr;
@@ -34,7 +47,7 @@ i32 string_format(char* dest, const char* format, ...) {
 
 i32 string_format_v(char* dest, const char* format, void* va_listp) {
     if (dest) {
-        // Big, but can fit on the stack.
+        //Big, but can fit on the stack.
         char buffer[32000];
         i32 written = vsnprintf(buffer, 32000, format, va_listp);
         buffer[written] = 0;

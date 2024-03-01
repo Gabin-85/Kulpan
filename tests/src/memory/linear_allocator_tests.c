@@ -27,10 +27,10 @@ u8 linear_allocator_single_allocation_all_space() {
     linear_allocator alloc;
     linear_allocator_create(sizeof(u64), 0, &alloc);
 
-    // Single allocation.
+    //Single allocation.
     void* block = linear_allocator_allocate(&alloc, sizeof(u64));
 
-    // Validate it
+    //Validate it
     expect_should_not_be(0, block);
     expect_should_be(sizeof(u64), alloc.allocated);
 
@@ -44,11 +44,11 @@ u8 linear_allocator_multi_allocation_all_space() {
     linear_allocator alloc;
     linear_allocator_create(sizeof(u64) * max_allocs, 0, &alloc);
 
-    // Multiple allocations - full.
+    //Multiple allocations - full.
     void* block;
     for (u64 i = 0; i < max_allocs; ++i) {
         block = linear_allocator_allocate(&alloc, sizeof(u64));
-        // Validate it
+        //Validate it
         expect_should_not_be(0, block);
         expect_should_be(sizeof(u64) * (i + 1), alloc.allocated);
     }
@@ -63,20 +63,20 @@ u8 linear_allocator_multi_allocation_over_allocate() {
     linear_allocator alloc;
     linear_allocator_create(sizeof(u64) * max_allocs, 0, &alloc);
 
-    // Multiple allocations - full.
+    //Multiple allocations - full.
     void* block;
     for (u64 i = 0; i < max_allocs; ++i) {
         block = linear_allocator_allocate(&alloc, sizeof(u64));
-        // Validate it
+        //Validate it
         expect_should_not_be(0, block);
         expect_should_be(sizeof(u64) * (i + 1), alloc.allocated);
     }
 
     KDEBUG("Note: The following error is intentionally caused by this test.");
 
-    // Ask for one more allocation. Should error and return 0.
+    //Ask for one more allocation. Should error and return 0.
     block = linear_allocator_allocate(&alloc, sizeof(u64));
-    // Validate it - allocated should be unchanged.
+    //Validate it - allocated should be unchanged.
     expect_should_be(0, block);
     expect_should_be(sizeof(u64) * (max_allocs), alloc.allocated);
 
@@ -90,16 +90,16 @@ u8 linear_allocator_multi_allocation_all_space_then_free() {
     linear_allocator alloc;
     linear_allocator_create(sizeof(u64) * max_allocs, 0, &alloc);
 
-    // Multiple allocations - full.
+    //Multiple allocations - full.
     void* block;
     for (u64 i = 0; i < max_allocs; ++i) {
         block = linear_allocator_allocate(&alloc, sizeof(u64));
-        // Validate it
+        //Validate it
         expect_should_not_be(0, block);
         expect_should_be(sizeof(u64) * (i + 1), alloc.allocated);
     }
 
-    // Validate that pointer is reset.
+    //Validate that pointer is reset.
     linear_allocator_free_all(&alloc);
     expect_should_be(0, alloc.allocated);
 

@@ -44,19 +44,19 @@ typedef union vec4_u {
     union {
         struct {
             union {
-                // The first element
+                //The first element
                 f32 x, r, s;
             };
             union {
-                // The second element
+                //The second element
                 f32 y, g, t;
             };
             union {
-                // The third element
+                //The third element
                 f32 z, b, p;
             };
             union {
-                // The fourth element
+                //The fourth element
                 f32 w, a, q;
             };
         };

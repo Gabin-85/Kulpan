@@ -59,7 +59,9 @@
         "sstream": "c",
         "vulkan_backend.h": "c",
         "vulkan_buffer.h": "c",
-        "resource_types.h": "c"
+        "resource_types.h": "c",
+        "vulkan_material_shader.h": "c",
+        "texture_system.h": "c"
     },
     "git.ignoreLimitWarning": true
 }

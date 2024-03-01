@@ -1,6 +1,6 @@
 #include "platform/platform.h"
 
-// Windows platform layer.
+//Windows platform layer.
 #if KPLATFORM_WINDOWS
 
 #include "core/logger.h"
@@ -10,10 +10,10 @@
 #include "containers/darray.h"
 
 #include <windows.h>
-#include <windowsx.h>  // param input extraction
+#include <windowsx.h>  //param input extraction
 #include <stdlib.h>
 
-// For surface creation
+//For surface creation
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan_win32.h>
 #include "renderer/vulkan/vulkan_types.inl"
@@ -26,7 +26,7 @@ typedef struct platform_state {
 
 static platform_state *state_ptr;
 
-// Clock
+//Clock
 static f64 clock_frequency;
 static LARGE_INTEGER start_time;
 
@@ -54,18 +54,18 @@ b8 platform_system_startup(
     state_ptr = state;
     state_ptr->h_instance = GetModuleHandleA(0);
 
-    // Setup and register window class.
+    //Setup and register window class.
     HICON icon = LoadIcon(state_ptr->h_instance, IDI_APPLICATION);
     WNDCLASSA wc;
     memset(&wc, 0, sizeof(wc));
-    wc.style = CS_DBLCLKS;  // Get double-clicks
+    wc.style = CS_DBLCLKS;  //Get double-clicks
     wc.lpfnWndProc = win32_process_message;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = state_ptr->h_instance;
     wc.hIcon = icon;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);  // NULL; // Manage the cursor manually
-    wc.hbrBackground = NULL;                   // Transparent
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);  //NULL; //Manage the cursor manually
+    wc.hbrBackground = NULL;                   //Transparent
     wc.lpszClassName = "kulpan_window_class";
 
     if (!RegisterClassA(&wc)) {
@@ -73,7 +73,7 @@ b8 platform_system_startup(
         return false;
     }
 
-    // Create window
+    //Create window
     u32 client_x = x;
     u32 client_y = y;
     u32 client_width = width;
@@ -91,15 +91,15 @@ b8 platform_system_startup(
     window_style |= WS_MINIMIZEBOX;
     window_style |= WS_THICKFRAME;
 
-    // Obtain the size of the border.
+    //Obtain the size of the border.
     RECT border_rect = {0, 0, 0, 0};
     AdjustWindowRectEx(&border_rect, window_style, 0, window_ex_style);
 
-    // In this case, the border rectangle is negative.
+    //In this case, the border rectangle is negative.
     window_x += border_rect.left;
     window_y += border_rect.top;
 
-    // Grow by the size of the OS border.
+    //Grow by the size of the OS border.
     window_width += border_rect.right - border_rect.left;
     window_height += border_rect.bottom - border_rect.top;
 
@@ -117,14 +117,14 @@ b8 platform_system_startup(
         state_ptr->hwnd = handle;
     }
 
-    // Show the window
-    b32 should_activate = 1;  // TODO: if the window should not accept input, this should be false.
+    //Show the window
+    b32 should_activate = 1;  //TODO: if the window should not accept input, this should be false.
     i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
-    // If initially minimized, use SW_MINIMIZE : SW_SHOWMINNOACTIVE;
-    // If initially maximized, use SW_SHOWMAXIMIZED : SW_MAXIMIZE
+    //If initially minimized, use SW_MINIMIZE : SW_SHOWMINNOACTIVE;
+    //If initially maximized, use SW_SHOWMAXIMIZED : SW_MAXIMIZE
     ShowWindow(state_ptr->hwnd, show_window_command_flags);
 
-    // Clock setup
+    //Clock setup
     clock_setup();
 
     return true;
@@ -170,7 +170,7 @@ void *platform_set_memory(void *dest, i32 value, u64 size) {
 
 void platform_console_write(const char *message, u8 colour) {
     HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
+    //FATAL,ERROR,WARN,INFO,DEBUG,TRACE
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[colour]);
     OutputDebugStringA(message);
@@ -181,7 +181,7 @@ void platform_console_write(const char *message, u8 colour) {
 
 void platform_console_write_error(const char *message, u8 colour) {
     HANDLE console_handle = GetStdHandle(STD_ERROR_HANDLE);
-    // FATAL,ERROR,WARN,INFO,DEBUG,TRACE
+    //FATAL,ERROR,WARN,INFO,DEBUG,TRACE
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[colour]);
     OutputDebugStringA(message);
@@ -208,7 +208,7 @@ void platform_get_required_extension_names(const char ***names_darray) {
     darray_push(*names_darray, &"VK_KHR_win32_surface");
 }
 
-// Surface creation for Vulkan
+//Surface creation for Vulkan
 b8 platform_create_vulkan_surface(vulkan_context *context) {
     if (!state_ptr) {
         return false;
@@ -230,10 +230,10 @@ b8 platform_create_vulkan_surface(vulkan_context *context) {
 LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param) {
     switch (msg) {
         case WM_ERASEBKGND:
-            // Notify the OS that erasing will be handled by the application to prevent flicker.
+            //Notify the OS that erasing will be handled by the application to prevent flicker.
             return 1;
         case WM_CLOSE:
-            // TODO: Fire an event for the application to quit.
+            //TODO: Fire an event for the application to quit.
             event_context data = {};
             event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
             return 0;
@@ -241,14 +241,14 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
             PostQuitMessage(0);
             return 0;
         case WM_SIZE: {
-            // Get the updated size.
+            //Get the updated size.
             RECT r;
             GetClientRect(hwnd, &r);
             u32 width = r.right - r.left;
             u32 height = r.bottom - r.top;
 
-            // Fire the event. The application layer should pick this up, but not handle it
-            // as it shouldn be visible to other parts of the application.
+            //Fire the event. The application layer should pick this up, but not handle it
+            //as it shouldn be visible to other parts of the application.
             event_context context;
             context.data.u16[0] = (u16)width;
             context.data.u16[1] = (u16)height;
@@ -258,18 +258,18 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
         case WM_SYSKEYDOWN:
         case WM_KEYUP:
         case WM_SYSKEYUP: {
-            // Key pressed/released
+            //Key pressed/released
             b8 pressed = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
             keys key = (u16)w_param;
 
-            // Check for extended scan code.
+            //Check for extended scan code.
             b8 is_extended = (HIWORD(l_param) & KF_EXTENDED) == KF_EXTENDED;
 
-            // Keypress only determines if _any_ alt/ctrl/shift key is pressed. Determine which one if so.
+            //Keypress only determines if _any_ alt/ctrl/shift key is pressed. Determine which one if so.
             if (w_param == VK_MENU) {
                 key = is_extended ? KEY_RALT : KEY_LALT;
             } else if (w_param == VK_SHIFT) {
-                // Annoyingly, KF_EXTENDED is not set for shift keys.
+                //Annoyingly, KF_EXTENDED is not set for shift keys.
                 u32 left_shift = MapVirtualKey(VK_LSHIFT, MAPVK_VK_TO_VSC);
                 u32 scancode = ((l_param & (0xFF << 16)) >> 16);
                 key = scancode == left_shift ? KEY_LSHIFT : KEY_RSHIFT;
@@ -277,21 +277,21 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
                 key = is_extended ? KEY_RCONTROL : KEY_LCONTROL;
             }
 
-            // Pass to the input subsystem for processing.
+            //Pass to the input subsystem for processing.
             input_process_key(key, pressed);
         } break;
         case WM_MOUSEMOVE: {
-            // Mouse move
+            //Mouse move
             i32 x_position = GET_X_LPARAM(l_param);
             i32 y_position = GET_Y_LPARAM(l_param);
 
-            // Pass over to the input subsystem.
+            //Pass over to the input subsystem.
             input_process_mouse_move(x_position, y_position);
         } break;
         case WM_MOUSEWHEEL: {
             i32 z_delta = GET_WHEEL_DELTA_WPARAM(w_param);
             if (z_delta != 0) {
-                // Flatten the input to an OS-independent (-1, 1)
+                //Flatten the input to an OS-independent (-1, 1)
                 z_delta = (z_delta < 0) ? -1 : 1;
                 input_process_mouse_wheel(z_delta);
             }
@@ -319,7 +319,7 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
                     break;
             }
 
-            // Pass over to the input subsystem.
+            //Pass over to the input subsystem.
             if (mouse_button != BUTTON_MAX_BUTTONS) {
                 input_process_button(mouse_button, pressed);
             }
@@ -329,4 +329,4 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
     return DefWindowProcA(hwnd, msg, w_param, l_param);
 }
 
-#endif  // KPLATFORM_WINDOWS
+#endif  //KPLATFORM_WINDOWS
