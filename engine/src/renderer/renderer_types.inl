@@ -47,14 +47,7 @@ typedef struct renderer_backend {
 
     void (*update_object)(geometry_render_data data);
 
-    void (*create_texture)(
-        const char* name, 
-        i32 width, 
-        i32 height, 
-        i32 channel_count, 
-        const u8* pixels, 
-        b8 has_transparency, 
-        struct texture* out_texture);
+    void (*create_texture)(const u8* pixels, struct texture* texture);
     void (*destroy_texture)(struct texture* texture);
 } renderer_backend;
 

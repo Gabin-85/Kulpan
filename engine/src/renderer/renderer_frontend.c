@@ -36,16 +36,16 @@ b8 event_on_debug_event(u16 code, void* sender, void* listener_inst, event_conte
         "paving2"};
     static i8 choice = 2;
 
-    // Save off the old name.
+    //Save off the old name.
     const char* old_name = names[choice];
 
     choice++;
     choice %= 3;
 
-    // Acquire the new texture.
+    //Acquire the new texture.
     state_ptr->test_diffuse = texture_system_acquire(names[choice], true);
 
-    // Release the old texture.
+    //Release the old texture.
     texture_system_release(old_name);
 
     return true;
@@ -133,8 +133,8 @@ b8 renderer_draw_frame(render_packet* packet) {
         data.object_id = 0;  //TODO: actual object id
         data.model = model;
 
-        // TODO:Temporary.
-        // Grab the default if does not exist.
+        //TODO:Temporary.
+        //Grab the default if does not exist.
         if (!state_ptr->test_diffuse) {
             state_ptr->test_diffuse = texture_system_get_default_texture();
         }
@@ -158,8 +158,8 @@ void renderer_set_view(mat4 view) {
     state_ptr->view = view;
 }
 
-void renderer_create_texture(const char* name, i32 width, i32 height, i32 channel_count, const u8* pixels, b8 has_transparency, struct texture* out_texture) {
-    state_ptr->backend.create_texture(name, width, height, channel_count, pixels, has_transparency, out_texture);
+void renderer_create_texture(const u8* pixels, struct texture* texture) {
+    state_ptr->backend.create_texture(pixels, texture);
 }
 
 void renderer_destroy_texture(struct texture* texture) {

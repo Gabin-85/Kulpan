@@ -61,7 +61,18 @@
         "vulkan_buffer.h": "c",
         "resource_types.h": "c",
         "vulkan_material_shader.h": "c",
-        "texture_system.h": "c"
+        "texture_system.h": "c",
+        "array": "c",
+        "iterator": "c",
+        "xutility": "c",
+        "format": "c",
+        "map": "c",
+        "memory": "c",
+        "set": "c",
+        "span": "c",
+        "vector": "c",
+        "xmemory": "c",
+        "xtree": "c"
     },
     "git.ignoreLimitWarning": true
 }

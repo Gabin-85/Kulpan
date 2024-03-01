@@ -12,7 +12,7 @@
 
 #include "../renderer/renderer_frontend.h"
 
-// systems
+//systems
 #include "systems/texture_system.h"
 
 typedef struct application_state {
