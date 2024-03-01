@@ -57,7 +57,8 @@
         "filesystem.h": "c",
         "vulkan_shader_utils.h": "c",
         "sstream": "c",
-        "vulkan_backend.h": "c"
+        "vulkan_backend.h": "c",
+        "vulkan_buffer.h": "c"
     },
     "git.ignoreLimitWarning": true
 }
