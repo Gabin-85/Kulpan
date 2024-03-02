@@ -17,17 +17,16 @@ typedef struct global_uniform_object {
     mat4 m_reserved1;  //64 bytes, reserved for future use
 } global_uniform_object;
 
-typedef struct object_uniform_object {
+typedef struct material_uniform_object {
     vec4 diffuse_color;  //16 bytes
     vec4 v_reserved0;    //16 bytes, reserved for future use
     vec4 v_reserved1;    //16 bytes, reserved for future use
     vec4 v_reserved2;    //16 bytes, reserved for future use
-} object_uniform_object;
+} material_uniform_object;
 
 typedef struct geometry_render_data {
-    u32 object_id;
     mat4 model;
-    texture* textures[16];
+    material* material;
 } geometry_render_data;
 
 typedef struct renderer_backend {
@@ -49,6 +48,9 @@ typedef struct renderer_backend {
 
     void (*create_texture)(const u8* pixels, struct texture* texture);
     void (*destroy_texture)(struct texture* texture);
+
+    b8 (*create_material)(struct material* material);
+    void (*destroy_material)(struct material* material);
 } renderer_backend;
 
 typedef struct render_packet {

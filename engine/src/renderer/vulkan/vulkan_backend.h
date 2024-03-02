@@ -16,3 +16,6 @@ void vulkan_backend_update_object(geometry_render_data data);
 
 void vulkan_renderer_create_texture(const u8* pixels, texture* texture);
 void vulkan_renderer_destroy_texture(texture* texture);
+
+b8 vulkan_renderer_create_material(struct material* material);
+void vulkan_renderer_destroy_material(struct material* material);

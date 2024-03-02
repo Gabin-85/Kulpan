@@ -297,7 +297,7 @@ b8 load_texture(const char* texture_name, texture* t) {
             return false;
         }
 
-        // Take a copy of the name.
+        //Take a copy of the name.
         string_ncopy(temp_texture.name, texture_name, TEXTURE_NAME_MAX_LENGTH);
         temp_texture.generation = INVALID_ID;
         temp_texture.has_transparency = has_transparency;
