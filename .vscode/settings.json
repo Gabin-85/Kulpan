@@ -73,7 +73,8 @@
         "vector": "c",
         "xmemory": "c",
         "xtree": "c",
-        "kmath.h": "c"
+        "kmath.h": "c",
+        "renderer_frontend.h": "c"
     },
     "git.ignoreLimitWarning": true
 }
