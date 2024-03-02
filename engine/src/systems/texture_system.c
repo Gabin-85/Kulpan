@@ -205,7 +205,7 @@ texture* texture_system_get_default_texture() {
 }
 
 b8 create_default_textures(texture_system_state* state) {
-    //NOTE: Create default texture, a 256x256 blue/white checkerboard pattern.
+    //NOTE:Create default texture, a 256x256 blue/white checkerboard pattern.
     //This is done in code to eliminate asset dependencies.
     KTRACE("Creating default texture...");
     const u32 tex_dimension = 256;

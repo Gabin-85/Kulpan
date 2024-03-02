@@ -23,7 +23,7 @@ b8 vulkan_buffer_create(
     VkBufferCreateInfo buffer_info = {VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO};
     buffer_info.size = size;
     buffer_info.usage = usage;
-    buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;  //NOTE: Only used in one queue.
+    buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;  //NOTE:Only used in one queue.
 
     VK_CHECK(vkCreateBuffer(context->device.logical_device, &buffer_info, context->allocator, &out_buffer->handle));
 
@@ -84,7 +84,7 @@ b8 vulkan_buffer_resize(
     VkBufferCreateInfo buffer_info = {VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO};
     buffer_info.size = new_size;
     buffer_info.usage = buffer->usage;
-    buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;  //NOTE: Only used in one queue.
+    buffer_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;  //NOTE:Only used in one queue.
 
     VkBuffer new_buffer;
     VK_CHECK(vkCreateBuffer(context->device.logical_device, &buffer_info, context->allocator, &new_buffer));

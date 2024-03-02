@@ -43,12 +43,12 @@ b8 initialize_logging(u64* memory_requirement, void* state) {
 }
 
 void shutdown_logging(void* state) {
-    //TODO: cleanup logging/write queued entries.
+    //TODO:cleanup logging/write queued entries.
     state_ptr = 0;
 }
 
 void log_output(log_level level, const char* message, ...) {
-    //TODO: These string operations are all pretty slow. This needs to be
+    //TODO:These string operations are all pretty slow. This needs to be
     //moved to another thread eventually, along with the file writes, to
     //avoid slowing things down while the engine is trying to run.
     const char* level_strings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]:  ", "[INFO]:  ", "[DEBUG]: ", "[TRACE]: "};

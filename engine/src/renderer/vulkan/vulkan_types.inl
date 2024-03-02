@@ -143,8 +143,27 @@ typedef struct vulkan_material_shader_instance_state {
     vulkan_descriptor_state descriptor_states[VULKAN_MATERIAL_SHADER_DESCRIPTOR_COUNT];
 } vulkan_material_shader_instance_state;
 
-//Max number of objects
+//Max number of material instances
+//TODO:make configurable
 #define VULKAN_MAX_MATERIAL_COUNT 1024
+
+//Max number of simultaneously uploaded geometries
+//TODO:make configurable
+#define VULKAN_MAX_GEOMETRY_COUNT 4096
+
+/**
+ * @brief Internal buffer data for geometry.
+ */
+typedef struct vulkan_geometry_data {
+    u32 id;
+    u32 generation;
+    u32 vertex_count;
+    u32 vertex_size;
+    u32 vertex_buffer_offset;
+    u32 index_count;
+    u32 index_size;
+    u32 index_buffer_offset;
+} vulkan_geometry_data;
 
 typedef struct vulkan_material_shader {
     //Vertex, fragment
@@ -162,10 +181,10 @@ typedef struct vulkan_material_shader {
     VkDescriptorSetLayout object_descriptor_set_layout;
     //Object uniform buffers.
     vulkan_buffer object_uniform_buffer;
-    //TODO: manage a free list of some kind here instead.
+    //TODO:manage a free list of some kind here instead.
     u32 object_uniform_buffer_index;
     texture_use sampler_uses[VULKAN_MATERIAL_SHADER_SAMPLER_COUNT];
-    //TODO: make dynamic
+    //TODO:make dynamic
     vulkan_material_shader_instance_state instance_states[VULKAN_MAX_MATERIAL_COUNT];
     vulkan_pipeline pipeline;
 } vulkan_material_shader;
@@ -200,6 +219,8 @@ typedef struct vulkan_context {
     vulkan_material_shader material_shader;
     u64 geometry_vertex_offset;
     u64 geometry_index_offset;
+    //TODO:Make dynamic
+    vulkan_geometry_data geometries[VULKAN_MAX_GEOMETRY_COUNT];
     i32 (*find_memory_index)(u32 type_filter, u32 property_flags);
 } vulkan_context;
 

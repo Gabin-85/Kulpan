@@ -40,7 +40,7 @@ void hashtable_create(u64 element_size, u32 element_count, void* memory, b8 is_p
 
 void hashtable_destroy(hashtable* table) {
     if (table) {
-        //TODO: If using allocator above, free memory here.
+        //TODO:If using allocator above, free memory here.
         kzero_memory(table, sizeof(hashtable));
     }
 }

@@ -1272,7 +1272,7 @@ static unsigned char *stbi__load_and_postprocess_8bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 8;
    }
 
-   //@TODO: move stbi__convert_format to here
+   //@TODO:move stbi__convert_format to here
 
    if (stbi__vertically_flip_on_load) {
       int channels = req_comp ? req_comp : *comp;
@@ -1298,8 +1298,8 @@ static stbi__uint16 *stbi__load_and_postprocess_16bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 16;
    }
 
-   //@TODO: move stbi__convert_format16 to here
-   //@TODO: special case RGB-to-Y (and RGBA-to-YA) for 8-bit-to-16-bit case to keep more precision
+   //@TODO:move stbi__convert_format16 to here
+   //@TODO:special case RGB-to-Y (and RGBA-to-YA) for 8-bit-to-16-bit case to keep more precision
 
    if (stbi__vertically_flip_on_load) {
       int channels = req_comp ? req_comp : *comp;
@@ -4711,7 +4711,7 @@ static int stbi__create_png_image_raw(stbi__png *a, stbi_uc *raw, stbi__uint32 r
    a->out = (stbi_uc *) stbi__malloc_mad3(x, y, output_bytes, 0); //extra bytes to write off the end into
    if (!a->out) return stbi__err("outofmem", "Out of memory");
 
-   //note: error exits here don't need to clean up a->out individually,
+   //NOTE:error exits here don't need to clean up a->out individually,
    //stbi__do_png always does on error.
    if (!stbi__mad3sizes_valid(img_n, x, depth, 7)) return stbi__err("too large", "Corrupt PNG");
    img_width_bytes = (((img_n * x * depth) + 7) >> 3);

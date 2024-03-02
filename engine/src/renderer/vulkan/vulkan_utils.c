@@ -73,7 +73,7 @@ const char* vulkan_result_string(VkResult result, b8 get_extended) {
             return !get_extended ? "VK_ERROR_FRAGMENTATION" : "VK_ERROR_FRAGMENTATION A descriptor pool creation has failed due to fragmentation.";
         case VK_ERROR_INVALID_DEVICE_ADDRESS_EXT:
             return !get_extended ? "VK_ERROR_INVALID_DEVICE_ADDRESS_EXT" : "VK_ERROR_INVALID_DEVICE_ADDRESS_EXT A buffer creation failed because the requested address is not available.";
-        //NOTE: Same as above
+        //NOTE:Same as above
         //case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
         //return !get_extended ? "VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS" :"VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS A buffer creation or memory allocation failed because the requested address is not available. A shader group handle assignment failed because the requested shader group handle information is no longer valid.";
         case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
@@ -124,7 +124,7 @@ b8 vulkan_result_is_success(VkResult result) {
         case VK_ERROR_INVALID_EXTERNAL_HANDLE:
         case VK_ERROR_FRAGMENTATION:
         case VK_ERROR_INVALID_DEVICE_ADDRESS_EXT:
-        //NOTE: Same as above
+        //NOTE:Same as above
         //case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
         case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
         case VK_ERROR_UNKNOWN:

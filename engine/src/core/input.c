@@ -98,7 +98,7 @@ void input_process_button(buttons button, b8 pressed) {
 void input_process_mouse_move(i16 x, i16 y) {
     //Only process if actually different
     if (state_ptr->mouse_current.x != x || state_ptr->mouse_current.y != y) {
-        //NOTE: Enable this if debugging.
+        //NOTE:Enable this if debugging.
         //KDEBUG("Mouse pos: %i, %i!", x, y);
 
         //Update internal state_ptr->
@@ -113,7 +113,7 @@ void input_process_mouse_move(i16 x, i16 y) {
     }
 }
 void input_process_mouse_wheel(i8 z_delta) {
-    //NOTE: no internal state to update.
+    //NOTE:no internal state to update.
 
     //Fire the event.
     event_context context;

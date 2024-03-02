@@ -118,7 +118,7 @@ b8 platform_system_startup(
     }
 
     //Show the window
-    b32 should_activate = 1;  //TODO: if the window should not accept input, this should be false.
+    b32 should_activate = 1;  //TODO:if the window should not accept input, this should be false.
     i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
     //If initially minimized, use SW_MINIMIZE : SW_SHOWMINNOACTIVE;
     //If initially maximized, use SW_SHOWMAXIMIZED : SW_MAXIMIZE
@@ -233,7 +233,7 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
             //Notify the OS that erasing will be handled by the application to prevent flicker.
             return 1;
         case WM_CLOSE:
-            //TODO: Fire an event for the application to quit.
+            //TODO:Fire an event for the application to quit.
             event_context data = {};
             event_fire(EVENT_CODE_APPLICATION_QUIT, 0, data);
             return 0;

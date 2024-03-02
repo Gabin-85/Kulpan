@@ -38,7 +38,7 @@ b8 vulkan_device_create(vulkan_context* context) {
     }
 
     KINFO("Creating logical device...");
-    //NOTE: Do not create additional queue for shared indices
+    //NOTE:Do not create additional queue for shared indices
     b8 present_shares_graphics_queue = context->device.graphics_queue_index == context->device.present_queue_index;
     b8 transfer_shares_graphics_queue = context->device.graphics_queue_index == context->device.transfer_queue_index;
     u32 index_count = 1;
@@ -75,7 +75,7 @@ b8 vulkan_device_create(vulkan_context* context) {
     }
 
     //Request device features.
-    //TODO: should be config driven
+    //TODO:should be config driven
     VkPhysicalDeviceFeatures device_features = {};
     device_features.samplerAnisotropy = VK_TRUE;  //Request anistrophy
 
@@ -298,7 +298,7 @@ b8 select_physical_device(vulkan_context* context) {
         requirements.graphics = true;
         requirements.present = true;
         requirements.transfer = true;
-        //NOTE: Enable this id compute will be required
+        //NOTE:Enable this id compute will be required
         //requirements.compute = true;
         requirements.sampler_anisotropy = true;
         requirements.discrete_gpu = false; //Change to false if you don't have a discrete GPU

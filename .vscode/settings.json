@@ -72,7 +72,8 @@
         "span": "c",
         "vector": "c",
         "xmemory": "c",
-        "xtree": "c"
+        "xtree": "c",
+        "kmath.h": "c"
     },
     "git.ignoreLimitWarning": true
 }

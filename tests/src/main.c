@@ -9,7 +9,7 @@ int main() {
     //Always initalize the test manager first.
     test_manager_init();
 
-    //TODO: add test registrations here.
+    //TODO:add test registrations here.
     linear_allocator_register_tests();
 
 
