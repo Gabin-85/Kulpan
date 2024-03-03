@@ -4,14 +4,14 @@
 #include "core/logger.h"
 
 typedef struct freelist_node {
-    u32 offset;
-    u32 size;
+    u64 offset;
+    u64 size;
     struct freelist_node* next;
 } freelist_node;
 
 typedef struct internal_state {
-    u32 total_size;
-    u32 max_entries;
+    u64 total_size;
+    u64 max_entries;
     freelist_node* head;
     freelist_node* nodes;
 } internal_state;
@@ -19,9 +19,9 @@ typedef struct internal_state {
 freelist_node* get_node(freelist* list);
 void return_node(freelist* list, freelist_node* node);
 
-void freelist_create(u32 total_size, u64* memory_requirement, void* memory, freelist* out_list) {
+void freelist_create(u64 total_size, u64* memory_requirement, void* memory, freelist* out_list) {
     // Enough space to hold state, plus array for all nodes.
-    u32 max_entries = (total_size / sizeof(void*));  //NOTE: This might have a remainder, but that's ok.
+    u64 max_entries = (total_size / sizeof(void*));  //NOTE: This might have a remainder, but that's ok.
     *memory_requirement = sizeof(internal_state) + (sizeof(freelist_node) * max_entries);
     if (!memory) {
         return;
@@ -51,7 +51,7 @@ void freelist_create(u32 total_size, u64* memory_requirement, void* memory, free
 
     // Invalidate the offset and size for all but the first node. The invalid
     // value will be checked for when seeking a new node from the list.
-    for (u32 i = 1; i < state->max_entries; ++i) {
+    for (u64 i = 1; i < state->max_entries; ++i) {
         state->nodes[i].offset = INVALID_ID;
         state->nodes[i].size = INVALID_ID;
     }
@@ -66,7 +66,7 @@ void freelist_destroy(freelist* list) {
     }
 }
 
-b8 freelist_allocate_block(freelist* list, u32 size, u32* out_offset) {
+b8 freelist_allocate_block(freelist* list, u64 size, u64* out_offset) {
     if (!list || !out_offset || !list->memory) {
         return false;
     }
@@ -103,68 +103,79 @@ b8 freelist_allocate_block(freelist* list, u32 size, u32* out_offset) {
     }
 
     u64 free_space = freelist_free_space(list);
-    KWARN("freelist_find_block, no block with enough free space found (requested: %uB, available: %lluB).", size, free_space);
+    KWARN("freelist_find_block, no block with enough free space found (requested: %lluB, available: %lluB).", size, free_space);
     return false;
 }
 
-b8 freelist_free_block(freelist* list, u32 size, u32 offset) {
+b8 freelist_free_block(freelist* list, u64 size, u64 offset) {
     if (!list || !list->memory || !size) {
         return false;
     }
     internal_state* state = list->memory;
     freelist_node* node = state->head;
     freelist_node* previous = 0;
-    while (node) {
-        if (node->offset == offset) {
-            // Can just be appended to this node.
-            node->size += size;
+    if (!node) {
+        // Check for the case where the entire thing is allocated.
+        // In this case a new node is needed at the head.
+        freelist_node* new_node = get_node(list);
+        new_node->offset = offset;
+        new_node->size = size;
+        new_node->next = 0;
+        state->head = new_node;
+        return true;
+    } else {
+        while (node) {
+            if (node->offset == offset) {
+                // Can just be appended to this node.
+                node->size += size;
 
-            // Check if this then connects the range between this and the next
-            // node, and if so, combine them and return the second node..
-            if (node->next && node->next->offset == node->offset + node->size) {
-                node->size += node->next->size;
-                freelist_node* next = node->next;
-                node->next = node->next->next;
-                return_node(list, next);
+                // Check if this then connects the range between this and the next
+                // node, and if so, combine them and return the second node..
+                if (node->next && node->next->offset == node->offset + node->size) {
+                    node->size += node->next->size;
+                    freelist_node* next = node->next;
+                    node->next = node->next->next;
+                    return_node(list, next);
+                }
+                return true;
+            } else if (node->offset > offset) {
+                // Iterated beyond the space to be freed. Need a new node.
+                freelist_node* new_node = get_node(list);
+                new_node->offset = offset;
+                new_node->size = size;
+
+                // If there is a previous node, the new node should be inserted between this and it.
+                if (previous) {
+                    previous->next = new_node;
+                    new_node->next = node;
+                } else {
+                    // Otherwise, the new node becomes the head.
+                    new_node->next = node;
+                    state->head = new_node;
+                }
+
+                // Double-check next node to see if it can be joined.
+                if (new_node->next && new_node->offset + new_node->size == new_node->next->offset) {
+                    new_node->size += new_node->next->size;
+                    freelist_node* rubbish = new_node->next;
+                    new_node->next = rubbish->next;
+                    return_node(list, rubbish);
+                }
+
+                // Double-check previous node to see if the new_node can be joined to it.
+                if (previous && previous->offset + previous->size == new_node->offset) {
+                    previous->size += new_node->size;
+                    freelist_node* rubbish = new_node;
+                    previous->next = rubbish->next;
+                    return_node(list, rubbish);
+                }
+
+                return true;
             }
-            return true;
-        } else if (node->offset > offset) {
-            // Iterated beyond the space to be freed. Need a new node.
-            freelist_node* new_node = get_node(list);
-            new_node->offset = offset;
-            new_node->size = size;
 
-            // If there is a previous node, the new node should be inserted between this and it.
-            if (previous) {
-                previous->next = new_node;
-                new_node->next = node;
-            } else {
-                // Otherwise, the new node becomes the head.
-                new_node->next = node;
-                state->head = new_node;
-            }
-
-            // Double-check next node to see if it can be joined.
-            if (new_node->next && new_node->offset + new_node->size == new_node->next->offset) {
-                new_node->size += new_node->next->size;
-                freelist_node* rubbish = new_node->next;
-                new_node->next = rubbish->next;
-                return_node(list, rubbish);
-            }
-
-            // Double-check previous node to see if the new_node can be joined to it.
-            if (previous && previous->offset + previous->size == new_node->offset) {
-                previous->size += new_node->size;
-                freelist_node* rubbish = new_node;
-                previous->next = rubbish->next;
-                return_node(list, rubbish);
-            }
-
-            return true;
+            previous = node;
+            node = node->next;
         }
-
-        previous = node;
-        node = node->next;
     }
 
     KWARN("Unable to find block to be freed. Corruption possible?");
@@ -179,7 +190,7 @@ void freelist_clear(freelist* list) {
     internal_state* state = list->memory;
     // Invalidate the offset and size for all but the first node. The invalid
     // value will be checked for when seeking a new node from the list.
-    for (u32 i = 1; i < state->max_entries; ++i) {
+    for (u64 i = 1; i < state->max_entries; ++i) {
         state->nodes[i].offset = INVALID_ID;
         state->nodes[i].size = INVALID_ID;
     }
@@ -208,7 +219,7 @@ u64 freelist_free_space(freelist* list) {
 
 freelist_node* get_node(freelist* list) {
     internal_state* state = list->memory;
-    for (u32 i = 1; i < state->max_entries; ++i) {
+    for (u64 i = 1; i < state->max_entries; ++i) {
         if (state->nodes[i].offset == INVALID_ID) {
             return &state->nodes[i];
         }
