@@ -123,6 +123,8 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
     // The list of validation layers required.
     required_validation_layer_names = darray_create(const char*);
     darray_push(required_validation_layer_names, &"VK_LAYER_KHRONOS_validation");
+    // NOTE: enable this when needed for debugging.
+    // darray_push(required_validation_layer_names, &"VK_LAYER_LUNARG_api_dump");
     required_validation_layer_count = darray_length(required_validation_layer_names);
 
     // Obtain a list of available validation layers
@@ -403,7 +405,7 @@ b8 vulkan_renderer_backend_begin_frame(renderer_backend* backend, f32 delta_time
     // Wait for the execution of the current frame to complete. The fence being free will allow this one to move on.
     VkResult result = vkWaitForFences(context.device.logical_device, 1, &context.in_flight_fences[context.current_frame], true, UINT64_MAX);
     if (!vulkan_result_is_success(result)) {
-        KERROR("In-flight fence wait failure! error: %s", vulkan_result_string(result, true));
+        KFATAL("In-flight fence wait failure! error: %s", vulkan_result_string(result, true));
         return false;
     }
 
@@ -416,6 +418,7 @@ b8 vulkan_renderer_backend_begin_frame(renderer_backend* backend, f32 delta_time
             context.image_available_semaphores[context.current_frame],
             0,
             &context.image_index)) {
+        KERROR("Failed to acquire next image index, booting.");
         return false;
     }
 

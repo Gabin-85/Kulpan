@@ -24,16 +24,6 @@ Voxels :
         - Zero merging
     ## Heavy and intensive ## ] 
 
-Layers :
-
-    - Map layer (structural)
-    - Liquid layer (sliding)
-    - Struct layer (structural, high_grouped)
-    - Objet layer (structural, low_grouped)
-    - Animated layer (moving, low_grouped)
-    - Items layer (entity)
-    - Mob layer (entity)
-
 Tree:
 
     -Engine (library)
@@ -59,8 +49,8 @@ Features:
 
 Engine architecture:
 
-    -Platform layer (linux and windows) --> DONE
-    -Core layer (biggest part of the engine)
+    -Platform layer (linux and windows)
+    -Core layer (biggest part of the engine) 
     -Ressources management layer
     -Renderer (front)
     -Renderer (back)
