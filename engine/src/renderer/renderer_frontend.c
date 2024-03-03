@@ -19,6 +19,8 @@ typedef struct renderer_system_state {
     renderer_backend backend;
     mat4 projection;
     mat4 view;
+    mat4 ui_projection;
+    mat4 ui_view;
     f32 near_clip;
     f32 far_clip;
 } renderer_system_state;
@@ -45,6 +47,7 @@ b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* 
     state_ptr->far_clip = 1000.0f;
     state_ptr->projection = mat4_perspective(deg_to_rad(45.0f), 1280 / (f32)720, state_ptr->near_clip, state_ptr->far_clip);
 
+    // TODO: configurable camera starting position.
     state_ptr->view = mat4_translation((vec3){0, 0, -30.0f});
     state_ptr->view = mat4_inverse(state_ptr->view);
     
@@ -58,22 +61,6 @@ void renderer_system_shutdown(void* state) {
     state_ptr = 0;
 }
 
-b8 renderer_begin_frame(f32 delta_time) {
-    if (!state_ptr) {
-        return false;
-    }
-    return state_ptr->backend.begin_frame(&state_ptr->backend, delta_time);
-}
-
-b8 renderer_end_frame(f32 delta_time) {
-    if (!state_ptr) {
-        return false;
-    }
-    b8 result = state_ptr->backend.end_frame(&state_ptr->backend, delta_time);
-    state_ptr->backend.frame_number++;
-    return result;
-}
-
 void renderer_on_resized(u16 width, u16 height) {
     if (state_ptr) {
         state_ptr->projection = mat4_perspective(deg_to_rad(45.0f), width / (f32)height, state_ptr->near_clip, state_ptr->far_clip);
@@ -85,20 +72,54 @@ void renderer_on_resized(u16 width, u16 height) {
 
 b8 renderer_draw_frame(render_packet* packet) {
     //If the begin frame returned successfully, mid-frame operations may continue.
-    if (renderer_begin_frame(packet->delta_time)) {
+    if (state_ptr->backend.begin_frame(&state_ptr->backend, packet->delta_time)) {
+        // World renderpass
+        if (!state_ptr->backend.begin_renderpass(&state_ptr->backend, BUILTIN_RENDERPASS_WORLD)) {
+            KERROR("backend.begin_renderpass -> BUILTIN_RENDERPASS_WORLD failed. Application shutting down...");
+            return false;
+        }
 
-        state_ptr->backend.update_global_state(state_ptr->projection, state_ptr->view, vec3_zero(), vec4_one(), 0);
+        state_ptr->backend.update_global_world_state(state_ptr->projection, state_ptr->view, vec3_zero(), vec4_one(), 0);
 
+        // Draw geometries.
         u32 count = packet->geometry_count;
         for (u32 i = 0; i < count; ++i) {
             state_ptr->backend.draw_geometry(packet->geometries[i]);
         }
 
-        //End the frame. If this fails, it is likely unrecoverable.
-        b8 result = renderer_end_frame(packet->delta_time);
+        if (!state_ptr->backend.end_renderpass(&state_ptr->backend, BUILTIN_RENDERPASS_WORLD)) {
+            KERROR("backend.end_renderpass -> BUILTIN_RENDERPASS_WORLD failed. Application shutting down...");
+            return false;
+        }
+        // End world renderpass
+
+        // UI renderpass
+        if (!state_ptr->backend.begin_renderpass(&state_ptr->backend, BUILTIN_RENDERPASS_UI)) {
+            KERROR("backend.begin_renderpass -> BUILTIN_RENDERPASS_UI failed. Application shutting down...");
+            return false;
+        }
+
+        // Update UI global state
+        state_ptr->backend.update_global_ui_state(state_ptr->ui_projection, state_ptr->ui_view, 0);
+
+        // Draw ui geometries.
+        count = packet->ui_geometry_count;
+        for (u32 i = 0; i < count; ++i) {
+            state_ptr->backend.draw_geometry(packet->ui_geometries[i]);
+        }
+
+        if (!state_ptr->backend.end_renderpass(&state_ptr->backend, BUILTIN_RENDERPASS_UI)) {
+            KERROR("backend.end_renderpass -> BUILTIN_RENDERPASS_UI failed. Application shutting down...");
+            return false;
+        }
+        // End UI renderpass
+
+        // End the frame. If this fails, it is likely unrecoverable.
+        b8 result = state_ptr->backend.end_frame(&state_ptr->backend, packet->delta_time);
+        state_ptr->backend.frame_number++;
 
         if (!result) {
-            KERROR("Renderer_end_frame failed. Application shutting down...");
+            KERROR("renderer_end_frame failed. Application shutting down...");
             return false;
         }
     }
