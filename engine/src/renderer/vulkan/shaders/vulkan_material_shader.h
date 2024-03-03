@@ -1,4 +1,4 @@
-#pragma
+#pragma once
 
 #include "renderer/vulkan/vulkan_types.inl"
 #include "renderer/renderer_types.inl"

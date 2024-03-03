@@ -6,7 +6,7 @@
  * @brief Represents a simple hashtable. Members of this structure
  * should not be modified outside the functions associated with it.
  * 
- * For non-pointer types, table retains a copy of the value. For 
+ * For non-pointer types, table retains a copy of the value.For 
  * pointer types, make sure to use the _ptr setter and getter. Table
  * does not take ownership of pointers or associated memory allocations,
  * and should be managed externally.

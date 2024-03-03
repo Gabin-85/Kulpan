@@ -30,10 +30,8 @@ typedef struct renderer_backend {
     void (*resized)(struct renderer_backend* backend, u16 width, u16 height);
 
     b8 (*begin_frame)(struct renderer_backend* backend, f32 delta_time);
-
     void (*update_global_world_state)(mat4 projection, mat4 view, vec3 view_position, vec4 ambient_colour, i32 mode);
     void (*update_global_ui_state)(mat4 projection, mat4 view, i32 mode);
-
     b8 (*end_frame)(struct renderer_backend* backend, f32 delta_time);
 
     b8 (*begin_renderpass)(struct renderer_backend* backend, u8 renderpass_id);
@@ -47,14 +45,16 @@ typedef struct renderer_backend {
     b8 (*create_material)(struct material* material);
     void (*destroy_material)(struct material* material);
 
-    b8 (*create_geometry)(geometry* geometry, u32 vertex_count, const vertex_3d* vertices, u32 index_count, const u32* indices);
+    b8 (*create_geometry)(geometry* geometry, u32 vertex_size, u32 vertex_count, const void* vertices, u32 index_size, u32 index_count, const void* indices);
     void (*destroy_geometry)(geometry* geometry);
 } renderer_backend;
 
 typedef struct render_packet {
     f32 delta_time;
+
     u32 geometry_count;
     geometry_render_data* geometries;
+
     u32 ui_geometry_count;
     geometry_render_data* ui_geometries;
 } render_packet;

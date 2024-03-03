@@ -142,8 +142,6 @@ typedef enum keys {
     KEYS_MAX_KEYS
 } keys;
 
-void input_initialize();
-void input_shutdown();
 /**
  * @brief Initializes the input system. Call twice; once to obtain memory requirement (passing
  * state = 0), then a second time passing allocated memory to state.
@@ -155,7 +153,7 @@ void input_system_initialize(u64* memory_requirement, void* state);
 void input_system_shutdown(void* state);
 void input_update(f64 delta_time);
 
-//Keyboard input
+// keyboard input
 KAPI b8 input_is_key_down(keys key);
 KAPI b8 input_is_key_up(keys key);
 KAPI b8 input_was_key_down(keys key);
@@ -163,7 +161,7 @@ KAPI b8 input_was_key_up(keys key);
 
 void input_process_key(keys key, b8 pressed);
 
-//Mouse input
+// mouse input
 KAPI b8 input_is_button_down(buttons button);
 KAPI b8 input_is_button_up(buttons button);
 KAPI b8 input_was_button_down(buttons button);

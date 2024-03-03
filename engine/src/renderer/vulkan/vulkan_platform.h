@@ -2,7 +2,7 @@
 
 #include "defines.h"
 
-struct plateform_state;
+struct platform_state;
 struct vulkan_context;
 
 b8 platform_create_vulkan_surface(struct vulkan_context* context);

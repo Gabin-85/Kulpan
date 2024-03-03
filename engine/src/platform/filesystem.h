@@ -2,9 +2,9 @@
 
 #include "defines.h"
 
-//Holds a handle to a file.
+// Holds a handle to a file.
 typedef struct file_handle {
-    //Opaque handle to internal file handle.
+    // Opaque handle to internal file handle.
     void* handle;
     b8 is_valid;
 } file_handle;
@@ -46,7 +46,7 @@ KAPI void filesystem_close(file_handle* handle);
  */
 KAPI b8 filesystem_size(file_handle* handle, u64* out_size);
 
-/**
+/** 
  * Reads up to a newline or EOF.
  * @param handle A pointer to a file_handle structure.
  * @param max_length The maximum length to be read from the line.

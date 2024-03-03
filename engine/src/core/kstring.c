@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include <ctype.h>
+#include <ctype.h>   // isspace
 
 #ifndef _MSC_VER
 #include <strings.h>
@@ -21,12 +21,12 @@ char* string_duplicate(const char* str) {
     return copy;
 }
 
-//Case-sensitive string comparaison. True if the same, otherwise false.
+// Case-sensitive string comparison. True if the same, otherwise false.
 b8 strings_equal(const char* str0, const char* str1) {
     return strcmp(str0, str1) == 0;
 }
 
-//Case-insensitive string comparison. True if the same, otherwise false.
+// Case-insensitive string comparison. True if the same, otherwise false.
 b8 strings_equali(const char* str0, const char* str1) {
 #if defined(__GNUC__)
     return strcasecmp(str0, str1) == 0;
@@ -48,7 +48,7 @@ i32 string_format(char* dest, const char* format, ...) {
 
 i32 string_format_v(char* dest, const char* format, void* va_listp) {
     if (dest) {
-        //Big, but can fit on the stack.
+        // Big, but can fit on the stack.
         char buffer[32000];
         i32 written = vsnprintf(buffer, 32000, format, va_listp);
         buffer[written] = 0;
@@ -108,7 +108,7 @@ void string_mid(char* dest, const char* source, i32 start, i32 length) {
         }
         dest[start + length] = 0;
     } else {
-        //If a negative value is passed, proceed to the end of the string.
+        // If a negative value is passed, proceed to the end of the string.
         u64 j = 0;
         for (u64 i = start; source[i]; ++i, ++j) {
             dest[j] = source[i];

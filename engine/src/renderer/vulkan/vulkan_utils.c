@@ -1,8 +1,8 @@
 #include "vulkan_utils.h"
 
 const char* vulkan_result_string(VkResult result, b8 get_extended) {
-    //From: https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkResult.html
-    //Success Codes
+    // From: https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkResult.html
+    // Success Codes
     switch (result) {
         default:
         case VK_SUCCESS:
@@ -30,7 +30,7 @@ const char* vulkan_result_string(VkResult result, b8 get_extended) {
         case VK_PIPELINE_COMPILE_REQUIRED_EXT:
             return !get_extended ? "VK_PIPELINE_COMPILE_REQUIRED_EXT" : "VK_PIPELINE_COMPILE_REQUIRED_EXT A requested pipeline creation would have required compilation, but the application requested compilation to not be performed.";
 
-        //Error codes
+        // Error codes
         case VK_ERROR_OUT_OF_HOST_MEMORY:
             return !get_extended ? "VK_ERROR_OUT_OF_HOST_MEMORY" : "VK_ERROR_OUT_OF_HOST_MEMORY A host memory allocation has failed.";
         case VK_ERROR_OUT_OF_DEVICE_MEMORY:
@@ -73,9 +73,9 @@ const char* vulkan_result_string(VkResult result, b8 get_extended) {
             return !get_extended ? "VK_ERROR_FRAGMENTATION" : "VK_ERROR_FRAGMENTATION A descriptor pool creation has failed due to fragmentation.";
         case VK_ERROR_INVALID_DEVICE_ADDRESS_EXT:
             return !get_extended ? "VK_ERROR_INVALID_DEVICE_ADDRESS_EXT" : "VK_ERROR_INVALID_DEVICE_ADDRESS_EXT A buffer creation failed because the requested address is not available.";
-        //NOTE:Same as above
+        // NOTE: Same as above
         //case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
-        //return !get_extended ? "VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS" :"VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS A buffer creation or memory allocation failed because the requested address is not available. A shader group handle assignment failed because the requested shader group handle information is no longer valid.";
+        //    return !get_extended ? "VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS" :"VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS A buffer creation or memory allocation failed because the requested address is not available. A shader group handle assignment failed because the requested shader group handle information is no longer valid.";
         case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
             return !get_extended ? "VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT" : "VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT An operation on a swapchain created with VK_FULL_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT failed as it did not have exlusive full-screen access. This may occur due to implementation-dependent reasons, outside of the application’s control.";
         case VK_ERROR_UNKNOWN:
@@ -84,9 +84,9 @@ const char* vulkan_result_string(VkResult result, b8 get_extended) {
 }
 
 b8 vulkan_result_is_success(VkResult result) {
-    //From: https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkResult.html
+    // From: https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkResult.html
     switch (result) {
-            //Success Codes
+            // Success Codes
         default:
         case VK_SUCCESS:
         case VK_NOT_READY:
@@ -102,7 +102,7 @@ b8 vulkan_result_is_success(VkResult result) {
         case VK_PIPELINE_COMPILE_REQUIRED_EXT:
             return true;
 
-        //Error codes
+        // Error codes
         case VK_ERROR_OUT_OF_HOST_MEMORY:
         case VK_ERROR_OUT_OF_DEVICE_MEMORY:
         case VK_ERROR_INITIALIZATION_FAILED:
@@ -124,7 +124,7 @@ b8 vulkan_result_is_success(VkResult result) {
         case VK_ERROR_INVALID_EXTERNAL_HANDLE:
         case VK_ERROR_FRAGMENTATION:
         case VK_ERROR_INVALID_DEVICE_ADDRESS_EXT:
-        //NOTE:Same as above
+        // NOTE: Same as above
         //case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS:
         case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT:
         case VK_ERROR_UNKNOWN:

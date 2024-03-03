@@ -21,6 +21,8 @@ b8 vulkan_graphics_pipeline_create(
     b8 is_wireframe,
     b8 depth_test_enabled,
     vulkan_pipeline* out_pipeline) {
+    KDEBUG("Creating graphics pipeline...");
+
     // Viewport state
     VkPipelineViewportStateCreateInfo viewport_state = {VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO};
     viewport_state.viewportCount = 1;

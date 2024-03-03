@@ -2,6 +2,7 @@
 
 #include "defines.h"
 #include "math_types.h"
+
 #include "core/kmemory.h"
 
 #define K_PI 3.14159265358979323846f
@@ -17,18 +18,21 @@
 #define K_DEG2RAD_MULTIPLIER K_PI / 180.0f
 #define K_RAD2DEG_MULTIPLIER 180.0f / K_PI
 
-//The multiplier to convert seconds to milliseconds.
+// The multiplier to convert seconds to milliseconds.
 #define K_SEC_TO_MS_MULTIPLIER 1000.0f
 
-//The multiplier to convert milliseconds to seconds.
+// The multiplier to convert milliseconds to seconds.
 #define K_MS_TO_SEC_MULTIPLIER 0.001f
 
-//A huge number that should be larger than any valid number used.
+// A huge number that should be larger than any valid number used.
 #define K_INFINITY 1e30f
 
-//Smallest positive number where 1.0 + FLOAT_EPSILON != 0
+// Smallest positive number where 1.0 + FLOAT_EPSILON != 0
 #define K_FLOAT_EPSILON 1.192092896e-07f
 
+// ------------------------------------------
+// General math functions
+// ------------------------------------------
 KAPI f32 ksin(f32 x);
 KAPI f32 kcos(f32 x);
 KAPI f32 ktan(f32 x);
@@ -51,9 +55,9 @@ KAPI i32 krandom_in_range(i32 min, i32 max);
 KAPI f32 fkrandom();
 KAPI f32 fkrandom_in_range(f32 min, f32 max);
 
-//------------------------------------------
-//Vector 2
-//------------------------------------------
+// ------------------------------------------
+// Vector 2
+// ------------------------------------------
 
 /**
  * @brief Creates and returns a new 2-element vector using the supplied values.
@@ -240,9 +244,9 @@ KINLINE f32 vec2_distance(vec2 vector_0, vec2 vector_1) {
     return vec2_length(d);
 }
 
-//------------------------------------------
-//Vector 3
-//------------------------------------------
+// ------------------------------------------
+// Vector 3
+// ------------------------------------------
 
 /**
  * @brief Creates and returns a new 3-element vector using the supplied values.
@@ -518,9 +522,10 @@ KINLINE f32 vec3_distance(vec3 vector_0, vec3 vector_1) {
     return vec3_length(d);
 }
 
-//------------------------------------------
-//Vector 4
-//------------------------------------------
+
+// ------------------------------------------
+// Vector 4
+// ------------------------------------------
 
 /**
  * @brief Creates and returns a new 4-element vector using the supplied values.
@@ -1065,12 +1070,12 @@ KINLINE vec3 mat4_down(mat4 matrix) {
  * @return A 3-component directional vector.
  */
 KINLINE vec3 mat4_left(mat4 matrix) {
-    vec3 right;
-    right.x = -matrix.data[0];
-    right.y = -matrix.data[4];
-    right.z = -matrix.data[8];
-    vec3_normalize(&right);
-    return right;
+    vec3 left;
+    left.x = -matrix.data[0];
+    left.y = -matrix.data[4];
+    left.z = -matrix.data[8];
+    vec3_normalize(&left);
+    return left;
 }
 
 /**
@@ -1080,17 +1085,17 @@ KINLINE vec3 mat4_left(mat4 matrix) {
  * @return A 3-component directional vector.
  */
 KINLINE vec3 mat4_right(mat4 matrix) {
-    vec3 left;
-    left.x = matrix.data[0];
-    left.y = matrix.data[4];
-    left.z = matrix.data[8];
-    vec3_normalize(&left);
-    return left;
+    vec3 right;
+    right.x = matrix.data[0];
+    right.y = matrix.data[4];
+    right.z = matrix.data[8];
+    vec3_normalize(&right);
+    return right;
 }
 
-//------------------------------------------
-//Quaternion
-//------------------------------------------
+// ------------------------------------------
+// Quaternion
+// ------------------------------------------
 
 KINLINE quat quat_identity() {
     return (quat){0, 0, 0, 1.0f};
@@ -1161,7 +1166,7 @@ KINLINE f32 quat_dot(quat q_0, quat q_1) {
 KINLINE mat4 quat_to_mat4(quat q) {
     mat4 out_matrix = mat4_identity();
 
-    //https://stackoverflow.com/questions/1556260/convert-quaternion-rotation-to-rotation-matrix
+    // https://stackoverflow.com/questions/1556260/convert-quaternion-rotation-to-rotation-matrix
 
     quat n = quat_normalize(q);
 
@@ -1180,7 +1185,7 @@ KINLINE mat4 quat_to_mat4(quat q) {
     return out_matrix;
 }
 
-//Calculates a rotation matrix based on the quaternion and the passed in center point.
+// Calculates a rotation matrix based on the quaternion and the passed in center point.
 KINLINE mat4 quat_to_rotation_matrix(quat q, vec3 center) {
     mat4 out_matrix;
 
@@ -1221,19 +1226,19 @@ KINLINE quat quat_from_axis_angle(vec3 axis, f32 angle, b8 normalize) {
 
 KINLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
     quat out_quaternion;
-    //Source: https://en.wikipedia.org/wiki/Slerp
-    //Only unit quaternions are valid rotations.
-    //Normalize to avoid undefined behavior.
+    // Source: https://en.wikipedia.org/wiki/Slerp
+    // Only unit quaternions are valid rotations.
+    // Normalize to avoid undefined behavior.
     quat v0 = quat_normalize(q_0);
     quat v1 = quat_normalize(q_1);
 
-    //Compute the cosine of the angle between the two vectors.
+    // Compute the cosine of the angle between the two vectors.
     f32 dot = quat_dot(v0, v1);
 
-    //If the dot product is negative, slerp won't take
-    //the shorter path. Note that v1 and -v1 are equivalent when
-    //the negation is applied to all four components. Fix by
-    //reversing one quaternion.
+    // If the dot product is negative, slerp won't take
+    // the shorter path. Note that v1 and -v1 are equivalent when
+    // the negation is applied to all four components. Fix by
+    // reversing one quaternion.
     if (dot < 0.0f) {
         v1.x = -v1.x;
         v1.y = -v1.y;
@@ -1244,8 +1249,8 @@ KINLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
 
     const f32 DOT_THRESHOLD = 0.9995f;
     if (dot > DOT_THRESHOLD) {
-        //If the inputs are too close for comfort, linearly interpolate
-        //and normalize the result.
+        // If the inputs are too close for comfort, linearly interpolate
+        // and normalize the result.
         out_quaternion = (quat){
             v0.x + ((v1.x - v0.x) * percentage),
             v0.y + ((v1.y - v0.y) * percentage),
@@ -1255,13 +1260,13 @@ KINLINE quat quat_slerp(quat q_0, quat q_1, f32 percentage) {
         return quat_normalize(out_quaternion);
     }
 
-    //Since dot is in range [0, DOT_THRESHOLD], acos is safe
-    f32 theta_0 = kacos(dot);          //theta_0 = angle between input vectors
-    f32 theta = theta_0 * percentage;  //theta = angle between v0 and result
-    f32 sin_theta = ksin(theta);       //compute this value only once
-    f32 sin_theta_0 = ksin(theta_0);   //compute this value only once
+    // Since dot is in range [0, DOT_THRESHOLD], acos is safe
+    f32 theta_0 = kacos(dot);          // theta_0 = angle between input vectors
+    f32 theta = theta_0 * percentage;  // theta = angle between v0 and result
+    f32 sin_theta = ksin(theta);       // compute this value only once
+    f32 sin_theta_0 = ksin(theta_0);   // compute this value only once
 
-    f32 s0 = kcos(theta) - dot * sin_theta / sin_theta_0;  //== sin(theta_0 - theta) / sin(theta_0)
+    f32 s0 = kcos(theta) - dot * sin_theta / sin_theta_0;  // == sin(theta_0 - theta) / sin(theta_0)
     f32 s1 = sin_theta / sin_theta_0;
 
     return (quat){

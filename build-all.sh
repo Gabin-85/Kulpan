@@ -34,8 +34,4 @@ then
 echo "Error:"$ERRORLEVEL && exit
 fi
 
-REM Tests
-make -f "Makefile.tests.windows.mak" clean
-IF %ERRORLEVEL% NEQ 0 (echo Error:%ERRORLEVEL% && exit)
-
 echo "All assemblies built successfully."

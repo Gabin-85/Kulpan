@@ -1,10 +1,10 @@
-#include "core/kmemory.h"
+#include "kmemory.h"
 
 #include "core/logger.h"
 #include "core/kstring.h"
 #include "platform/platform.h"
 
-//TODO:Custom string library
+// TODO: Custom string lib
 #include <string.h>
 #include <stdio.h>
 
@@ -38,6 +38,7 @@ typedef struct memory_system_state {
     u64 alloc_count;
 } memory_system_state;
 
+// Pointer to system state.
 static memory_system_state* state_ptr;
 
 void memory_system_initialize(u64* memory_requirement, void* state) {
@@ -57,16 +58,16 @@ void memory_system_shutdown(void* state) {
 
 void* kallocate(u64 size, memory_tag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
-        KWARN("Kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.")
+        KWARN("kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
     }
 
     if (state_ptr) {
         state_ptr->stats.total_allocated += size;
         state_ptr->stats.tagged_allocations[tag] += size;
         state_ptr->alloc_count++;
-    };
+    }
 
-    //TODO:Memory allignment
+    // TODO: Memory alignment
     void* block = platform_allocate(size, false);
     platform_zero_memory(block, size);
     return block;
@@ -74,15 +75,14 @@ void* kallocate(u64 size, memory_tag tag) {
 
 void kfree(void* block, u64 size, memory_tag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
-        KWARN("Kfree called using MEMORY_TAG_UNKNOWN. Re-class this allocation.")
+        KWARN("kfree called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
     }
-
     if (state_ptr) {
         state_ptr->stats.total_allocated -= size;
         state_ptr->stats.tagged_allocations[tag] -= size;
     }
 
-    //TODO:Memory allignment
+    // TODO: Memory alignment
     platform_free(block, false);
 }
 
@@ -105,7 +105,7 @@ char* get_memory_usage_str() {
 
     char buffer[8000] = "System memory use (tagged):\n";
     u64 offset = strlen(buffer);
-    for (u32 i =0; i < MEMORY_TAG_MAX_TAGS; ++i) {
+    for (u32 i = 0; i < MEMORY_TAG_MAX_TAGS; ++i) {
         char unit[4] = "XiB";
         float amount = 1.0f;
         if (state_ptr->stats.tagged_allocations[i] >= gib) {

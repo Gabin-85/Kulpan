@@ -435,5 +435,5 @@ void vulkan_ui_shader_release_resources(vulkan_context* context, struct vulkan_u
 
     material->internal_id = INVALID_ID;
 
-    //TODO: add the object_id to the free list
+    // TODO: add the object_id to the free list
 }

@@ -3,18 +3,20 @@
 #include "renderer/renderer_types.inl"
 
 typedef struct geometry_system_config {
-    //Max number of geometries that can be loaded at once.
-    //NOTE:Should be significantly greater than the number of static meshes because
-    //the there can and will be more than one of these per mesh.
-    //Take other systems into account as well
+    // Max number of geometries that can be loaded at once.
+    // NOTE: Should be significantly greater than the number of static meshes because
+    // the there can and will be more than one of these per mesh.
+    // Take other systems into account as well
     u32 max_geometry_count;
 } geometry_system_config;
 
 typedef struct geometry_config {
+    u32 vertex_size;
     u32 vertex_count;
-    vertex_3d* vertices;
+    void* vertices;
+    u32 index_size;
     u32 index_count;
-    u32* indices;
+    void* indices;
     char name[GEOMETRY_NAME_MAX_LENGTH];
     char material_name[MATERIAL_NAME_MAX_LENGTH];
 } geometry_config;
@@ -56,8 +58,15 @@ void geometry_system_release(geometry* geometry);
 geometry* geometry_system_get_default();
 
 /**
+ * @brief Obtains a pointer to the default geometry.
+ * 
+ * @return A pointer to the default geometry. 
+ */
+geometry* geometry_system_get_default_2d();
+
+/**
  * @brief Generates configuration for plane geometries given the provided parameters.
- * NOTE:vertex and index arrays are dynamically allocated and should be freed upon object disposal.
+ * NOTE: vertex and index arrays are dynamically allocated and should be freed upon object disposal.
  * Thus, this should not be considered production code.
  * 
  * @param width The overall width of the plane. Must be non-zero.

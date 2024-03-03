@@ -6,12 +6,11 @@
 
 #include <vulkan/vulkan.h>
 
-
-//Checks the given expression's return value against VK_SUCCESS
-#define VK_CHECK(expr)                  \
-    {                                   \
-        KASSERT(expr == VK_SUCCESS);    \
-    }                                   \
+// Checks the given expression's return value against VK_SUCCESS.
+#define VK_CHECK(expr)               \
+    {                                \
+        KASSERT(expr == VK_SUCCESS); \
+    }
 
 typedef struct vulkan_buffer {
     u64 total_size;
@@ -38,14 +37,17 @@ typedef struct vulkan_device {
     i32 graphics_queue_index;
     i32 present_queue_index;
     i32 transfer_queue_index;
+
     VkQueue graphics_queue;
     VkQueue present_queue;
     VkQueue transfer_queue;
-    b8 supports_device_local_host_visible;
+
     VkCommandPool graphics_command_pool;
+
     VkPhysicalDeviceProperties properties;
     VkPhysicalDeviceFeatures features;
     VkPhysicalDeviceMemoryProperties memory;
+
     VkFormat depth_format;
 } vulkan_device;
 
@@ -70,11 +72,14 @@ typedef struct vulkan_renderpass {
     VkRenderPass handle;
     vec4 render_area;
     vec4 clear_colour;
+
     f32 depth;
     u32 stencil;
+
     u8 clear_flags;
     b8 has_prev_pass;
     b8 has_next_pass;
+
     vulkan_render_pass_state state;
 } vulkan_renderpass;
 
@@ -85,8 +90,10 @@ typedef struct vulkan_swapchain {
     u32 image_count;
     VkImage* images;
     VkImageView* views;
+
     vulkan_image depth_attachment;
-    //Framebuffers used for on-screen rendering, one per frame
+
+    // Framebuffers used for on-screen rendering, one per frame
     VkFramebuffer framebuffers[3];
 } vulkan_swapchain;
 
@@ -101,7 +108,8 @@ typedef enum vulkan_command_buffer_state {
 
 typedef struct vulkan_command_buffer {
     VkCommandBuffer handle;
-    //Command buffer state.
+
+    // Command buffer state.
     vulkan_command_buffer_state state;
 } vulkan_command_buffer;
 
@@ -119,28 +127,27 @@ typedef struct vulkan_pipeline {
 #define MATERIAL_SHADER_STAGE_COUNT 2
 
 typedef struct vulkan_descriptor_state {
-    //One per frame
+    // One per frame
     u32 generations[3];
     u32 ids[3];
 } vulkan_descriptor_state;
 
 #define VULKAN_MATERIAL_SHADER_DESCRIPTOR_COUNT 2
 #define VULKAN_MATERIAL_SHADER_SAMPLER_COUNT 1
-
 typedef struct vulkan_material_shader_instance_state {
-    //Per frame
+    // Per frame
     VkDescriptorSet descriptor_sets[3];
 
-    //Per descriptor
+    // Per descriptor
     vulkan_descriptor_state descriptor_states[VULKAN_MATERIAL_SHADER_DESCRIPTOR_COUNT];
 } vulkan_material_shader_instance_state;
 
-//Max number of material instances
-//TODO:make configurable
+// Max number of material instances
+// TODO: make configurable
 #define VULKAN_MAX_MATERIAL_COUNT 1024
 
-//Max number of simultaneously uploaded geometries
-//TODO:make configurable
+// Max number of simultaneously uploaded geometries
+// TODO: make configurable
 #define VULKAN_MAX_GEOMETRY_COUNT 4096
 
 /**
@@ -150,10 +157,10 @@ typedef struct vulkan_geometry_data {
     u32 id;
     u32 generation;
     u32 vertex_count;
-    u32 vertex_size;
+    u32 vertex_element_size;
     u32 vertex_buffer_offset;
     u32 index_count;
-    u32 index_size;
+    u32 index_element_size;
     u32 index_buffer_offset;
 } vulkan_geometry_data;
 
@@ -172,27 +179,35 @@ typedef struct vulkan_material_shader_instance_ubo {
 } vulkan_material_shader_instance_ubo;
 
 typedef struct vulkan_material_shader {
-    //Vertex, fragment
+    // vertex, fragment
     vulkan_shader_stage stages[MATERIAL_SHADER_STAGE_COUNT];
+
     VkDescriptorPool global_descriptor_pool;
     VkDescriptorSetLayout global_descriptor_set_layout;
-    //One descriptor set per frame - max 3 for triple-buffering.
+
+    // One descriptor set per frame - max 3 for triple-buffering.
     VkDescriptorSet global_descriptor_sets[3];
-    b8 descriptor_updated[3];
-    //Global uniform object.
+
+    // Global uniform object.
     vulkan_material_shader_global_ubo global_ubo;
-    //Global uniform buffer.
+
+    // Global uniform buffer.
     vulkan_buffer global_uniform_buffer;
+
     VkDescriptorPool object_descriptor_pool;
     VkDescriptorSetLayout object_descriptor_set_layout;
-    //Object uniform buffers.
+    // Object uniform buffers.
     vulkan_buffer object_uniform_buffer;
-    //TODO:manage a free list of some kind here instead.
+    // TODO: manage a free list of some kind here instead.
     u32 object_uniform_buffer_index;
+
     texture_use sampler_uses[VULKAN_MATERIAL_SHADER_SAMPLER_COUNT];
-    //TODO:make dynamic
+
+    // TODO: make dynamic
     vulkan_material_shader_instance_state instance_states[VULKAN_MAX_MATERIAL_COUNT];
+
     vulkan_pipeline pipeline;
+
 } vulkan_material_shader;
 
 #define UI_SHADER_STAGE_COUNT 2
@@ -265,41 +280,72 @@ typedef struct vulkan_ui_shader {
 
 typedef struct vulkan_context {
     f32 frame_delta_time;
-    u32 framebuffer_width;  //The framebuffer's current width.
-    u32 framebuffer_height; //The framebuffer's current height.
-    u64 framebuffer_size_generation;    //Current generation of framebuffer size. Recreated if the screen size change.
-    u64 framebuffer_size_last_generation;   //Old framebuffer size. Use to calculate a changment in screen size.
+
+    // The framebuffer's current width.
+    u32 framebuffer_width;
+
+    // The framebuffer's current height.
+    u32 framebuffer_height;
+
+    // Current generation of framebuffer size. If it does not match framebuffer_size_last_generation,
+    // a new one should be generated.
+    u64 framebuffer_size_generation;
+
+    // The generation of the framebuffer when it was last created. Set to framebuffer_size_generation
+    // when updated.
+    u64 framebuffer_size_last_generation;
+
     VkInstance instance;
     VkAllocationCallbacks* allocator;
     VkSurfaceKHR surface;
-    #if defined(_DEBUG)
+
+#if defined(_DEBUG)
     VkDebugUtilsMessengerEXT debug_messenger;
-    #endif
+#endif
+
     vulkan_device device;
+
     vulkan_swapchain swapchain;
     vulkan_renderpass main_renderpass;
     vulkan_renderpass ui_renderpass;
+
     vulkan_buffer object_vertex_buffer;
     vulkan_buffer object_index_buffer;
-    vulkan_command_buffer* graphics_command_buffers;    //darray
-    VkSemaphore* image_available_semaphores;            //darray
-    VkSemaphore* queue_complete_semaphores;             //darray
+
+    // darray
+    vulkan_command_buffer* graphics_command_buffers;
+
+    // darray
+    VkSemaphore* image_available_semaphores;
+
+    // darray
+    VkSemaphore* queue_complete_semaphores;
+
     u32 in_flight_fence_count;
     VkFence in_flight_fences[2];
+
     // Holds pointers to fences which exist and are owned elsewhere, one per frame.
     VkFence* images_in_flight[3];
+
     u32 image_index;
     u32 current_frame;
+
     b8 recreating_swapchain;
+
     vulkan_material_shader material_shader;
     vulkan_ui_shader ui_shader;
+
     u64 geometry_vertex_offset;
     u64 geometry_index_offset;
-    //TODO:Make dynamic
+
+    // TODO: make dynamic
     vulkan_geometry_data geometries[VULKAN_MAX_GEOMETRY_COUNT];
-    //Framebuffers used for world rendering, one per frame
+
+    // Framebuffers used for world rendering, one per frame
     VkFramebuffer world_framebuffers[3];
+
     i32 (*find_memory_index)(u32 type_filter, u32 property_flags);
+
 } vulkan_context;
 
 typedef struct vulkan_texture_data {

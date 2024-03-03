@@ -8,6 +8,7 @@
 #include "math/kmath.h"
 
 #include "platform/filesystem.h"
+#include "loader_utils.h"
 
 b8 binary_loader_load(struct resource_loader* self, const char* name, resource* out_resource) {
     if (!self || !name || !out_resource) {
@@ -18,14 +19,14 @@ b8 binary_loader_load(struct resource_loader* self, const char* name, resource* 
     char full_file_path[512];
     string_format(full_file_path, format_str, resource_system_base_path(), self->type_path, name, "");
 
-    //TODO: Should be using an allocator here.
-    out_resource->full_path = string_duplicate(full_file_path);
-
     file_handle f;
     if (!filesystem_open(full_file_path, FILE_MODE_READ, true, &f)) {
-        KERROR("Binary_loader_load - unable to open file for binary reading: '%s'.", full_file_path);
+        KERROR("binary_loader_load - unable to open file for binary reading: '%s'.", full_file_path);
         return false;
     }
+
+    // TODO: Should be using an allocator here.
+    out_resource->full_path = string_duplicate(full_file_path);
 
     u64 file_size = 0;
     if (!filesystem_size(&f, &file_size)) {
@@ -34,7 +35,7 @@ b8 binary_loader_load(struct resource_loader* self, const char* name, resource* 
         return false;
     }
 
-    //TODO: Should be using an allocator here.
+    // TODO: Should be using an allocator here.
     u8* resource_data = kallocate(sizeof(u8) * file_size, MEMORY_TAG_ARRAY);
     u64 read_size = 0;
     if (!filesystem_read_all_bytes(&f, resource_data, &read_size)) {
@@ -53,21 +54,8 @@ b8 binary_loader_load(struct resource_loader* self, const char* name, resource* 
 }
 
 void binary_loader_unload(struct resource_loader* self, resource* resource) {
-    if (!self || !resource) {
-        KWARN("Binary_loader_unload called with nullptr for self or resource.");
-        return;
-    }
-
-    u32 path_length = string_length(resource->full_path);
-    if (path_length) {
-        kfree(resource->full_path, sizeof(char) * path_length + 1, MEMORY_TAG_STRING);
-    }
-
-    if (resource->data) {
-        kfree(resource->data, resource->data_size, MEMORY_TAG_ARRAY);
-        resource->data = 0;
-        resource->data_size = 0;
-        resource->loader_id = INVALID_ID;
+    if (!resource_unload(self, resource, MEMORY_TAG_ARRAY)) {
+        KWARN("binary_loader_unload called with nullptr for self or resource.");
     }
 }
 

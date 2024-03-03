@@ -4,7 +4,7 @@
 
 typedef struct resource_system_config {
     u32 max_loader_count;
-    //The relative base path for assets.
+    // The relative base path for assets.
     char* asset_base_path;
 } resource_system_config;
 

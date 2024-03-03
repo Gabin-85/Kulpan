@@ -23,6 +23,7 @@ b8 renderer_backend_create(renderer_backend_type type, renderer_backend* out_ren
 
         return true;
     }
+
     return false;
 }
 
@@ -35,6 +36,7 @@ void renderer_backend_destroy(renderer_backend* renderer_backend) {
     renderer_backend->end_frame = 0;
     renderer_backend->begin_renderpass = 0;
     renderer_backend->end_renderpass = 0;
+    renderer_backend->resized = 0;
     renderer_backend->draw_geometry = 0;
     renderer_backend->create_texture = 0;
     renderer_backend->destroy_texture = 0;

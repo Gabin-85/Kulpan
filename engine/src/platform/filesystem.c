@@ -8,13 +8,13 @@
 #include <sys/stat.h>
 
 b8 filesystem_exists(const char* path) {
-    #ifdef _MSC_VER
-        struct _stat buffer;
-        return _stat(path, &buffer);
-    #else
-        struct stat buffer;
-        return stat(path, &buffer) == 0;
-    #endif
+#ifdef _MSC_VER
+    struct _stat buffer;
+    return _stat(path, &buffer);
+#else
+    struct stat buffer;
+    return stat(path, &buffer) == 0;
+#endif
 }
 
 b8 filesystem_open(const char* path, file_modes mode, b8 binary, file_handle* out_handle) {
@@ -33,7 +33,7 @@ b8 filesystem_open(const char* path, file_modes mode, b8 binary, file_handle* ou
         return false;
     }
 
-    //Attempt to open the file.
+    // Attempt to open the file.
     FILE* file = fopen(path, mode_str);
     if (!file) {
         KERROR("Error opening file: '%s'", path);
@@ -61,7 +61,6 @@ b8 filesystem_size(file_handle* handle, u64* out_size) {
         rewind((FILE*)handle->handle);
         return true;
     }
-    
     return false;
 }
 
@@ -73,7 +72,6 @@ b8 filesystem_read_line(file_handle* handle, u64 max_length, char** line_buf, u6
             return true;
         }
     }
-
     return false;
 }
 
@@ -84,12 +82,11 @@ b8 filesystem_write_line(file_handle* handle, const char* text) {
             result = fputc('\n', (FILE*)handle->handle);
         }
 
-        //Make sure to flush the stream so it is written to the file immediately.
-        //This prevents data loss in the event of a crash.
+        // Make sure to flush the stream so it is written to the file immediately.
+        // This prevents data loss in the event of a crash.
         fflush((FILE*)handle->handle);
         return result != EOF;
     }
-
     return false;
 }
 
@@ -99,16 +96,14 @@ b8 filesystem_read(file_handle* handle, u64 data_size, void* out_data, u64* out_
         if (*out_bytes_read != data_size) {
             return false;
         }
-        
         return true;
     }
-
     return false;
 }
 
 b8 filesystem_read_all_bytes(file_handle* handle, u8* out_bytes, u64* out_bytes_read) {
     if (handle->handle && out_bytes && out_bytes_read) {
-        //File size
+        // File size
         u64 size = 0;
         if(!filesystem_size(handle, &size)) {
             return false;
@@ -117,23 +112,20 @@ b8 filesystem_read_all_bytes(file_handle* handle, u8* out_bytes, u64* out_bytes_
         *out_bytes_read = fread(out_bytes, 1, size, (FILE*)handle->handle);
         return *out_bytes_read == size;
     }
-
     return false;
 }
 
 b8 filesystem_read_all_text(file_handle* handle, char* out_text, u64* out_bytes_read) {
     if (handle->handle && out_text && out_bytes_read) {
-        //File size
+        // File size
         u64 size = 0;
         if(!filesystem_size(handle, &size)) {
             return false;
         }
 
-
         *out_bytes_read = fread(out_text, 1, size, (FILE*)handle->handle);
         return *out_bytes_read == size;
     }
-
     return false;
 }
 
@@ -143,10 +135,8 @@ b8 filesystem_write(file_handle* handle, u64 data_size, const void* data, u64* o
         if (*out_bytes_written != data_size) {
             return false;
         }
-
         fflush((FILE*)handle->handle);
         return true;
     }
-
     return false;
 }

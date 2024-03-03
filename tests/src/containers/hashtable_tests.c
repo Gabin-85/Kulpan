@@ -171,21 +171,21 @@ u8 hashtable_should_set_and_unset_ptr() {
     testval1->b_value = true;
     testval1->u_value = 63;
     testval1->f_value = 3.1415f;
-    //Set it
+    // Set it
     b8 result = hashtable_set_ptr(&table, "test1", (void**)&testval1);
     expect_to_be_true(result);
 
-    //Check that it exists and is correct.
+    // Check that it exists and is correct.
     ht_test_struct* get_testval_1 = 0;
     hashtable_get_ptr(&table, "test1", (void**)&get_testval_1);
     expect_should_be(testval1->b_value, get_testval_1->b_value);
     expect_should_be(testval1->u_value, get_testval_1->u_value);
 
-    //Unset it
+    // Unset it
     result = hashtable_set_ptr(&table, "test1", 0);
     expect_to_be_true(result);
 
-    //Should no longer be found.
+    // Should no longer be found.
     ht_test_struct* get_testval_2 = 0;
     result = hashtable_get_ptr(&table, "test1", (void**)&get_testval_2);
     expect_to_be_false(result);
@@ -218,11 +218,11 @@ u8 hashtable_try_call_non_ptr_on_ptr_table() {
     t.b_value = true;
     t.u_value = 63;
     t.f_value = 3.1415f;
-    //Try setting the record
+    // Try setting the record
     b8 result = hashtable_set(&table, "test1", &t);
     expect_to_be_false(result);
 
-    //Try getting the record.
+    // Try getting the record.
     ht_test_struct* get_testval_1 = 0;
     result = hashtable_get(&table, "test1", (void**)&get_testval_1);
     expect_to_be_false(result);
@@ -255,11 +255,11 @@ u8 hashtable_try_call_ptr_on_non_ptr_table() {
     testval1->b_value = true;
     testval1->u_value = 63;
     testval1->f_value = 3.1415f;
-    //Attempt to call pointer functions.
+    // Attempt to call pointer functions.
     b8 result = hashtable_set_ptr(&table, "test1", (void**)&testval1);
     expect_to_be_false(result);
 
-    //Try to call pointer function.
+    // Try to call pointer function.
     ht_test_struct* get_testval_1 = 0;
     result = hashtable_get_ptr(&table, "test1", (void**)&get_testval_1);
     expect_to_be_false(result);
@@ -297,12 +297,12 @@ u8 hashtable_should_set_get_and_update_ptr_successfully() {
     expect_should_be(testval1->b_value, get_testval_1->b_value);
     expect_should_be(testval1->u_value, get_testval_1->u_value);
 
-    //Update pointed-to values
+    // Update pointed-to values
     get_testval_1->b_value = false;
     get_testval_1->u_value = 99;
     get_testval_1->f_value = 6.69f;
 
-    //Get the pointer again and confirm correct values
+    // Get the pointer again and confirm correct values
     ht_test_struct* get_testval_2 = 0;
     hashtable_get_ptr(&table, "test1", (void**)&get_testval_2);
     expect_to_be_false(get_testval_2->b_value);

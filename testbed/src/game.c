@@ -2,18 +2,17 @@
 
 #include <core/logger.h>
 #include <core/kmemory.h>
+
 #include <core/input.h>
 #include <core/event.h>
 
 #include <math/kmath.h>
 
-//HACK: this should not be exposed
+// HACK: This should not be available outside the engine.
 #include <renderer/renderer_frontend.h>
 
 void recalculate_view_matrix(game_state* state) {
-    
-    if(state->camera_view_dirty) {
-
+    if (state->camera_view_dirty) {
         mat4 rotation = mat4_euler_xyz(state->camera_euler.x, state->camera_euler.y, state->camera_euler.z);
         mat4 translation = mat4_translation(state->camera_position);
 
@@ -22,31 +21,29 @@ void recalculate_view_matrix(game_state* state) {
 
         state->camera_view_dirty = false;
     }
-    
-    
 }
 
 void camera_yaw(game_state* state, f32 amount) {
     state->camera_euler.y += amount;
     state->camera_view_dirty = true;
 }
+
 void camera_pitch(game_state* state, f32 amount) {
     state->camera_euler.x += amount;
 
-    //Clamp to avoid Gimball lock.
+    // Clamp to avoid Gimball lock.
     f32 limit = deg_to_rad(89.0f);
     state->camera_euler.x = KCLAMP(state->camera_euler.x, -limit, limit);
 
     state->camera_view_dirty = true;
 }
 
-
 b8 game_initialize(game* game_inst) {
-    KDEBUG("Game_initialize() called!");
+    KDEBUG("game_initialize() called!");
 
-    game_state* state = ((game_state*)game_inst->state);
+    game_state* state = (game_state*)game_inst->state;
 
-    state->camera_position = (vec3){0,0, 30.0f};
+    state->camera_position = (vec3){0, 0, 30.0f};
     state->camera_euler = vec3_zero();
 
     state->view = mat4_translation(state->camera_position);
@@ -64,17 +61,17 @@ b8 game_update(game* game_inst, f32 delta_time) {
         KDEBUG("Allocations: %llu (%llu this frame)", alloc_count, alloc_count - prev_alloc_count);
     }
 
-    //TODO:temp
+    // TODO: temp
     if (input_is_key_up('T') && input_was_key_down('T')) {
         KDEBUG("Swapping texture!");
         event_context context = {};
         event_fire(EVENT_CODE_DEBUG0, game_inst, context);
     }
-    //TODO:end temp
+    // TODO: end temp
 
     game_state* state = (game_state*)game_inst->state;
 
-    //HACK: temp hack to move camera around.
+    // HACK: temp hack to move camera around.
     if (input_is_key_down('Q') || input_is_key_down(KEY_LEFT)) {
         camera_yaw(state, 1.0f * delta_time);
     }
@@ -124,7 +121,7 @@ b8 game_update(game* game_inst, f32 delta_time) {
 
     vec3 z = vec3_zero();
     if (!vec3_compare(z, velocity, 0.0002f)) {
-        //Be sure to normalize the velocity before applying speed.
+        // Be sure to normalize the velocity before applying speed.
         vec3_normalize(&velocity);
         state->camera_position.x += velocity.x * temp_move_speed * delta_time;
         state->camera_position.y += velocity.y * temp_move_speed * delta_time;
@@ -132,16 +129,16 @@ b8 game_update(game* game_inst, f32 delta_time) {
         state->camera_view_dirty = true;
     }
 
-    recalculate_view_matrix((game_state*)game_inst->state);
+    recalculate_view_matrix(state);
 
-    //HACK: this should not be exposed
+    // HACK: This should not be available outside the engine.
     renderer_set_view(state->view);
 
     return true;
 }
 
 b8 game_render(game* game_inst, f32 delta_time) {
-return true;
+    return true;
 }
 
 void game_on_resize(game* game_inst, u32 width, u32 height) {

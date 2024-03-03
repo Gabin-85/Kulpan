@@ -3,7 +3,7 @@
 #include "defines.h"
 
 typedef enum memory_tag {
-    //For temporary use. Should be assigned one of the bellow or have a new tag created
+    // For temporary use. Should be assigned one of the below or have a new tag created.
     MEMORY_TAG_UNKNOWN,
     MEMORY_TAG_ARRAY,
     MEMORY_TAG_LINEAR_ALLOCATOR,

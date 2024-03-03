@@ -4,7 +4,7 @@
 #include "core/logger.h"
 
 u64 hash_name(const char* name, u32 element_count) {
-    //A multipler to use when generating a hash. Prime to hopefully avoid collisions.
+    // A multipler to use when generating a hash. Prime to hopefully avoid collisions.
     static const u64 multiplier = 97;
 
     unsigned const char* us;
@@ -14,7 +14,7 @@ u64 hash_name(const char* name, u32 element_count) {
         hash = hash * multiplier + *us;
     }
 
-    //Mod it against the size of the table.
+    // Mod it against the size of the table.
     hash %= element_count;
 
     return hash;
@@ -22,15 +22,15 @@ u64 hash_name(const char* name, u32 element_count) {
 
 void hashtable_create(u64 element_size, u32 element_count, void* memory, b8 is_pointer_type, hashtable* out_hashtable) {
     if (!memory || !out_hashtable) {
-        KERROR("Hashtable_create failed! Pointer to memory and out_hashtable are required.");
+        KERROR("hashtable_create failed! Pointer to memory and out_hashtable are required.");
         return;
     }
     if (!element_count || !element_size) {
-        KERROR("Element_size and element_count must be a positive non-zero value.");
+        KERROR("element_size and element_count must be a positive non-zero value.");
         return;
     }
 
-    //TODO:Might want to require an allocator and allocate this memory instead.
+    // TODO: Might want to require an allocator and allocate this memory instead.
     out_hashtable->memory = memory;
     out_hashtable->element_count = element_count;
     out_hashtable->element_size = element_size;
@@ -40,18 +40,18 @@ void hashtable_create(u64 element_size, u32 element_count, void* memory, b8 is_p
 
 void hashtable_destroy(hashtable* table) {
     if (table) {
-        //TODO:If using allocator above, free memory here.
+        // TODO: If using allocator above, free memory here.
         kzero_memory(table, sizeof(hashtable));
     }
 }
 
 b8 hashtable_set(hashtable* table, const char* name, void* value) {
     if (!table || !name || !value) {
-        KERROR("Hashtable_set requires table, name and value to exist.");
+        KERROR("hashtable_set requires table, name and value to exist.");
         return false;
     }
     if (table->is_pointer_type) {
-        KERROR("Hashtable_set should not be used with tables that have pointer types. Use hashtable_set_ptr instead.");
+        KERROR("hashtable_set should not be used with tables that have pointer types. Use hashtable_set_ptr instead.");
         return false;
     }
 
@@ -62,11 +62,11 @@ b8 hashtable_set(hashtable* table, const char* name, void* value) {
 
 b8 hashtable_set_ptr(hashtable* table, const char* name, void** value) {
     if (!table || !name) {
-        KWARN("Hashtable_set_ptr requires table and name to exist.");
+        KWARN("hashtable_set_ptr requires table and name  to exist.");
         return false;
     }
     if (!table->is_pointer_type) {
-        KERROR("Hashtable_set_ptr should not be used with tables that do not have pointer types. Use hashtable_set instead.");
+        KERROR("hashtable_set_ptr should not be used with tables that do not have pointer types. Use hashtable_set instead.");
         return false;
     }
 
@@ -77,11 +77,11 @@ b8 hashtable_set_ptr(hashtable* table, const char* name, void** value) {
 
 b8 hashtable_get(hashtable* table, const char* name, void* out_value) {
     if (!table || !name || !out_value) {
-        KWARN("Hashtable_get requires table, name and out_value to exist.");
+        KWARN("hashtable_get requires table, name and out_value to exist.");
         return false;
     }
     if (table->is_pointer_type) {
-        KERROR("Hashtable_get should not be used with tables that have pointer types. Use hashtable_set_ptr instead.");
+        KERROR("hashtable_get should not be used with tables that have pointer types. Use hashtable_set_ptr instead.");
         return false;
     }
     u64 hash = hash_name(name, table->element_count);
@@ -91,11 +91,11 @@ b8 hashtable_get(hashtable* table, const char* name, void* out_value) {
 
 b8 hashtable_get_ptr(hashtable* table, const char* name, void** out_value) {
     if (!table || !name || !out_value) {
-        KWARN("Hashtable_get_ptr requires table, name and out_value to exist.");
+        KWARN("hashtable_get_ptr requires table, name and out_value to exist.");
         return false;
     }
     if (!table->is_pointer_type) {
-        KERROR("Hashtable_get_ptr should not be used with tables that do not have pointer types. Use hashtable_get instead.");
+        KERROR("hashtable_get_ptr should not be used with tables that do not have pointer types. Use hashtable_get instead.");
         return false;
     }
 
@@ -106,11 +106,11 @@ b8 hashtable_get_ptr(hashtable* table, const char* name, void** out_value) {
 
 b8 hashtable_fill(hashtable* table, void* value) {
     if (!table || !value) {
-        KWARN("Hashtable_fill requires table and value to exist.");
+        KWARN("hashtable_fill requires table and value to exist.");
         return false;
     }
     if (table->is_pointer_type) {
-        KERROR("Hashtable_fill should not be used with tables that have pointer types.");
+        KERROR("hashtable_fill should not be used with tables that have pointer types.");
         return false;
     }
 

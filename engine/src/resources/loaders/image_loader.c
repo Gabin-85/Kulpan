@@ -5,8 +5,9 @@
 #include "core/kstring.h"
 #include "resources/resource_types.h"
 #include "systems/resource_system.h"
+#include "loader_utils.h"
 
-//TODO:Resource loader
+// TODO: resource loader.
 #define STB_IMAGE_IMPLEMENTATION
 #include "vendor/stb_image.h"
 
@@ -20,15 +21,15 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
     stbi_set_flip_vertically_on_load(true);
     char full_file_path[512];
 
-    //TODO:Try different extensions
+    // TODO: try different extensions
     string_format(full_file_path, format_str, resource_system_base_path(), self->type_path, name, ".png");
 
     i32 width;
     i32 height;
     i32 channel_count;
 
-    //For now, assume 8 bits per channel, 4 channels.
-    //TODO: extend this to make it configurable.
+    // For now, assume 8 bits per channel, 4 channels.
+    // TODO: extend this to make it configurable.
     u8* data = stbi_load(
         full_file_path,
         &width,
@@ -36,11 +37,11 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
         &channel_count,
         required_channel_count);
 
-    //Check for a failure reason. If there is one, abort, clear memory if allocated, return false.
+    // Check for a failure reason. If there is one, abort, clear memory if allocated, return false.
     const char* fail_reason = stbi_failure_reason();
     if (fail_reason) {
         KERROR("Image resource loader failed to load file '%s': %s", full_file_path, fail_reason);
-        //Clear the error so the next load doesn't fail.
+        // Clear the error so the next load doesn't fail.
         stbi__err(0, 0);
 
         if (data) {
@@ -54,10 +55,10 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
         return false;
     }
 
-    //TODO:Should be using an allocator here.
+    // TODO: Should be using an allocator here.
     out_resource->full_path = string_duplicate(full_file_path);
 
-    //TODO:Should be using an allocator here.
+    // TODO: Should be using an allocator here.
     image_resource_data* resource_data = kallocate(sizeof(image_resource_data), MEMORY_TAG_TEXTURE);
     resource_data->pixels = data;
     resource_data->width = width;
@@ -72,21 +73,8 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
 }
 
 void image_loader_unload(struct resource_loader* self, resource* resource) {
-    if (!self || !resource) {
+    if (!resource_unload(self, resource, MEMORY_TAG_TEXTURE)) {
         KWARN("image_loader_unload called with nullptr for self or resource.");
-        return;
-    }
-
-    u32 path_length = string_length(resource->full_path);
-    if (path_length) {
-        kfree(resource->full_path, sizeof(char) * path_length + 1, MEMORY_TAG_STRING);
-    }
-
-    if (resource->data) {
-        kfree(resource->data, resource->data_size, MEMORY_TAG_TEXTURE);
-        resource->data = 0;
-        resource->data_size = 0;
-        resource->loader_id = INVALID_ID;
     }
 }
 

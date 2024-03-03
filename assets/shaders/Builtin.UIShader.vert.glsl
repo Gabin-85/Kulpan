@@ -9,7 +9,7 @@ layout(set = 0, binding = 0) uniform global_uniform_object {
 } global_ubo;
 
 layout(push_constant) uniform push_constants {
-
+	
 	// Only guaranteed a total of 128 bytes.
 	mat4 model; // 64 bytes
 } u_push_constants;

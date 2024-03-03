@@ -43,7 +43,7 @@ void vulkan_command_buffer_begin(
     b8 is_single_use,
     b8 is_renderpass_continue,
     b8 is_simultaneous_use) {
-
+    
     VkCommandBufferBeginInfo begin_info = {VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     begin_info.flags = 0;
     if (is_single_use) {
@@ -87,18 +87,18 @@ void vulkan_command_buffer_end_single_use(
     vulkan_command_buffer* command_buffer,
     VkQueue queue) {
 
-    //End the command buffer.
+    // End the command buffer.
     vulkan_command_buffer_end(command_buffer);
 
-    //Submit the queue
+    // Submit the queue
     VkSubmitInfo submit_info = {VK_STRUCTURE_TYPE_SUBMIT_INFO};
     submit_info.commandBufferCount = 1;
     submit_info.pCommandBuffers = &command_buffer->handle;
     VK_CHECK(vkQueueSubmit(queue, 1, &submit_info, 0));
 
-    //Wait for it to finish
+    // Wait for it to finish
     VK_CHECK(vkQueueWaitIdle(queue));
 
-    //Free the command buffer.
+    // Free the command buffer.
     vulkan_command_buffer_free(context, pool, command_buffer);
  }

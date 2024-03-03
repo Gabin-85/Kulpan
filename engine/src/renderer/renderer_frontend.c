@@ -10,10 +10,11 @@
 #include "systems/texture_system.h"
 #include "systems/material_system.h"
 
-//TODO:temporary
+// TODO: temporary
 #include "core/kstring.h"
 #include "core/event.h"
-//TODO:end temporary
+
+// TODO: end temporary
 
 typedef struct renderer_system_state {
     renderer_backend backend;
@@ -25,7 +26,6 @@ typedef struct renderer_system_state {
     f32 far_clip;
 } renderer_system_state;
 
-//Backend render context
 static renderer_system_state* state_ptr;
 
 b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* application_name) {
@@ -35,7 +35,7 @@ b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* 
     }
     state_ptr = state;
 
-    //TODO:Make this configurable
+    // TODO: make this configurable.
     renderer_backend_create(RENDERER_BACKEND_TYPE_VULKAN, &state_ptr->backend);
     state_ptr->backend.frame_number = 0;
 
@@ -43,14 +43,19 @@ b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* 
         KFATAL("Renderer backend failed to initialize. Shutting down.");
         return false;
     }
+
+    // World projection/view
     state_ptr->near_clip = 0.1f;
     state_ptr->far_clip = 1000.0f;
-    state_ptr->projection = mat4_perspective(deg_to_rad(45.0f), 1280 / (f32)720, state_ptr->near_clip, state_ptr->far_clip);
-
+    state_ptr->projection = mat4_perspective(deg_to_rad(45.0f), 1280 / 720.0f, state_ptr->near_clip, state_ptr->far_clip);
     // TODO: configurable camera starting position.
     state_ptr->view = mat4_translation((vec3){0, 0, -30.0f});
     state_ptr->view = mat4_inverse(state_ptr->view);
-    
+
+    // UI projection/view
+    state_ptr->ui_projection = mat4_orthographic(0, 1280.0f, 720.0f, 0, -100.f, 100.0f);  // Intentionally flipped on y axis.
+    state_ptr->ui_view = mat4_inverse(mat4_identity());
+
     return true;
 }
 
@@ -64,14 +69,15 @@ void renderer_system_shutdown(void* state) {
 void renderer_on_resized(u16 width, u16 height) {
     if (state_ptr) {
         state_ptr->projection = mat4_perspective(deg_to_rad(45.0f), width / (f32)height, state_ptr->near_clip, state_ptr->far_clip);
+        state_ptr->ui_projection = mat4_orthographic(0, (f32)width, (f32)height, 0, -100.f, 100.0f); // Intentionally flipped on y axis.
         state_ptr->backend.resized(&state_ptr->backend, width, height);
     } else {
-        KWARN("Renderer backend does not exist to accept resize: %i %i", width, height);
+        KWARN("renderer backend does not exist to accept resize: %i %i", width, height);
     }
 }
 
 b8 renderer_draw_frame(render_packet* packet) {
-    //If the begin frame returned successfully, mid-frame operations may continue.
+    // If the begin frame returned successfully, mid-frame operations may continue.
     if (state_ptr->backend.begin_frame(&state_ptr->backend, packet->delta_time)) {
         // World renderpass
         if (!state_ptr->backend.begin_renderpass(&state_ptr->backend, BUILTIN_RENDERPASS_WORLD)) {
@@ -147,8 +153,8 @@ void renderer_destroy_material(struct material* material) {
     state_ptr->backend.destroy_material(material);
 }
 
-b8 renderer_create_geometry(geometry* geometry, u32 vertex_count, const vertex_3d* vertices, u32 index_count, const u32* indices) {
-    return state_ptr->backend.create_geometry(geometry, vertex_count, vertices, index_count, indices);
+b8 renderer_create_geometry(geometry* geometry, u32 vertex_size, u32 vertex_count, const void* vertices, u32 index_size, u32 index_count, const void* indices) {
+    return state_ptr->backend.create_geometry(geometry, vertex_size, vertex_count, vertices, index_size, index_count, indices);
 }
 
 void renderer_destroy_geometry(geometry* geometry) {
