@@ -88,7 +88,7 @@ b8 vulkan_device_create(vulkan_context* context) {
         VK_CHECK(vkEnumerateDeviceExtensionProperties(context->device.physical_device, 0, &available_extension_count, available_extensions));
         for (u32 i = 0; i < available_extension_count; ++i) {
             if (strings_equal(available_extensions[i].extensionName, "VK_KHR_portability_subset")) {
-                KINFO("Adding required extension 'VK_KHR_portability_subset'.");
+                KFORMAT_INFO("            Adding required extension 'VK_KHR_portability_subset'."); KJUMP_INFO(1);
                 portability_required = true;
                 break;
             }
@@ -278,6 +278,7 @@ b8 vulkan_device_detect_depth_format(vulkan_device* device) {
 }
 
 b8 select_physical_device(vulkan_context* context) {
+    KINFO("Selecting physical device...");
     u32 physical_device_count = 0;
     VK_CHECK(vkEnumeratePhysicalDevices(context->instance, &physical_device_count, 0));
     if (physical_device_count == 0) {
@@ -297,7 +298,8 @@ b8 select_physical_device(vulkan_context* context) {
         VkPhysicalDeviceMemoryProperties memory;
         vkGetPhysicalDeviceMemoryProperties(physical_devices[i], &memory);
 
-        KINFO("Evaluating device: '%s', index %u.", properties.deviceName, i);
+        KFORMAT_INFO("            Evaluating device: '%s', index %u.", properties.deviceName, i);
+        KJUMP_INFO(1);
 
         // Check if device supports local/host visible combo
         b8 supports_device_local_host_visible = false;

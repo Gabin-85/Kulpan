@@ -30,6 +30,8 @@ b8 initialize_logging(u64* memory_requirement, void* state) {
         return true;
     }
 
+    KDEBUG("Initializing logger subsystem...");
+
     state_ptr = state;
 
     //Create new/wipe existing log file, then open it
