@@ -1,3 +1,12 @@
+/**
+ * @file dynamic_allocator.h
+ * 
+ * @brief Contains the implementation of the dynamic allocator.
+ * 
+ * @copyright Kulpan Game Engine
+ * 
+ */
+
 #pragma once
 
 #include "defines.h"

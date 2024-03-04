@@ -4,10 +4,13 @@
             "type": "shell",
             "label": "Build Engine",
             "windows": {
-                "command": "${workspaceFolder}\\engine\\build.bat"
+                "command": "${workspaceFolder}/engine/build.bat"
             },
             "linux": {
                 "command": "${workspaceFolder}/engine/build.sh"
+            },
+            "osx": {
+                "command": "${workspaceFolder}/engine/build-macos.sh"
             },
             "options": {
                 "cwd": "${workspaceFolder}/engine"
@@ -22,9 +25,12 @@
             "type": "shell",
             "label": "Build Testbed",
             "windows": {
-                "command": "${workspaceFolder}\\testbed\\build.bat"
+                "command": "${workspaceFolder}/testbed/build.bat"
             },
             "linux": {
+                "command": "${workspaceFolder}/testbed/build.sh"
+            },
+            "osx": {
                 "command": "${workspaceFolder}/testbed/build.sh"
             },
             "options": {
@@ -34,26 +40,6 @@
                 "$gcc"
             ],
             "group": "build"
-        },
-        {
-            "type": "shell",
-            "label": "Build Everything",
-            "windows": {
-                "command": "${workspaceFolder}\\build-all.bat",
-            },
-            "linux": {
-                "command": "${workspaceFolder}/build-all.sh",
-            },
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         },
         {
             "type": "shell",
@@ -77,12 +63,38 @@
         },
         {
             "type": "shell",
+            "label": "Build Everything",
+            "windows": {
+                "command": "${workspaceFolder}/build-all.bat",
+            },
+            "linux": {
+                "command": "${workspaceFolder}/build-all.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/build-all-macos.sh",
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
             "label": "Clean Everything",
             "windows": {
                 "command": "${workspaceFolder}\\clean-all.bat",
             },
             "linux": {
                 "command": "${workspaceFolder}/clean-all.sh",
+            },
+            "osx": {
+                "command": "${workspaceFolder}/clean-all-macos.sh",
             },
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -93,9 +105,12 @@
             "type": "shell",
             "label": "Post-Build",
             "windows": {
-                "command": "${workspaceFolder}\\post-build.bat",
+                "command": "${workspaceFolder}/post-build.bat",
             },
             "linux": {
+                "command": "${workspaceFolder}/post-build.sh",
+            },
+            "osx": {
                 "command": "${workspaceFolder}/post-build.sh",
             },
             "options": {

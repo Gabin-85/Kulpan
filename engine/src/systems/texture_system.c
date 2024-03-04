@@ -205,11 +205,11 @@ texture* texture_system_get_default_texture() {
 b8 create_default_textures(texture_system_state* state) {
     // NOTE: Create default texture, a 256x256 blue/white checkerboard pattern.
     // This is done in code to eliminate asset dependencies.
-    KTRACE("Creating default texture...");
+    KTRACE("Creation of the default texture.");
     const u32 tex_dimension = 256;
     const u32 channels = 4;
     const u32 pixel_count = tex_dimension * tex_dimension;
-    u8 pixels[pixel_count * channels];
+    u8 pixels[262144]; // pixel_count * channels
     kset_memory(pixels, 255, sizeof(u8) * pixel_count * channels);
 
     // Each pixel.

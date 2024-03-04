@@ -5,7 +5,6 @@
 #include "containers/freelist_tests.h"
 #include "memory/dynamic_allocator_tests.h"
 
-
 #include <core/logger.h>
 
 int main() {

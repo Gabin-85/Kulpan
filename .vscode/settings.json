@@ -1,14 +1,12 @@
 {
+    "workbench.colorCustomizations": {
+        "editorCursor.foreground": "#ff00ea",
+        "editor.lineHighlightBackground": "#4d3d52"
+    },
     "todohighlight.isEnable": true,
     "todohighlight.keywords": [
         {
             "text": "TODO:",
-            "color": "red",
-            "backgroundColor": "rgba(0,0,0,0)",
-            "overviewRulerColor": "rgba(0,0,0,0)"
-        },
-        {
-            "text": "TODO(travis):",
             "color": "red",
             "backgroundColor": "rgba(0,0,0,0)",
             "overviewRulerColor": "rgba(0,0,0,0)"
@@ -34,47 +32,47 @@
     },
     "files.associations": {
         "test.h": "c",
-        "stdio.h": "c",
-        "logger.h": "c",
+        "vulkan.h": "c",
+        "vulkan_core.h": "c",
+        "vk_platform.h": "c",
+        "type_traits": "c",
+        "typeinfo": "c",
         "windowsx.h": "c",
-        "defines.h": "c",
-        "platform.h": "c",
-        "xiosbase": "c",
-        "asserts.h": "c",
-        "xstring": "c",
+        "vulkan_platform.h": "c",
+        "renderer_frontend.h": "c",
+        "iosfwd": "c",
+        "tuple": "cpp",
         "utility": "cpp",
-        "event.h": "c",
-        "input.h": "c",
         "kmemory.h": "c",
-        "game_types.h": "c",
+        "defines.h": "c",
         "vulkan_types.inl": "c",
         "clock.h": "c",
         "kstring.h": "c",
-        "vulkan.h": "c",
-        "system_error": "c",
-        "math_types.h": "c",
-        "stdarg.h": "c",
-        "filesystem.h": "c",
-        "vulkan_shader_utils.h": "c",
-        "sstream": "c",
-        "vulkan_backend.h": "c",
-        "vulkan_buffer.h": "c",
-        "resource_types.h": "c",
-        "vulkan_material_shader.h": "c",
-        "texture_system.h": "c",
-        "array": "c",
-        "iterator": "c",
-        "xutility": "c",
-        "format": "c",
-        "map": "c",
-        "memory": "c",
-        "set": "c",
-        "span": "c",
+        "logger.h": "c",
+        "stb_image.h": "c",
         "vector": "c",
-        "xmemory": "c",
-        "xtree": "c",
+        "xstring": "c",
+        "xutility": "c",
+        "iterator": "c",
+        "initializer_list": "c",
+        "loader_utils.h": "c",
         "kmath.h": "c",
-        "renderer_frontend.h": "c"
+        "random": "c"
     },
-    "git.ignoreLimitWarning": true
+    // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
+    "doxdocgen.file.copyrightTag": [
+        "Kulpan engine"
+    ],
+    "doxdocgen.file.versionTag": "",
+    // The order to use for the file comment. Values can be used multiple times. Valid values are shown in default setting.
+    "doxdocgen.file.fileOrder": [
+        "file",
+        "brief",
+        "version",
+        "date",
+        "empty",
+        "copyright",
+        "empty",
+        "custom"
+    ],
 }

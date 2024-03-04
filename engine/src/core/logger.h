@@ -1,24 +1,44 @@
+/**
+ * @file logger.h
+ * 
+ * @brief This file contains structures and logic pertaining to the logging system.
+ * 
+ * 
+ * @copyright Kulpan Game Engine
+ * 
+ */
 #pragma once
 
 #include "defines.h"
 
-#define LOG_WARN_ENABLE 1
-#define LOG_INFO_ENABLE 1
-#define LOG_DEBUG_ENABLE 1
-#define LOG_TRACE_ENABLE 1
+/** @brief Indicates if warning level logging is enabled. */
+#define LOG_WARN_ENABLED 1
+/** @brief Indicates if info level logging is enabled. */
+#define LOG_INFO_ENABLED 1
+/** @brief Indicates if debug level logging is enabled. */
+#define LOG_DEBUG_ENABLED 1
+/** @brief Indicates if trace level logging is enabled. */
+#define LOG_TRACE_ENABLED 1
 
-//Disable debug and trace logging while being in a release build.
+// Disable debug and trace logging for release builds.
 #if KRELEASE == 1
-#DEFINE LOG_DEBUG_ENABLE 0
-#DEFINE LOG_TRACE_ENABLE 0
+#define LOG_DEBUG_ENABLED 0
+#define LOG_TRACE_ENABLED 0
 #endif
 
+/** @brief Represents levels of logging */
 typedef enum log_level {
+    /** @brief Fatal log level, should be used to stop the application when hit. */
     LOG_LEVEL_FATAL = 0,
+    /** @brief Error log level, should be used to indicate critical runtime problems that cause the application to run improperly or not at all. */
     LOG_LEVEL_ERROR = 1,
+    /** @brief Warning log level, should be used to indicate non-critial problems with the application that cause it to run suboptimally. */
     LOG_LEVEL_WARN = 2,
+    /** @brief Info log level, should be used for non-erronuous informational purposes. */
     LOG_LEVEL_INFO = 3,
+    /** @brief Debug log level, should be used for debugging purposes. */
     LOG_LEVEL_DEBUG = 4,
+    /** @brief Trace log level, should be used for verbose debugging purposes. */
     LOG_LEVEL_TRACE = 5
 } log_level;
 
@@ -31,75 +51,124 @@ typedef enum log_level {
  * @return b8 True on success; otherwise false.
  */
 b8 initialize_logging(u64* memory_requirement, void* state);
+
+/**
+ * @brief Shuts down the logging system.
+ * @param state A pointer to the system state.
+ */
 void shutdown_logging(void* state);
 
+/**
+ * @brief Outputs logging at the given level.
+ * @param level The log level to use.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 KAPI void log_output(log_level level, const char* message, ...);
-
 KAPI void format_log_output(log_level level, const char* message, ...);
-
 KAPI void format_jump(const int times);
 
-//Logs for fatal messages
+/** 
+ * @brief Logs a fatal-level message. Should be used to stop the application when hit.
+ * @param message The message to be logged. Can be a format string for additional parameters.
+ * @param ... Additional parameters to be logged.
+ */
 #define KFATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
 #define KFORMAT_FATAL(message, ...) format_log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
 #define KJUMP(times) format_jump(times);
 
 #ifndef KERROR
-//Logs for error messages
+/** 
+ * @brief Logs an error-level message. Should be used to indicate critical runtime problems 
+ * that cause the application to run improperly or not at all.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KERROR(message, ...) log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
-#endif
-#ifndef KFORMAT_ERROR
-//Logs for error messages
 #define KFORMAT_ERROR(message, ...) format_log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
-#endif
-#ifndef KJUMP_ERROR
-//Logs for error jump
 #define KJUMP_ERROR(times) format_jump(times);
 #endif
 
-#if LOG_WARN_ENABLE == 1
-//Logs for warning messages and jump
+#if LOG_WARN_ENABLED == 1
+/** 
+ * @brief Logs a warning-level message. Should be used to indicate non-critial problems with 
+ * the application that cause it to run suboptimally.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KWARN(message, ...) log_output(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
 #define KFORMAT_WARN(message, ...) format_log_output(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
 #define KJUMP_WARN(times) format_jump(times);
 #else
-//Does nothing when false
+/** 
+ * @brief Logs a warning-level message. Should be used to indicate non-critial problems with 
+ * the application that cause it to run suboptimally. Does nothing when LOG_WARN_ENABLED != 1
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KWARN(message, ...);
 #define KFORMAT_WARN(message, ...);
 #define KJUMP_WARN(times);
 #endif
 
-#if LOG_INFO_ENABLE == 1
-//Logs for info messages
+#if LOG_INFO_ENABLED == 1
+/** 
+ * @brief Logs an info-level message. Should be used for non-erronuous informational purposes.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KINFO(message, ...) log_output(LOG_LEVEL_INFO, message, ##__VA_ARGS__);
 #define KFORMAT_INFO(message, ...) format_log_output(LOG_LEVEL_INFO, message, ##__VA_ARGS__);
 #define KJUMP_INFO(times) format_jump(times);
 #else
-//Does nothing when false
+/** 
+ * @brief Logs an info-level message. Should be used for non-erronuous informational purposes.
+ * Does nothing when LOG_INFO_ENABLED != 1
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KINFO(message, ...);
 #define KFORMAT_INFO(message, ...);
 #define KJUMP_INFO(times);
 #endif
 
-#if LOG_DEBUG_ENABLE == 1
-//Logs for debuging
+#if LOG_DEBUG_ENABLED == 1
+/** 
+ * @brief Logs a debug-level message. Should be used for debugging purposes.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KDEBUG(message, ...) log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
 #define KFORMAT_DEBUG(message, ...) format_log_output(LOG_LEVEL_DEBUG, message, ##__VA_ARGS__);
 #define KJUMP_DEBUG(times) format_jump(times);
 #else
-//Does nothing when false
+/** 
+ * @brief Logs a debug-level message. Should be used for debugging purposes.
+ * Does nothing when LOG_DEBUG_ENABLED != 1
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KDEBUG(message, ...);
 #define KFORMAT_DEBUG(message, ...);
 #define KJUMP_DEBUG(times);
 #endif
 
-#if LOG_TRACE_ENABLE == 1
-//Logs for tracing
+#if LOG_TRACE_ENABLED == 1
+/** 
+ * @brief Logs a trace-level message. Should be used for verbose debugging purposes.
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KTRACE(message, ...) log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
 #define KFORMAT_TRACE(message, ...) format_log_output(LOG_LEVEL_TRACE, message, ##__VA_ARGS__);
 #define KJUMP_TRACE(times) format_jump(times);
 #else
-//Does nothing when false
+/** 
+ * @brief Logs a trace-level message. Should be used for verbose debugging purposes.
+ * Does nothing when LOG_TRACE_ENABLED != 1
+ * @param message The message to be logged.
+ * @param ... Any formatted data that should be included in the log entry.
+ */
 #define KTRACE(message, ...);
 #define KFORMAT_TRACE(message, ...);
 #define KJUMP_TRACE(times);

@@ -1,3 +1,13 @@
+/**
+ * @file freelist.h
+ * @brief This file contains a free list, used for custom memory allocation tracking.
+ * @version 0.1
+ * 
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #pragma once
 
 #include "defines.h"

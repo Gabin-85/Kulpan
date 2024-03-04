@@ -19,6 +19,7 @@
 #include "systems/material_system.h"
 #include "systems/geometry_system.h"
 #include "systems/resource_system.h"
+#include "systems/shader_system.h"
 
 // TODO: temp
 #include "math/kmath.h"
@@ -48,6 +49,9 @@ typedef struct application_state {
 
     u64 resource_system_memory_requirement;
     void* resource_system_state;
+
+    u64 shader_system_memory_requirement;
+    void* shader_system_state;
 
     u64 renderer_system_memory_requirement;
     void* renderer_system_state;
@@ -123,7 +127,6 @@ b8 application_create(game* game_inst) {
     game_inst->state = kallocate(game_inst->state_memory_requirement, MEMORY_TAG_GAME);
 
     // Stand up the application state.
-
     game_inst->application_state = kallocate(sizeof(application_state), MEMORY_TAG_APPLICATION);
     app_state = game_inst->application_state;
     app_state->game_inst = game_inst;
@@ -188,6 +191,19 @@ b8 application_create(game* game_inst) {
         return false;
     }
 
+    // Shader system
+    shader_system_config shader_sys_config;
+    shader_sys_config.max_shader_count = 1024;
+    shader_sys_config.max_uniform_count = 128;
+    shader_sys_config.max_global_textures = 31;
+    shader_sys_config.max_instance_textures = 31;
+    shader_system_initialize(&app_state->shader_system_memory_requirement, 0, shader_sys_config);
+    app_state->shader_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->shader_system_memory_requirement);
+    if(!shader_system_initialize(&app_state->shader_system_memory_requirement, app_state->shader_system_state, shader_sys_config)) {
+        KFATAL("Failed to initialize shader system. Aborting application.");
+        return false;
+    }
+
     // Renderer system
     renderer_system_initialize(&app_state->renderer_system_memory_requirement, 0, 0);
     app_state->renderer_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->renderer_system_memory_requirement);
@@ -220,7 +236,7 @@ b8 application_create(game* game_inst) {
     geometry_system_config geometry_sys_config;
     geometry_sys_config.max_geometry_count = 4096;
     geometry_system_initialize(&app_state->geometry_system_memory_requirement, 0, geometry_sys_config);
-    app_state->geometry_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->material_system_memory_requirement);
+    app_state->geometry_system_state = linear_allocator_allocate(&app_state->systems_allocator, app_state->geometry_system_memory_requirement);
     if (!geometry_system_initialize(&app_state->geometry_system_memory_requirement, app_state->geometry_system_state, geometry_sys_config)) {
         KFATAL("Failed to initialize geometry system. Application cannot continue.");
         return false;
@@ -296,7 +312,7 @@ b8 application_run() {
     clock_start(&app_state->clock);
     clock_update(&app_state->clock);
     app_state->last_time = app_state->clock.elapsed;
-    f64 running_time = 0;
+    //f64 running_time = 0;
     u8 frame_count = 0;
     f64 target_frame_seconds = 1.0f / 60;
 
@@ -351,7 +367,7 @@ b8 application_run() {
             // Figure out how long the frame took and, if below
             f64 frame_end_time = platform_get_absolute_time();
             f64 frame_elapsed_time = frame_end_time - frame_start_time;
-            running_time += frame_elapsed_time;
+            //running_time += frame_elapsed_time;
             f64 remaining_seconds = target_frame_seconds - frame_elapsed_time;
 
             if (remaining_seconds > 0) {
@@ -394,6 +410,8 @@ b8 application_run() {
     material_system_shutdown(app_state->material_system_state);
 
     texture_system_shutdown(app_state->texture_system_state);
+
+    shader_system_shutdown(app_state->shader_system_state);
 
     renderer_system_shutdown(app_state->renderer_system_state);
 

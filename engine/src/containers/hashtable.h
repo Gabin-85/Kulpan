@@ -1,3 +1,13 @@
+/**
+ * @file hashtable.h
+ * 
+ * @brief This file contains the hashtable implementation.
+ * 
+ * 
+ * @copyright Kulpan Game Engine
+ * 
+ */
+
 #pragma once
 
 #include "defines.h"
@@ -23,7 +33,7 @@ typedef struct hashtable {
  * 
  * @param element_size The size of each element in bytes.
  * @param element_count The maximum number of elements. Cannot be resized.
- * @param memory A block of memory to be used. Should be equal in size to element_size * element_count;
+ * @param memory A pointer to hold a block of memory to be used. Internally allocated. Will be equal in size to element_size * element_count.
  * @param is_pointer_type Indicates if this hashtable will hold pointer types.
  * @param out_hashtable A pointer to a hashtable in which to hold relevant data.
  */

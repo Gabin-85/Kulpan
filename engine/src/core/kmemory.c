@@ -32,7 +32,8 @@ static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
     "TRANSFORM  ",
     "ENTITY     ",
     "ENTITY_NODE",
-    "SCENE      "};
+    "SCENE      ",
+    "RESOURCE   "};
 
 typedef struct memory_system_state {
     memory_system_configuration config;
@@ -119,7 +120,7 @@ void* kallocate(u64 size, memory_tag tag) {
         return block;
     }
 
-    KFATAL("kallocate failed to allocate.");
+    KFATAL("kallocate failed to allocate successfully.");
     return 0;
 }
 
