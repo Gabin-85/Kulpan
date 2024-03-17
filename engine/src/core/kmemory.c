@@ -96,7 +96,7 @@ void memory_system_shutdown() {
 
 void* kallocate(u64 size, memory_tag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
-        KWARN("kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
+        KWARN("Kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.");
     }
 
     // Either allocate from the system's allocator or the OS. The latter shouldn't ever

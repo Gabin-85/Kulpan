@@ -23,6 +23,7 @@ typedef struct renderer_system_state {
     mat4 projection;
     mat4 view;
     vec4 ambient_colour;
+    vec3 view_position;
     mat4 ui_projection;
     mat4 ui_view;
     f32 near_clip;
@@ -82,7 +83,7 @@ b8 renderer_system_initialize(u64* memory_requirement, void* state, const char* 
     // TODO: configurable camera starting position.
     state_ptr->view = mat4_translation((vec3){0, 0, -30.0f});
     state_ptr->view = mat4_inverse(state_ptr->view);
-    // TODO: Obtain from the scene
+    // TODO: Obtain from scene
     state_ptr->ambient_colour = (vec4){0.25f, 0.25f, 0.25f, 1.0f};
 
     // UI projection/view
@@ -105,7 +106,7 @@ void renderer_on_resized(u16 width, u16 height) {
         state_ptr->ui_projection = mat4_orthographic(0, (f32)width, (f32)height, 0, -100.f, 100.0f);  // Intentionally flipped on y axis.
         state_ptr->backend.resized(&state_ptr->backend, width, height);
     } else {
-        KWARN("renderer backend does not exist to accept resize: %i %i", width, height);
+        KWARN("Renderer backend does not exist to accept resize: %i %i", width, height);
     }
 }
 
@@ -124,7 +125,7 @@ b8 renderer_draw_frame(render_packet* packet) {
         }
 
         // Apply globals
-        if(!material_system_apply_global(state_ptr->material_shader_id, &state_ptr->projection, &state_ptr->view, &state_ptr->ambient_colour)) {
+        if(!material_system_apply_global(state_ptr->material_shader_id, &state_ptr->projection, &state_ptr->view, &state_ptr->ambient_colour, &state_ptr->view_position)) {
             KERROR("Failed to use apply globals for material shader. Render frame failed.");
             return false;
         }
@@ -171,7 +172,7 @@ b8 renderer_draw_frame(render_packet* packet) {
         }
 
         // Apply globals
-        if(!material_system_apply_global(state_ptr->ui_shader_id, &state_ptr->ui_projection, &state_ptr->ui_view, 0)) {
+        if (!material_system_apply_global(state_ptr->ui_shader_id, &state_ptr->ui_projection, &state_ptr->ui_view, 0, 0)) {
             KERROR("Failed to use apply globals for UI shader. Render frame failed.");
             return false;
         }
@@ -217,8 +218,9 @@ b8 renderer_draw_frame(render_packet* packet) {
     return true;
 }
 
-void renderer_set_view(mat4 view) {
+void renderer_set_view(mat4 view, vec3 view_position) {
     state_ptr->view = view;
+    state_ptr->view_position = view_position;
 }
 
 void renderer_create_texture(const u8* pixels, struct texture* texture) {
