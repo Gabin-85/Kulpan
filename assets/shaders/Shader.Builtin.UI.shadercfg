@@ -1,4 +1,4 @@
-# Kohi shader config file
+# Kulpan shader config file
 version=1.0
 name=Shader.Builtin.UI
 renderpass=Renderpass.Builtin.UI

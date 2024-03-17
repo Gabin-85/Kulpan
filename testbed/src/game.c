@@ -72,7 +72,7 @@ b8 game_update(game* game_inst, f32 delta_time) {
     game_state* state = (game_state*)game_inst->state;
 
     // HACK: temp hack to move camera around.
-    if (input_is_key_down('A') || input_is_key_down(KEY_LEFT)) {
+    if (input_is_key_down('Q') || input_is_key_down(KEY_LEFT)) {
         camera_yaw(state, 1.0f * delta_time);
     }
 
@@ -91,7 +91,7 @@ b8 game_update(game* game_inst, f32 delta_time) {
     f32 temp_move_speed = 50.0f;
     vec3 velocity = vec3_zero();
 
-    if (input_is_key_down('W')) {
+    if (input_is_key_down('Z')) {
         vec3 forward = mat4_forward(state->view);
         velocity = vec3_add(velocity, forward);
     }
@@ -101,7 +101,7 @@ b8 game_update(game* game_inst, f32 delta_time) {
         velocity = vec3_add(velocity, backward);
     }
 
-    if (input_is_key_down('Q')) {
+    if (input_is_key_down('A')) {
         vec3 left = mat4_left(state->view);
         velocity = vec3_add(velocity, left);
     }
