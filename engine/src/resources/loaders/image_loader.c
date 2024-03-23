@@ -5,11 +5,15 @@
 #include "core/kstring.h"
 #include "resources/resource_types.h"
 #include "systems/resource_system.h"
+#include "platform/filesystem.h"
 #include "loader_utils.h"
 
 // TODO: resource loader.
 #define STB_IMAGE_IMPLEMENTATION
 #include "vendor/stb_image.h"
+
+#define IMAGE_EXTENSION_COUNT 4
+static char *supported_extensions[IMAGE_EXTENSION_COUNT] = {".tga", ".png", ".jpg", ".bmp"};
 
 b8 image_loader_load(struct resource_loader* self, const char* name, resource* out_resource) {
     if (!self || !name || !out_resource) {
@@ -21,8 +25,24 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
     stbi_set_flip_vertically_on_load(true);
     char full_file_path[512];
 
-    // TODO: try different extensions
-    string_format(full_file_path, format_str, resource_system_base_path(), self->type_path, name, ".png");
+    // Try different extensions
+    b8 found = false;
+    for (u32 i = 0; i < IMAGE_EXTENSION_COUNT; ++i) {
+        string_format(full_file_path, format_str, resource_system_base_path(), self->type_path, name, supported_extensions[i]);
+        if (filesystem_exists(full_file_path)) {
+            found = true;
+            break;
+        }
+    }
+
+    // Take a copy of the resource full path and name first.
+    out_resource->full_path = string_duplicate(full_file_path);
+    out_resource->name = name;
+
+    if (!found) {
+        KERROR("Image resource loader failed find file '%s'.", full_file_path);
+        return false;
+    }
 
     i32 width;
     i32 height;
@@ -37,18 +57,18 @@ b8 image_loader_load(struct resource_loader* self, const char* name, resource* o
         &channel_count,
         required_channel_count);
 
-    // Check for a failure reason. If there is one, abort, clear memory if allocated, return false.
-    const char* fail_reason = stbi_failure_reason();
-    if (fail_reason) {
-        KERROR("Image resource loader failed to load file '%s': %s", full_file_path, fail_reason);
-        // Clear the error so the next load doesn't fail.
-        stbi__err(0, 0);
+    // // Check for a failure reason. If there is one, abort, clear memory if allocated, return false.
+    // const char* fail_reason = stbi_failure_reason();
+    // if (fail_reason) {
+    //     KERROR("Image resource loader failed to load file '%s': %s", full_file_path, fail_reason);
+    //     // Clear the error so the next load doesn't fail.
+    //     stbi__err(0, 0);
 
-        if (data) {
-            stbi_image_free(data);
-        }
-        return false;
-    }
+    //     if (data) {
+    //         stbi_image_free(data);
+    //     }
+    //     return false;
+    // }
 
     if (!data) {
         KERROR("Image resource loader failed to load file '%s'.", full_file_path);
