@@ -1,4 +1,5 @@
 bin/
 obj/
 *.spv
+*.ksm
 docs/
