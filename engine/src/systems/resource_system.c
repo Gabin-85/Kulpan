@@ -32,6 +32,8 @@ b8 resource_system_initialize(u64* memory_requirement, void* state, resource_sys
         return true;
     }
 
+    KINFO("Innitializing resource system...");
+
     state_ptr = state;
     state_ptr->config = config;
 

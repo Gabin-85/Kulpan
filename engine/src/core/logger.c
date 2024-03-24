@@ -40,6 +40,7 @@ b8 initialize_logging(u64* memory_requirement, void* state) {
     }
 
     KDEBUG("Logger subsystem initialized.");
+    KDEBUG("Log subsystem test :")
 
     // TODO: Remove this
     KJUMP(1);
