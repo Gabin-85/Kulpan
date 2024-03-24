@@ -40,6 +40,7 @@ void camera_pitch(game_state* state, f32 amount) {
 
 b8 game_initialize(game* game_inst) {
     KDEBUG("game_initialize() called!");
+    KJUMP(1);
 
     game_state* state = (game_state*)game_inst->state;
 
