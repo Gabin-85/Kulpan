@@ -58,7 +58,8 @@
         "loader_utils.h": "c",
         "kmath.h": "c",
         "random": "c",
-        "geometry_utils.h": "c"
+        "geometry_utils.h": "c",
+        "xiosbase": "c"
     },
     // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
     "doxdocgen.file.copyrightTag": [
