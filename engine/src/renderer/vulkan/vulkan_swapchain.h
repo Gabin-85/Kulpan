@@ -1,12 +1,8 @@
 /**
  * @file vulkan_swapchain.h
- * 
  * @brief The Vulkan swapchain, which works with the framebuffer/attachments and
  * the surface to present an image to the screen.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -15,7 +11,6 @@
 
 /**
  * @brief Creates a new swapchain.
- * 
  * @param context A pointer to the Vulkan context.
  * @param width The initial width of the surface area.
  * @param height The initial height of the surface area.
@@ -31,7 +26,6 @@ void vulkan_swapchain_create(
  * @brief Recreates the given swapchain with the given width and
  * height, replacing the internal swapchain with the newly-created
  * one.
- * 
  * @param context A pointer to the Vulkan context.
  * @param width The new width of the surface area.
  * @param height The new width of the surface area.
@@ -45,7 +39,6 @@ void vulkan_swapchain_recreate(
 
 /**
  * @brief Destroys the given swapchain.
- * 
  * @param context A pointer to the Vulkan context.
  * @param swapchain A pointer to the swapchain to be destroyed.
  */
@@ -55,7 +48,6 @@ void vulkan_swapchain_destroy(
 
 /**
  * @brief Acquires the index of the next image to be rendered to.
- * 
  * @param context A pointer to the Vulkan context.
  * @param swapchain A pointer to the swapchain to acquire the image index from.
  * @param timeout_ns The maximum amount of time that can pass before the operation is considered failed.
@@ -74,7 +66,6 @@ b8 vulkan_swapchain_acquire_next_image_index(
 
 /**
  * @brief Presents the swapchain's current image to the surface.
- * 
  * @param context A pointer to the Vulkan context.
  * @param swapchain A pointer to the swapchain to present.
  * @param graphics_queue description The graphics queue used for presentation. 

@@ -1,15 +1,11 @@
 /**
  * @file kmemory.h
- * 
  * @brief This file contains the structures and functions of the memory system.
  * This is responsible for memory interaction with the platform layer, such as
  * allocations/frees and tagging of memory allocations.
  * @note Note that reliance on this will likely be by core systems only, as items using
  * allocations directly will use allocators as they are added to the system.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once

@@ -1,13 +1,9 @@
 /**
  * @file vulkan_platform.h
- * 
  * @brief This file contains the "front end interface" for where the platform
  * and Vulkan meet. The implementation for this should exist in the corresponding
  * .c file for a given platform.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 #pragma once
 
@@ -18,7 +14,6 @@ struct vulkan_context;
 
 /**
  * @brief Creates and assigns a surface to the given context.
- * 
  * @param context A pointer to the Vulkan context.
  * @return True on success; otherwise false.
  */

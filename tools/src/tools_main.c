@@ -38,9 +38,8 @@ i32 process_shaders(i32 argc, char** argv) {
     // Starting at third argument. One argument = 1 shader.
     for (u32 i = 2; i < argc; ++i) {
         char* sdk_path;
-        size_t len;
-        errno_t err = _dupenv_s(&sdk_path, &len, "VULKAN_SDK");
-        if (!sdk_path || err != 0) {
+        sdk_path = getenv("VULKAN_SDK");
+        if (!sdk_path) {
             KERROR("Environment variable VULKAN_SDK not found. Check your Vulkan installation.");
             return -4;
         }

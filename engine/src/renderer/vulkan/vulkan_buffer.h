@@ -1,11 +1,7 @@
 /**
  * @file vulkan_buffer.h
- * 
  * @brief A Vulkan-specific data buffer.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -14,7 +10,6 @@
 
 /**
  * @brief Creates a new Vulkan buffer.
- * 
  * @param context A pointer to the Vulkan context.
  * @param size The size of the buffer in bytes.
  * @param usage The buffer usage flags (VkBufferUsageFlagBits)
@@ -35,7 +30,6 @@ b8 vulkan_buffer_create(
 
 /**
  * @brief Destroys the given buffer.
- * 
  * @param context A pointer to the Vulkan context.
  * @param buffer A pointer to the buffer to be destroyed.
  */
@@ -45,7 +39,6 @@ void vulkan_buffer_destroy(vulkan_context* context, vulkan_buffer* buffer);
  * @brief Resizes the given buffer. In this case, a new internal buffer of the given
  * size is created, data from the old buffer is copied to it, then the old buffer is
  * destroyed. This means this operation must be done when the buffer is not in use.
- * 
  * @param context A pointer to the Vulkan context.
  * @param new_size The new size of the buffer.
  * @param buffer A pointer to the buffer to be resized.
@@ -62,7 +55,6 @@ b8 vulkan_buffer_resize(
 
 /**
  * @brief Binds the given buffer for use.
- * 
  * @param context A pointer to the Vulkan context.
  * @param buffer A pointer to the buffer to be bound.
  * @param offset An offset in bytes to bind the buffer at.
@@ -72,7 +64,6 @@ void vulkan_buffer_bind(vulkan_context* context, vulkan_buffer* buffer, u64 offs
 /**
  * @brief Locks (or maps) the buffer memory to a temporary location of host memory, which should be unlocked before 
  * shutdown or destruction.
- * 
  * @param context A pointer to the Vulkan context.
  * @param buffer A pointer to the buffer whose memory should be locked.
  * @param offset An offset in bytes to lock the memory at.
@@ -84,7 +75,6 @@ void* vulkan_buffer_lock_memory(vulkan_context* context, vulkan_buffer* buffer, 
 
 /**
  * @brief Unlocks (or unmaps) the buffer memory.
- * 
  * @param context A pointer to the Vulkan context.
  * @param buffer A pointer to the buffer whose memory should be unlocked.
  */
@@ -93,7 +83,6 @@ void vulkan_buffer_unlock_memory(vulkan_context* context, vulkan_buffer* buffer)
 /**
  * @brief Allocates space from a vulkan buffer. Provides the offset at which the
  * allocation occurred. This will be required for data copying and freeing.
- * 
  * @param buffer A pointer to the buffer from which to allocate.
  * @param size The size in bytes to be allocated.
  * @param out_offset A pointer to hold the offset in bytes from the beginning of the buffer.
@@ -103,7 +92,6 @@ b8 vulkan_buffer_allocate(vulkan_buffer* buffer, u64 size, u64* out_offset);
 
 /**
  * @brief Frees space in the vulkan buffer.
- * 
  * @param buffer A pointer to the buffer to free data from.
  * @param size The size in bytes to be freed.
  * @param offset The offset in bytes from the beginning of the buffer.
@@ -114,7 +102,6 @@ b8 vulkan_buffer_free(vulkan_buffer* buffer, u64 size, u64 offset);
 /**
  * @brief Loads a data range into the given buffer at a given offset. Internally performs a map,
  * copy and unmap.
- * 
  * @param context A pointer to the Vulkan context.
  * @param buffer A pointer to the buffer to load into.
  * @param offset The offset in bytes from the beginning of the buffer.
@@ -126,7 +113,6 @@ void vulkan_buffer_load_data(vulkan_context* context, vulkan_buffer* buffer, u64
 
 /**
  * @brief Copies a range of data from one buffer to another.
- * 
  * @param context A pointer to the Vulkan context.
  * @param pool The command pool to be used.
  * @param @deprecated fence A fence to be used.

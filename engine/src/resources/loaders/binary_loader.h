@@ -1,11 +1,7 @@
 /**
  * @file binary_loader.h
- * 
  * @brief A resource loader that handles binary resources.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -14,7 +10,6 @@
 
 /**
  * @brief Creates and returns a binary resource loader.
- * 
  * @return The newly created resource loader.
  */
 resource_loader binary_resource_loader_create();

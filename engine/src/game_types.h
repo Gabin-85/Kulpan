@@ -1,11 +1,7 @@
 /**
  * @file game_types.h
- * 
  * @brief This file contains types to be consumed by the game library.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once

@@ -1,11 +1,7 @@
 /**
  * @file vulkan_shader_utils.h
- * 
  * @brief A collection of shader utility functions.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -14,7 +10,6 @@
 
 /**
  * @brief Create a shader module object
- * 
  * @param context A pointer to the Vulkan context.
  * @param name The name of the shader module.
  * @param type_str A string representation of the shader type.

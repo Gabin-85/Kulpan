@@ -1,12 +1,8 @@
 /**
  * @file filesystem.h
- * 
  * @brief This file contains structures and functions for interacting with
  * the file system.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -54,7 +50,6 @@ KAPI void filesystem_close(file_handle* handle);
 
 /**
  * @brief Attempts to read the size of the file to which handle is attached.
- * 
  * @param handle The file handle.
  * @param out_size A pointer to hold the file size.
  * @return KAPI 

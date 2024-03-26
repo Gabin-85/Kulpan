@@ -1,11 +1,7 @@
 /**
  * @file logger.h
- * 
  * @brief This file contains structures and logic pertaining to the logging system.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 #pragma once
 
@@ -45,7 +41,6 @@ typedef enum log_level {
 /**
  * @brief Initializes logging system. Call twice; once with state = 0 to get required memory size,
  * then a second time passing allocated memory to state.
- * 
  * @param memory_requirement A pointer to hold the required memory size of internal state.
  * @param state 0 if just requesting memory requirement, otherwise allocated block of memory.
  * @return b8 True on success; otherwise false.

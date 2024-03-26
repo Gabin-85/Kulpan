@@ -44,24 +44,21 @@ void camera_system_shutdown(void* state);
  * @brief Acquires a pointer to a camera by name.
  * If one is not found, a new one is created and retuned.
  * Internal reference counter is incremented.
- * 
  * @param name The name of the camera to acquire.
  * @return A pointer to a camera if successful; 0 if an error occurs.
  */
-camera* camera_system_acquire(const char* name);
+KAPI camera* camera_system_acquire(const char* name);
 
 /**
  * @brief Releases a camera with the given name. Intenral reference
  * counter is decremented. If this reaches 0, the camera is reset,
  * and the reference is usable by a new camera.
- * 
  * @param name The name of the camera to release.
  */
-void camera_system_release(const char* name);
+KAPI void camera_system_release(const char* name);
 
 /**
  * @brief Gets a pointer to the default camera.
- * 
  * @return A pointer to the default camera.
  */
 KAPI camera* camera_system_get_default();

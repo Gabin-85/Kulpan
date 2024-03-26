@@ -1,16 +1,12 @@
 /**
  * @file entry.h
- * 
  * @brief This file contains the main entry point to the application. 
  * It also contains a reference to an externally defined create_game
  * method, which should create and set a custom game object to the
  * location pointed to by out_game. This would be provided by the
  * consuming application, which is then hooked into the engine itself
  * during the bootstrapping phase.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once

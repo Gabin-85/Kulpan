@@ -1,13 +1,9 @@
 /**
  * @file defines.h
- * 
  * @brief This file contains global type definitions which are used 
  * throughout the entire engine and applications referencing it. 
  * Numeric types are asserted statically to gurantee expected size.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once

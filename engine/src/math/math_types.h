@@ -1,11 +1,7 @@
 /**
  * @file math_types.h
- * 
  * @brief Contains various math types required for the engine.
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once

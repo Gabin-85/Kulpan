@@ -268,8 +268,7 @@ typedef struct renderer_backend {
 
     /**
      * @brief Creates internal shader resources using the provided parameters.
-     * 
-     * @param s A pointer to the shader.
+         * @param s A pointer to the shader.
      * @param pass A pointer to the renderpass to be associated with the shader.
      * @param stage_count The total number of stages.
      * @param stage_filenames An array of shader stage filenames to be loaded. Should align with stages array.
@@ -357,8 +356,7 @@ typedef struct renderer_backend {
 
     /**
      * @brief Sets the uniform of the given shader to the provided value.
-     * 
-     * @param s A ponter to the shader.
+         * @param s A ponter to the shader.
      * @param uniform A constant pointer to the uniform.
      * @param value A pointer to the value to be set.
      * @return b8 True on success; otherwise false.
@@ -367,16 +365,14 @@ typedef struct renderer_backend {
 
     /**
      * @brief Acquires internal resources for the given texture map.
-     * 
-     * @param map A pointer to the texture map to obtain resources for.
+         * @param map A pointer to the texture map to obtain resources for.
      * @return True on success; otherwise false.
      */
     b8 (*texture_map_acquire_resources)(struct texture_map* map);
 
     /**
      * @brief Releases internal resources for the given texture map.
-     * 
-     * @param map A pointer to the texture map to release resources from.
+         * @param map A pointer to the texture map to release resources from.
      */
     void (*texture_map_release_resources)(struct texture_map* map);
 

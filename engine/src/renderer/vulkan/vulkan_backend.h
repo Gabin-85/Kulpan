@@ -1,6 +1,5 @@
 /**
  * @file vulkan_backend.h
- * 
  * @brief This file contains the Vulkan implementation of the renderer backend.
  * All Vulkan calls are made behind this facade to keep the rest of the engine
  * unaware about the inner workings of Vulkan.

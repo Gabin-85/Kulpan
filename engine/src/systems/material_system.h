@@ -1,9 +1,7 @@
 /**
  * @file material_system.h
- * 
  * @brief The material system is responsible for managing materials in the
  * engine, including reference counting and auto-unloading.
- * 
  * @copyright Kulpan Game Engine
  *
  */
@@ -78,7 +76,6 @@ material* material_system_get_default();
 
 /**
  * @brief Applies global-level data for the material shader id.
- * 
  * @param shader_id The identifier of the shader to apply globals for.
  * @param renderer_frame_number The renderer's current frame number.
  * @param projection A constant pointer to a projection matrix.
