@@ -5,6 +5,7 @@
 #include "core/logger.h"
 #include "core/kmemory.h"
 #include "math/kmath.h"
+#include "platform/platform.h"
 
 #include "resources/resource_types.h"
 #include "systems/resource_system.h"
@@ -212,7 +213,7 @@ b8 renderer_draw_frame(render_packet* packet) {
         state_ptr->frames_since_resize++;
 
         // If the required number of frames have passed since the resize, go ahead and perform the actual updates.
-        if (state_ptr->frames_since_resize >= 30) {
+        if (state_ptr->frames_since_resize >= 20) {
             f32 width = state_ptr->framebuffer_width;
             f32 height = state_ptr->framebuffer_height;
             render_view_system_on_window_resize(width, height);
@@ -222,6 +223,8 @@ b8 renderer_draw_frame(render_packet* packet) {
             state_ptr->resizing = false;
         } else {
             // Skip rendering the frame and try again next time.
+            // NOTE: Simulate a 60hz refresh rate.
+            platform_sleep(16);
             return true;
         }
     }

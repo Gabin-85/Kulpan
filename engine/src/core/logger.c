@@ -40,10 +40,10 @@ b8 initialize_logging(u64* memory_requirement, void* state) {
     }
 
     KDEBUG("Logger subsystem initialized.");
-    KDEBUG("Log subsystem test :")
 
     // TODO: Remove this
     KJUMP(1);
+    KDEBUG("Log subsystem test :");
     KFATAL("A test message: %f", 3.14f);
     KERROR("A test message: %f", 3.14f);
     KWARN("A test message: %f", 3.14f);
