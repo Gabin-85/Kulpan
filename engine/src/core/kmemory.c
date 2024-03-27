@@ -20,6 +20,7 @@ static const char* memory_tag_strings[MEMORY_TAG_MAX_TAGS] = {
     "ARRAY      ",
     "LINEAR_ALLC",
     "DARRAY     ",
+    "HASH_TABLE ",
     "DICT       ",
     "RING_QUEUE ",
     "BST        ",
@@ -268,7 +269,7 @@ char* get_memory_usage_str() {
 
         f64 percent_used = (f64)(used_space) / total_space;
 
-        i32 length = snprintf(buffer + offset, 8000, "Total memory usage: %.2f%s of %.2f%s (%.2f%%)\n", used_amount, used_unit, total_amount, total_unit, percent_used);
+        i32 length = snprintf(buffer + offset, 8000, "Total memory usage: %.2f%s of %.2f%s (%.2f%%/100)\n", used_amount, used_unit, total_amount, total_unit, percent_used);
         offset += length;
     }
 

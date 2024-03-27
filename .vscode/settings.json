@@ -64,7 +64,12 @@
         "camera_system.h": "c",
         "shader_system.h": "c",
         "render_view_system.h": "c",
-        "darray.h": "c"
+        "darray.h": "c",
+        "xlocale": "c",
+        "array": "c",
+        "xtree": "c",
+        "format": "c",
+        "span": "c"
     },
     // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
     "doxdocgen.file.copyrightTag": [
