@@ -1,3 +1,14 @@
+/**
+ * @file resource_types.h
+
+ * @brief This file contains the types for common resources the engine uses.
+ * 
+ * 
+ *
+ * @copyright Kulpan Game Engine
+ *
+ */
+
 #pragma once
 
 #include "math/math_types.h"
@@ -12,10 +23,10 @@ typedef enum resource_type {
     RESOURCE_TYPE_IMAGE,
     /** @brief Material resource type. */
     RESOURCE_TYPE_MATERIAL,
-    /** @brief Static mesh resource type. */
-    RESOURCE_TYPE_MESH,
     /** @brief Shader resource type (or more accurately shader config). */
     RESOURCE_TYPE_SHADER,
+    /** @brief Mesh resource type (collection of geometry configs). */
+    RESOURCE_TYPE_MESH,
     /** @brief Custom resource type. Used by loaders outside the core engine. */
     RESOURCE_TYPE_CUSTOM
 } resource_type;
@@ -83,6 +94,9 @@ typedef enum texture_flag {
     TEXTURE_FLAG_IS_WRAPPED = 0x4,
 } texture_flag;
 
+/** @brief Holds bit flags for textures.. */
+typedef u8 texture_flag_bits;
+
 /**
  * @brief Represents various types of textures.
  */
@@ -92,9 +106,6 @@ typedef enum texture_type {
     /** @brief A cube texture, used for cubemaps. */
     TEXTURE_TYPE_CUBE
 } texture_type;
-
-/** @brief Holds bit flags for textures.. */
-typedef u8 texture_flag_bits;
 
 /**
  * @brief Represents a texture.
@@ -134,11 +145,11 @@ typedef enum texture_use {
     TEXTURE_USE_MAP_CUBEMAP = 0x04,
 } texture_use;
 
-/** @brief Represents supported texture filtering modes.*/
+/** @brief Represents supported texture filtering modes. */
 typedef enum texture_filter {
-    /** @brief Nearest-neighbor filtering */
+    /** @brief Nearest-neighbor filtering. */
     TEXTURE_FILTER_MODE_NEAREST = 0x0,
-    /** @brief Linear (i.e. bilinear) filtering */
+    /** @brief Linear (i.e. bilinear) filtering.*/
     TEXTURE_FILTER_MODE_LINEAR = 0x1
 } texture_filter;
 

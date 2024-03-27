@@ -43,6 +43,7 @@ static texture_system_state* state_ptr = 0;
 
 b8 create_default_textures(texture_system_state* state);
 void destroy_default_textures(texture_system_state* state);
+b8 load_texture(const char* texture_name, texture* t);
 b8 load_cube_textures(const char* name, const char texture_names[6][TEXTURE_NAME_MAX_LENGTH], texture* t);
 void destroy_texture(texture* t);
 b8 process_texture_reference(const char* name, texture_type type, i8 reference_diff, b8 auto_release, b8 skip_load, u32* out_texture_id);
@@ -202,6 +203,7 @@ texture* texture_system_wrap_internal(const char* name, u32 width, u32 height, u
     }
 
     t->id = id;
+    t->type = TEXTURE_TYPE_2D;
     string_ncopy(t->name, name, TEXTURE_NAME_MAX_LENGTH);
     t->width = width;
     t->height = height;

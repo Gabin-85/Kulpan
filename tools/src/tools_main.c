@@ -5,7 +5,6 @@
 // For executing shell commands.
 #include <stdlib.h>
 
-
 void print_help();
 i32 process_shaders(i32 argc, char** argv);
 
@@ -37,8 +36,7 @@ i32 process_shaders(i32 argc, char** argv) {
 
     // Starting at third argument. One argument = 1 shader.
     for (u32 i = 2; i < argc; ++i) {
-        char* sdk_path;
-        sdk_path = getenv("VULKAN_SDK");
+        char* sdk_path = getenv("VULKAN_SDK");
         if (!sdk_path) {
             KERROR("Environment variable VULKAN_SDK not found. Check your Vulkan installation.");
             return -4;
@@ -92,7 +90,7 @@ void print_help() {
     const char* extension = "";
 #endif
     KINFO(
-        "Kulpan Game Engine Tools.\n\
+        "Kulpan Game Engine Tools, Copyright 2021-2022 Travis Vroman.\n\
   usage:  tools%s <mode> [arguments...]\n\
   \n\
   modes:\n\

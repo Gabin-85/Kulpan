@@ -2,14 +2,12 @@ DIR := $(subst /,\,${CURDIR})
 BUILD_DIR := bin
 OBJ_DIR := obj
 
-DEFINES := _CRT_SECURE_NO_WARNINGS
-
 ASSEMBLY := tools
 EXTENSION := .exe
 COMPILER_FLAGS := -g -MD -Werror=vla -Wno-missing-braces -fdeclspec #-fPIC
 INCLUDE_FLAGS := -Iengine\src -Itools\src 
 LINKER_FLAGS := -g -lengine.lib -L$(OBJ_DIR)\engine -L$(BUILD_DIR) #-Wl,-rpath,.
-DEFINES := -D_DEBUG -DKIMPORT -D_CRT_SECURE_NO_WARNINGS
+DEFINES := -D_DEBUG -DKIMPORT -D_CRT_SECURE_NO_WARNINGS 
 
 # Make does not offer a recursive wildcard function, so here's one:
 rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))

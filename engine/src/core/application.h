@@ -1,10 +1,15 @@
 /**
  * @file application.h
+
  * @brief This file contains structures and logic pertaining to the
  * overall engine application itself. 
  * The application is responsible for managing both the platform layers
  * as well as all systems within the engine.
+ * 
+ * 
+ * 
  * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once

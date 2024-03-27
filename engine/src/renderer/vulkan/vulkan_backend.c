@@ -81,7 +81,7 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const renderer_
     context.on_rendertarget_refresh_required = config->on_rendertarget_refresh_required;
 
     // Just set some default values for the framebuffer for now.
-    // It doesn't really matter what these are because they will be
+    // It doesn't really matyer what these are because they will be
     // overridden, but are needed for swapchain creation.
     context.framebuffer_width = 800;
     context.framebuffer_height = 600;
@@ -168,7 +168,6 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const renderer_
     create_info.enabledLayerCount = required_validation_layer_count;
     create_info.ppEnabledLayerNames = required_validation_layer_names;
 
-    KINFO("Creating Vulkan instance...");
     VK_CHECK(vkCreateInstance(&create_info, context.allocator, &context.instance));
     KINFO("Vulkan Instance created.");
 
@@ -568,7 +567,7 @@ b8 vulkan_renderer_renderpass_begin(renderpass* pass, render_target* target) {
         begin_info.clearValueCount++;
     }
 
-     b8 do_clear_depth = (pass->clear_flags & RENDERPASS_CLEAR_DEPTH_BUFFER_FLAG) != 0;
+    b8 do_clear_depth = (pass->clear_flags & RENDERPASS_CLEAR_DEPTH_BUFFER_FLAG) != 0;
     if (do_clear_depth) {
         kcopy_memory(clear_values[begin_info.clearValueCount].color.float32, pass->clear_colour.elements, sizeof(f32) * 4);
         clear_values[begin_info.clearValueCount].depthStencil.depth = internal_data->depth;
@@ -610,7 +609,6 @@ renderpass* vulkan_renderer_renderpass_get(const char* name) {
     return &context.registered_passes[id];
 }
 
-
 VKAPI_ATTR VkBool32 VKAPI_CALL vk_debug_callback(
     VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
     VkDebugUtilsMessageTypeFlagsEXT message_types,
@@ -650,8 +648,7 @@ i32 find_memory_index(u32 type_filter, u32 property_flags) {
 }
 
 void create_command_buffers(renderer_backend* backend) {
-    KDEBUG("Creating Vulkan command buffers...");
-
+    KDEBUG("Creating vulkan command buffers...");
     if (!context.graphics_command_buffers) {
         context.graphics_command_buffers = darray_reserve(vulkan_command_buffer, context.swapchain.image_count);
         for (u32 i = 0; i < context.swapchain.image_count; ++i) {
@@ -883,7 +880,7 @@ void vulkan_renderer_texture_resize(texture* t, u32 new_width, u32 new_height) {
 
 void vulkan_renderer_texture_write_data(texture* t, u32 offset, u32 size, const u8* pixels) {
     vulkan_image* image = (vulkan_image*)t->internal_data;
-    VkDeviceSize image_size = t->width * t->height * t->channel_count * (t->type == TEXTURE_TYPE_CUBE ? 6 : 1);;
+    VkDeviceSize image_size = t->width * t->height * t->channel_count * (t->type == TEXTURE_TYPE_CUBE ? 6 : 1);
 
     VkFormat image_format = channel_count_to_format(t->channel_count, VK_FORMAT_R8G8B8A8_UNORM);
 
@@ -1596,7 +1593,6 @@ b8 vulkan_renderer_shader_apply_instance(shader* s, b8 needs_update) {
                 // Update the frame generation. In this case it is only needed once since this is a buffer.
                 *instance_ubo_generation = 1;  // material->generation; TODO: some generation from... somewhere
             }
-
             descriptor_index++;
         }
 
@@ -2042,7 +2038,6 @@ void vulkan_renderer_render_target_create(u8 attachment_count, texture** attachm
 
     VK_CHECK(vkCreateFramebuffer(context.device.logical_device, &framebuffer_create_info, context.allocator, (VkFramebuffer*)&out_target->internal_framebuffer));
 }
-
 void vulkan_renderer_render_target_destroy(render_target* target, b8 free_internal_memory) {
     if (target && target->internal_framebuffer) {
         vkDestroyFramebuffer(context.device.logical_device, (VkFramebuffer)target->internal_framebuffer, context.allocator);

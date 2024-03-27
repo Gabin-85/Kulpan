@@ -117,12 +117,12 @@ b8 platform_system_startup(
         XCB_COPY_FROM_PARENT,  // depth
         state_ptr->window,
         state_ptr->screen->root,        // parent
-        x,                              //x
-        y,                              //y
-        width,                          //width
-        height,                         //height
+        x,                              // x
+        y,                              // y
+        width,                          // width
+        height,                         // height
         0,                              // No border
-        XCB_WINDOW_CLASS_INPUT_OUTPUT,  //class
+        XCB_WINDOW_CLASS_INPUT_OUTPUT,  // class
         state_ptr->screen->root_visual,
         event_mask,
         value_list);
@@ -212,9 +212,9 @@ b8 platform_pump_messages() {
                     xcb_keycode_t code = kb_event->detail;
                     KeySym key_sym = XkbKeycodeToKeysym(
                         state_ptr->display,
-                        (KeyCode)code,  //event.xkey.keycode,
+                        (KeyCode)code,  // event.xkey.keycode,
                         0,
-                          /*code & ShiftMask ? 1 : 0*/);
+                        0 /*code & ShiftMask ? 1 : 0*/);
 
                     keys key = translate_keycode(key_sym);
 
@@ -553,7 +553,7 @@ void platform_get_required_extension_names(const char*** names_darray) {
 
 // Surface creation for Vulkan
 b8 platform_create_vulkan_surface(vulkan_context* context) {
-    if(!state_ptr) {
+    if (!state_ptr) {
         return false;
     }
 
@@ -584,8 +584,8 @@ keys translate_keycode(u32 x_keycode) {
             return KEY_ENTER;
         case XK_Tab:
             return KEY_TAB;
-            //case XK_Shift: return KEY_SHIFT;
-            //case XK_Control: return KEY_CONTROL;
+            // case XK_Shift: return KEY_SHIFT;
+            // case XK_Control: return KEY_CONTROL;
 
         case XK_Pause:
             return KEY_PAUSE;

@@ -17,7 +17,6 @@ void vulkan_image_create(
     b32 create_view,
     VkImageAspectFlags view_aspect_flags,
     vulkan_image* out_image) {
-
     // Copy params
     out_image->width = width;
     out_image->height = height;
@@ -31,6 +30,7 @@ void vulkan_image_create(
             image_create_info.imageType = VK_IMAGE_TYPE_2D;
             break;
     }
+
     image_create_info.extent.width = width;
     image_create_info.extent.height = height;
     image_create_info.extent.depth = 1;                                 // TODO: Support configurable depth.

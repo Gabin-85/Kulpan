@@ -104,6 +104,7 @@ b8 mesh_loader_load(struct resource_loader* self, const char* name, void* params
         case MESH_FILE_TYPE_KSM:
             result = load_ksm_file(&f, &resource_data);
             break;
+        default:
         case MESH_FILE_TYPE_NOT_FOUND:
             KERROR("Unable to find mesh of supported type called '%s'.", name);
             result = false;
@@ -158,7 +159,7 @@ b8 load_ksm_file(file_handle* ksm_file, geometry_config** out_geometries_darray)
     // Each geometry
     for (u32 i = 0; i < geometry_count; ++i) {
         geometry_config g = {};
-        
+
         // Vertices (size/count/array)
         filesystem_read(ksm_file, sizeof(u32), &g.vertex_size, &bytes_read);
         filesystem_read(ksm_file, sizeof(u32), &g.vertex_count, &bytes_read);
@@ -182,24 +183,24 @@ b8 load_ksm_file(file_handle* ksm_file, geometry_config** out_geometries_darray)
         filesystem_read(ksm_file, sizeof(char) * m_name_length, g.material_name, &bytes_read);
 
         // Center
-        filesystem_read(ksm_file, sizeof(vec3), &g.center, &bytes_read);
+        filesystem_read(ksm_file, sizeof(vertex_3d), &g.center, &bytes_read);
 
         // Extents (min/max)
-        filesystem_read(ksm_file, sizeof(vec3), &g.min_extents, &bytes_read);
-        filesystem_read(ksm_file, sizeof(vec3), &g.max_extents, &bytes_read);
+        filesystem_read(ksm_file, sizeof(vertex_3d), &g.min_extents, &bytes_read);
+        filesystem_read(ksm_file, sizeof(vertex_3d), &g.max_extents, &bytes_read);
 
         // Add to the output array.
         darray_push(*out_geometries_darray, g);
     }
-    
+
     filesystem_close(ksm_file);
 
     return true;
 }
 
 b8 write_ksm_file(const char* path, const char* name, u32 geometry_count, geometry_config* geometries) {
-    if (!filesystem_exists(path)) {
-        KINFO("File '%s' does not exist and will be overwritten", path);
+    if (filesystem_exists(path)) {
+        KINFO("File '%s' already exists and will be overwritten.", path);
     }
 
     file_handle f;
@@ -247,11 +248,11 @@ b8 write_ksm_file(const char* path, const char* name, u32 geometry_count, geomet
         filesystem_write(&f, sizeof(char) * m_name_length, g->material_name, &written);
 
         // Center
-        filesystem_write(&f, sizeof(vec3), &g->center, &written);
+        filesystem_write(&f, sizeof(vertex_3d), &g->center, &written);
 
         // Extents (min/max)
-        filesystem_write(&f, sizeof(vec3), &g->min_extents, &written);
-        filesystem_write(&f, sizeof(vec3), &g->max_extents, &written);
+        filesystem_write(&f, sizeof(vertex_3d), &g->min_extents, &written);
+        filesystem_write(&f, sizeof(vertex_3d), &g->max_extents, &written);
     }
 
     filesystem_close(&f);
@@ -278,11 +279,10 @@ b8 import_obj_file(file_handle* obj_file, const char* out_ksm_filename, geometry
     // Normals
     vec2* tex_coords = darray_reserve(vec2, 16384);
 
-    // Faces
+    // Groups
     mesh_group_data* groups = darray_reserve(mesh_group_data, 4);
 
     char material_file_name[512] = "";
-    // b8 hit_name = false;
 
     char name[512];
     kzero_memory(name, sizeof(char) * 512);
@@ -359,7 +359,6 @@ b8 import_obj_file(file_handle* obj_file, const char* out_ksm_filename, geometry
                     } break;
                 }
             } break;
-            // case 'g':
             case 's': {
             } break;
             case 'f': {
@@ -414,12 +413,21 @@ b8 import_obj_file(file_handle* obj_file, const char* out_ksm_filename, geometry
                     // TODO: verification
                 }
             } break;
-            case 'g': {
-                // case 'o': {
-                //  New object. process the previous object first if we previously read anything in. This will only be true after the first object..
-                // if (hit_name) {
-                u64 group_count = darray_length(groups);
+            case 'u': {
+                // Any time there is a usemtl, assume a new group.
+                // New named group or smoothing group, all faces coming after should be added to it.
+                mesh_group_data new_group;
+                new_group.faces = darray_reserve(mesh_face_data, 16384);
+                darray_push(groups, new_group);
 
+                // usemtl
+                // Read the material name.
+                char t[8];
+                sscanf(line_buf, "%s %s", t, material_names[current_mat_name_count]);
+                current_mat_name_count++;
+            } break;
+            case 'g': {
+                u64 group_count = darray_length(groups);
                 // Process each group as a subobject.
                 for (u64 i = 0; i < group_count; ++i) {
                     geometry_config new_data = {};
@@ -441,34 +449,18 @@ b8 import_obj_file(file_handle* obj_file, const char* out_ksm_filename, geometry
                     darray_destroy(groups[i].faces);
                     kzero_memory(material_names[i], 64);
                 }
+
                 current_mat_name_count = 0;
                 darray_clear(groups);
                 kzero_memory(name, 512);
-                //}
-
-                // hit_name = true;
 
                 // Read the name
                 char t[2];
                 sscanf(line_buf, "%s %s", t, name);
 
             } break;
-            case 'u': {
-                // Any time there is a usemtl, assume a new group.
-                // New named group or smoothing group, all faces coming after should be added to it.
-                mesh_group_data new_group;
-                new_group.faces = darray_reserve(mesh_face_data, 16384);
-                darray_push(groups, new_group);
-
-                // usemtl
-                // Read the material name.
-                char t[8];
-                sscanf(line_buf, "%s %s", t, material_names[current_mat_name_count]);
-                current_mat_name_count++;
-
-            } break;
         }
-        
+
         prev_first_chars[1] = prev_first_chars[0];
         prev_first_chars[0] = first_char;
     }  // each line
@@ -607,7 +599,7 @@ void process_subobject(vec3* positions, vec3* normals, vec2* tex_coords, mesh_fa
             extent_set = true;
 
             if (skip_normals) {
-                vert.normal = vec3_zero();
+                vert.normal = vec3_create(0, 0, 1);
             } else {
                 vert.normal = normals[index_data.normal_index - 1];
             }
@@ -673,7 +665,6 @@ b8 import_obj_material_library_file(const char* mtl_file_path) {
         }
 
         char first_char = line[0];
-
         switch (first_char) {
             case '#':
                 // Skip comments
@@ -697,7 +688,6 @@ b8 import_obj_material_library_file(const char* mtl_file_path) {
                         // NOTE: This is only used by the colour shader, and will set to max_norm by default.
                         // Transparency could be added as a material property all its own at a later time.
                         current_config.diffuse_colour.a = 1.0f;
-
                     } break;
                     case 's': {
                         // Specular colour
@@ -802,7 +792,6 @@ b8 import_obj_material_library_file(const char* mtl_file_path) {
                 }
             }
         }
-
     }  // each line
 
     // Write out the remaining kmt file.
@@ -824,7 +813,7 @@ b8 import_obj_material_library_file(const char* mtl_file_path) {
 }
 
 /**
- * @brief Write out a kulpan material file from config. This gets loaded by name later when the mesh
+ * @brief Write out a Kulpan material file from config. This gets loaded by name later when the mesh
  * is requested for load.
  *
  * @param mtl_file_path The filepath of the material library file which originally contained the material definition.
@@ -839,8 +828,8 @@ b8 write_kmt_file(const char* mtl_file_path, material_config* config) {
     file_handle f;
     char directory[320];
     string_directory_from_path(directory, mtl_file_path);
-    char full_file_path[512];
 
+    char full_file_path[512];
     string_format(full_file_path, format_str, directory, config->name, ".kmt");
     if (!filesystem_open(full_file_path, FILE_MODE_WRITE, false, &f)) {
         KERROR("Error opening material file for writing: '%s'", full_file_path);
@@ -851,12 +840,12 @@ b8 write_kmt_file(const char* mtl_file_path, material_config* config) {
     char line_buffer[512];
     filesystem_write_line(&f, "#material file");
     filesystem_write_line(&f, "");
-    filesystem_write_line(&f, "version=0.1");   //TODO: Hardcoded for now
+    filesystem_write_line(&f, "version=0.1");  // TODO: hardcoded version.
     string_format(line_buffer, "name=%s", config->name);
     filesystem_write_line(&f, line_buffer);
     string_format(line_buffer, "diffuse_colour=%.6f %.6f %.6f %.6f", config->diffuse_colour.r, config->diffuse_colour.g, config->diffuse_colour.b, config->diffuse_colour.a);
     filesystem_write_line(&f, line_buffer);
-    string_format(line_buffer, "shininess=%f", config->shininess);
+    string_format(line_buffer, "shininess=%.6f", config->shininess);
     filesystem_write_line(&f, line_buffer);
     if (config->diffuse_map_name[0]) {
         string_format(line_buffer, "diffuse_map_name=%s", config->diffuse_map_name);

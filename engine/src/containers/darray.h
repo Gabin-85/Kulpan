@@ -1,13 +1,19 @@
 /**
  * @file darray.h
+
  * @brief This files contains an implementation of a dynamic array.
+ * 
  * @details 
  * Memory layout:
  * - u64 capacity = number elements that can be held.
  * - u64 length = number of elements currently contained
  * - u64 stride = size of each element in bytes
  * - void* elements
+ * 
+ * 
+ * 
  * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once

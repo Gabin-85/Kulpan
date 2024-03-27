@@ -268,7 +268,7 @@ b8 application_create(game* game_inst) {
     }
 
     // Cap the thread count.
-    const i32 max_thread_count = 15; // Change here the maximum number of usable threads.
+    const i32 max_thread_count = 15;
     if (thread_count > max_thread_count) {
         KTRACE("Available threads on the system is %i, but will be capped at %i.", thread_count, max_thread_count);
         thread_count = max_thread_count;
@@ -341,7 +341,6 @@ b8 application_create(game* game_inst) {
         return false;
     }
 
-    // Render view
     render_view_system_config render_view_sys_config = {};
     render_view_sys_config.max_view_count = 251;
     render_view_system_initialize(&app_state->renderer_view_system_memory_requirement, 0, render_view_sys_config);
@@ -398,6 +397,7 @@ b8 application_create(game* game_inst) {
     }
 
     // TODO: temp
+
     // Skybox
     texture_map* cube_map = &app_state->sb.cubemap;
     cube_map->filter_magnify = cube_map->filter_minify = TEXTURE_FILTER_MODE_LINEAR;
@@ -515,7 +515,7 @@ b8 application_create(game* game_inst) {
     ui_config.indices = uiindices;
 
     // Get UI geometry from config.
-    app_state->ui_meshes[0].geometry_count =1;
+    app_state->ui_meshes[0].geometry_count = 1;
     app_state->ui_meshes[0].geometries = kallocate(sizeof(geometry*), MEMORY_TAG_ARRAY);
     app_state->ui_meshes[0].geometries[0] = geometry_system_acquire_from_config(ui_config, true);
     app_state->ui_meshes[0].transform = transform_create();
@@ -576,7 +576,7 @@ b8 application_run() {
                 app_state->is_running = false;
                 break;
             }
-            
+
             // Perform a small rotation on the first mesh.
             quat rotation = quat_from_axis_angle((vec3){0, 1, 0}, 0.5f * delta, false);
             transform_rotate(&app_state->meshes[0].transform, rotation);
@@ -605,9 +605,9 @@ b8 application_run() {
                 return false;
             }
 
-            // World 
+            // World
             mesh_packet_data world_mesh_data = {};
-           
+
             u32 mesh_count = 0;
             mesh* meshes[10];
             // TODO: flexible size array
@@ -628,7 +628,7 @@ b8 application_run() {
 
             // ui
             mesh_packet_data ui_mesh_data = {};
-            
+
             u32 ui_mesh_count = 0;
             mesh* ui_meshes[10];
 
@@ -652,8 +652,10 @@ b8 application_run() {
             renderer_draw_frame(&packet);
 
             // TODO: temp
-            // Clean-up
-            
+            // Cleanup the packet.
+            for (u32 i = 0; i < packet.view_count; ++i) {
+                packet.views[i].view->on_destroy_packet(packet.views[i].view, &packet.views[i]);
+            }
             // TODO: end temp
 
             // Figure out how long the frame took and, if below

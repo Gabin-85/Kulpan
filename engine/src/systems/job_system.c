@@ -30,7 +30,7 @@ typedef struct job_result_entry {
 typedef struct job_system_state {
     b8 running;
     u8 thread_count;
-    job_thread job_threads[32]; // Change here the maximum number of usable job threads.
+    job_thread job_threads[32];
 
     ring_queue low_priority_queue;
     ring_queue normal_priority_queue;

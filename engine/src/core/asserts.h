@@ -1,8 +1,13 @@
 /**
  * @file asserts.h
+
  * @brief This file contains assertion functions to be used throughout
  * the codebase.
+ * 
+ * 
+ * 
  * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once

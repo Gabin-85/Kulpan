@@ -28,7 +28,6 @@ void input_system_initialize(u64* memory_requirement, void* state) {
     if (state == 0) {
         return;
     }
-    KINFO("Initializing input subsystem...");
     kzero_memory(state, sizeof(input_state));
     state_ptr = state;
 

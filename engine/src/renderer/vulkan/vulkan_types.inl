@@ -187,7 +187,7 @@ typedef struct vulkan_swapchain {
     /** @brief An array of pointers to render targets, which contain swapchain images. */
     texture** render_textures;
 
-    /** @brief The depth image texture. */
+    /** @brief The depth texture. */
     texture* depth_texture;
 
     /** 
@@ -314,7 +314,7 @@ typedef struct vulkan_geometry_data {
 #define VULKAN_SHADER_MAX_UNIFORMS 128
 
 /** @brief The maximum number of bindings per descriptor set. */
-#define VULKAN_SHADER_MAX_BINDINGS 32
+#define VULKAN_SHADER_MAX_BINDINGS 2
 /** @brief The maximum number of push constant ranges for a shader. */
 #define VULKAN_SHADER_MAX_PUSH_CONST_RANGES 32
 
@@ -463,6 +463,7 @@ typedef struct vulkan_shader {
     u8 instance_uniform_sampler_count;
     /** @brief The number of local non-sampler uniforms. */
     u8 local_uniform_count;
+
 } vulkan_shader;
 
 #define VULKAN_MAX_REGISTERED_RENDERPASSES 31

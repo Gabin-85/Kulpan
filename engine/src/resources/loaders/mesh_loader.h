@@ -1,10 +1,12 @@
 /**
  * @file mesh_loader.h
- * @author Travis Vroman (travis@kulpanengine.com)
+
  * @brief A resource loader that handles mesh resources.
- * @version 1.0
- * @date 2022-03-19
- * @copyright kulpan Game Engine is Copyright (c) Travis Vroman 2021-2022
+ * 
+
+ * 
+ * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once
@@ -13,6 +15,7 @@
 
 /**
  * @brief Creates and returns a mesh resource loader.
+ * 
  * @return The newly created resource loader.
  */
 resource_loader mesh_resource_loader_create();

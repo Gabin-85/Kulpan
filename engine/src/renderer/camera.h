@@ -1,7 +1,12 @@
 /**
  * @file camera.h
+
  * @brief 
- * @version 1.0
+ * 
+
+ * 
+ * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once

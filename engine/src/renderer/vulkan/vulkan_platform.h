@@ -14,6 +14,7 @@ struct vulkan_context;
 
 /**
  * @brief Creates and assigns a surface to the given context.
+ * 
  * @param context A pointer to the Vulkan context.
  * @return True on success; otherwise false.
  */

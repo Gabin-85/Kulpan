@@ -1,12 +1,17 @@
 /**
  * @file event.h
+
  * @brief This file contains structures and functions specific to the
  * event system. 
  * Events are a mechenism that allows the developer to send and recieve
  * data at critical points in the execution of the application in a non-
  * coupled way. For now, this follows a simple pub-sub model of event
  * transmission.
+ * 
+ * 
+ * 
  * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once
@@ -142,7 +147,7 @@ typedef enum system_event_code {
 
     /** @brief Mouse moved.
      * Context usage:
-     * ui z_delta = data.data.ui[0];
+     * ui z_delta = data.data.i8[0];
      */
     EVENT_CODE_MOUSE_WHEEL = 0x07,
 

@@ -12,6 +12,7 @@
 
 /**
  * @brief Creates a new Vulkan pipeline.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param renderpass A pointer to the renderpass to associate with the pipeline.
  * @param stride The stride of the vertex data to be used (ex: sizeof(vertex_3d))
@@ -50,6 +51,7 @@ b8 vulkan_graphics_pipeline_create(
 
 /**
  * @brief Destroys the given pipeline.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param pipeline A pointer to the pipeline to be destroyed.
  */
@@ -57,6 +59,7 @@ void vulkan_pipeline_destroy(vulkan_context* context, vulkan_pipeline* pipeline)
 
 /**
  * @brief Binds the given pipeline for use. This must be done within a renderpass.
+ * 
  * @param command_buffer The command buffer to assign the bind command to.
  * @param bind_point The pipeline bind point (typically bind_point_graphics)
  * @param pipeline A pointer to the pipeline to be bound.

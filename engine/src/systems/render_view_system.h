@@ -1,7 +1,11 @@
 /**
  * @file render_view_system.h
+
  * @brief A system for managing views.
- * @version 1.0
+ * 
+ *
+ * @copyright Kulpan Game Engine
+ *
  */
 
 #pragma once

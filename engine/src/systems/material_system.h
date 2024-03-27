@@ -1,7 +1,11 @@
 /**
  * @file material_system.h
+
  * @brief The material system is responsible for managing materials in the
  * engine, including reference counting and auto-unloading.
+ * 
+ * 
+ *
  * @copyright Kulpan Game Engine
  *
  */
@@ -76,12 +80,14 @@ material* material_system_get_default();
 
 /**
  * @brief Applies global-level data for the material shader id.
+ * 
  * @param shader_id The identifier of the shader to apply globals for.
  * @param renderer_frame_number The renderer's current frame number.
  * @param projection A constant pointer to a projection matrix.
  * @param view A constant pointer to a view matrix.
  * @param ambient_colour The ambient colour of the scene.
  * @param view_position The camera position.
+ * @param render_mode The render mode.
  * @return True on success; otherwise false.
  */
 b8 material_system_apply_global(u32 shader_id, u64 renderer_frame_number, const mat4* projection, const mat4* view, const vec4* ambient_colour, const vec3* view_position, u32 render_mode);
@@ -90,7 +96,7 @@ b8 material_system_apply_global(u32 shader_id, u64 renderer_frame_number, const 
  * @brief Applies instance-level material data for the given material.
  *
  * @param m A pointer to the material to be applied.
- * @param needs_update A flag indicating if the material needs to be updated.
+ * @param needs_update Indicates if material internals require updating, or if they should just be bound.
  * @return True on success; otherwise false.
  */
 b8 material_system_apply_instance(material* m, b8 needs_update);

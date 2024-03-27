@@ -249,9 +249,9 @@ material* material_system_acquire_from_config(material_config config) {
 
             // Also use the handle as the material id.
             m->id = ref.handle;
-            //KTRACE("Material '%s' does not yet exist. Created, and ref_count is now %i.", config.name, ref.reference_count);
+            // KTRACE("Material '%s' does not yet exist. Created, and ref_count is now %i.", config.name, ref.reference_count);
         } else {
-            //KTRACE("Material '%s' already exists, ref_count increased to %i.", config.name, ref.reference_count);
+            // KTRACE("Material '%s' already exists, ref_count increased to %i.", config.name, ref.reference_count);
         }
 
         // Update the entry.
@@ -401,11 +401,12 @@ b8 load_material(material_config config, material* m) {
         m->diffuse_map.use = TEXTURE_USE_MAP_DIFFUSE;
         m->diffuse_map.texture = texture_system_acquire(config.diffuse_map_name, true);
         if (!m->diffuse_map.texture) {
+            // Configured, but not found.
             KWARN("Unable to load texture '%s' for material '%s', using default.", config.diffuse_map_name, m->name);
             m->diffuse_map.texture = texture_system_get_default_texture();
         }
     } else {
-        // NOTE: Only set for clarity, as call to kzero_memory above does this already.
+        // This is done when a texture is not configured, as opposed to when it is configured and not found (above).
         m->diffuse_map.use = TEXTURE_USE_MAP_DIFFUSE;
         m->diffuse_map.texture = texture_system_get_default_diffuse_texture();
     }
@@ -452,7 +453,6 @@ b8 load_material(material_config config, material* m) {
         m->normal_map.texture = texture_system_get_default_normal_texture();
     }
 
-
     // TODO: other maps
 
     // Send it off to the renderer to acquire resources.
@@ -461,6 +461,7 @@ b8 load_material(material_config config, material* m) {
         KERROR("Unable to load material because its shader was not found: '%s'. This is likely a problem with the material asset.", config.shader_name);
         return false;
     }
+
     // Gather a list of pointers to texture maps;
     texture_map* maps[3] = {&m->diffuse_map, &m->specular_map, &m->normal_map};
     if (!renderer_shader_acquire_instance_resources(s, maps, &m->internal_id)) {
@@ -516,7 +517,7 @@ b8 create_default_material(material_system_state* state) {
     state->default_material.specular_map.use = TEXTURE_USE_MAP_SPECULAR;
     state->default_material.specular_map.texture = texture_system_get_default_specular_texture();
 
-    state->default_material.normal_map.use = TEXTURE_USE_MAP_NORMAL;
+    state->default_material.normal_map.use = TEXTURE_USE_MAP_SPECULAR;
     state->default_material.normal_map.texture = texture_system_get_default_normal_texture();
 
     texture_map* maps[3] = {&state->default_material.diffuse_map, &state->default_material.specular_map, &state->default_material.normal_map};

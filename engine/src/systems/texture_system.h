@@ -1,10 +1,15 @@
 /**
  * @file texture_system.h
+
  * @brief This file contains the texture system, which handles the acquisition
  * and releasing of textures. It also reference monitors textures, and can
  * auto-release them when they no longer have any references, if configured to
  * do so.
+ * 
+ * 
+ *
  * @copyright Kulpan Game Engine
+ *
  */
 
 #pragma once
@@ -29,11 +34,11 @@ typedef struct texture_system_config {
 /** @brief The default normal texture name. */
 #define DEFAULT_NORMAL_TEXTURE_NAME "default_NORM"
 
-
 /**
  * @brief Initializes the texture system.
  * Should be called twice; once to get the memory requirement (passing state=0), and a second
  * time passing an allocated block of memory to actually initialize the system.
+ *
  * @param memory_requirement A pointer to hold the memory requirement as it is calculated.
  * @param state A block of memory to hold the state or, if gathering the memory requirement, 0.
  * @param config The configuration for this system.
@@ -43,6 +48,7 @@ b8 texture_system_initialize(u64* memory_requirement, void* state, texture_syste
 
 /**
  * @brief Shuts down the texture system.
+ *
  * @param state The state block of memory for this system.
  */
 void texture_system_shutdown(void* state);
@@ -51,6 +57,7 @@ void texture_system_shutdown(void* state);
  * @brief Attempts to acquire a texture with the given name. If it has not yet been loaded,
  * this triggers it to load. If the texture is not found, a pointer to the default texture
  * is returned. If the texture _is_ found and loaded, its reference counter is incremented.
+ *
  * @param name The name of the texture to find.
  * @param auto_release Indicates if the texture should auto-release when its reference count is 0.
  * Only takes effect the first time the texture is acquired.
@@ -97,6 +104,7 @@ texture* texture_system_aquire_writeable(const char* name, u32 width, u32 height
  * @brief Releases a texture with the given name. Ignores non-existant textures.
  * Decreases the reference counter by 1. If the reference counter reaches 0 and
  * auto_release was set to true, the texture is unloaded, releasing internal resources.
+ *
  * @param name The name of the texture to unload.
  */
 void texture_system_release(const char* name);
@@ -117,7 +125,7 @@ void texture_system_release(const char* name);
  * @param internal_data A pointer to the internal data to be set on the texture.
  * @param register_texture Indicates if the texture should be registered with the system.
  * @return A pointer to the wrapped texture.
-*/
+ */
 texture* texture_system_wrap_internal(const char* name, u32 width, u32 height, u8 channel_count, b8 has_transparency, b8 is_writeable, b8 register_texture, void* internal_data);
 
 /**
@@ -155,25 +163,25 @@ b8 texture_system_resize(texture* t, u32 width, u32 height, b8 regenerate_intern
 b8 texture_system_write_data(texture* t, u32 offset, u32 size, void* data);
 
 /**
- * @brief Gets a pointer to the default texture. No reference counting is 
+ * @brief Gets a pointer to the default texture. No reference counting is
  * done for default textures.
  */
 texture* texture_system_get_default_texture();
 
 /**
- * @brief Gets a pointer to the default diffuse texture. No reference counting is 
+ * @brief Gets a pointer to the default diffuse texture. No reference counting is
  * done for default textures.
  */
 texture* texture_system_get_default_diffuse_texture();
 
 /**
- * @brief Gets a pointer to the default specular texture. No reference counting is 
+ * @brief Gets a pointer to the default specular texture. No reference counting is
  * done for default textures.
  */
 texture* texture_system_get_default_specular_texture();
 
 /**
- * @brief Gets a pointer to the default normal texture. No reference counting is 
+ * @brief Gets a pointer to the default normal texture. No reference counting is
  * done for default textures.
  */
 texture* texture_system_get_default_normal_texture();

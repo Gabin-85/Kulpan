@@ -167,7 +167,6 @@ typedef struct renderer_backend {
     /**
      * @brief Begins a renderpass with the given id.
      *
-     * @param backend A pointer to the generic backend interface.
      * @param pass A pointer to the renderpass to begin.
      * @param target A pointer to the render target to be used.
      * @return True on success; otherwise false.
@@ -177,8 +176,7 @@ typedef struct renderer_backend {
     /**
      * @brief Ends a renderpass with the given id.
      *
-     * @param backend A pointer to the generic backend interface.
-    * @param pass A pointer to the renderpass to end.
+     * @param pass A pointer to the renderpass to end.
      * @return True on success; otherwise false.
      */
     b8 (*renderpass_end)(renderpass* pass);
@@ -268,7 +266,9 @@ typedef struct renderer_backend {
 
     /**
      * @brief Creates internal shader resources using the provided parameters.
-         * @param s A pointer to the shader.
+     *
+     * @param s A pointer to the shader.
+     * @param config A constant pointer to the shader config.
      * @param pass A pointer to the renderpass to be associated with the shader.
      * @param stage_count The total number of stages.
      * @param stage_filenames An array of shader stage filenames to be loaded. Should align with stages array.
@@ -330,7 +330,7 @@ typedef struct renderer_backend {
      * @brief Applies data for the currently bound instance.
      *
      * @param s A pointer to the shader to apply the instance data for.
-     * @param needs_update Indicate if the shader uniform needs to be updated.
+     * @param needs_update Indicates if the shader uniforms need to be updated or just bound.
      * @return True on success; otherwise false.
      */
     b8 (*shader_apply_instance)(struct shader* s, b8 needs_update);
@@ -356,7 +356,8 @@ typedef struct renderer_backend {
 
     /**
      * @brief Sets the uniform of the given shader to the provided value.
-         * @param s A ponter to the shader.
+     *
+     * @param s A ponter to the shader.
      * @param uniform A constant pointer to the uniform.
      * @param value A pointer to the value to be set.
      * @return b8 True on success; otherwise false.
@@ -365,14 +366,16 @@ typedef struct renderer_backend {
 
     /**
      * @brief Acquires internal resources for the given texture map.
-         * @param map A pointer to the texture map to obtain resources for.
+     *
+     * @param map A pointer to the texture map to obtain resources for.
      * @return True on success; otherwise false.
      */
     b8 (*texture_map_acquire_resources)(struct texture_map* map);
 
     /**
      * @brief Releases internal resources for the given texture map.
-         * @param map A pointer to the texture map to release resources from.
+     *
+     * @param map A pointer to the texture map to release resources from.
      */
     void (*texture_map_release_resources)(struct texture_map* map);
 
@@ -559,6 +562,13 @@ typedef struct render_view {
      * @return True on success; otherwise false.
      */
     b8 (*on_build_packet)(const struct render_view* self, void* data, struct render_view_packet* out_packet);
+
+    /**
+     * @brief Destroys the provided render view packet.
+     * @param self A pointer to the view to use.
+     * @param packet A pointer to the packet to be destroyed.
+     */
+    void (*on_destroy_packet)(const struct render_view* self, struct render_view_packet* packet);
 
     /**
      * @brief Uses the given view and packet to render the contents therein.

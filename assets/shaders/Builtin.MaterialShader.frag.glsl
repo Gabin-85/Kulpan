@@ -84,7 +84,9 @@ void main() {
 
     if(in_mode == 0 || in_mode == 1) {
         vec3 view_direction = normalize(in_dto.view_position - in_dto.frag_position);
+
         out_colour = calculate_directional_light(dir_light, normal, view_direction);
+
         out_colour += calculate_point_light(p_light_0, normal, in_dto.frag_position, view_direction);
         out_colour += calculate_point_light(p_light_1, normal, in_dto.frag_position, view_direction);
     } else if(in_mode == 2) {
@@ -126,7 +128,7 @@ vec4 calculate_point_light(point_light light, vec3 normal, vec3 frag_position, v
     vec4 ambient = in_dto.ambient;
     vec4 diffuse = light.colour * diff;
     vec4 specular = light.colour * spec;
-
+    
     if(in_mode == 0) {
         vec4 diff_samp = texture(samplers[SAMP_DIFFUSE], in_dto.tex_coord);
         diffuse *= diff_samp;

@@ -1,8 +1,13 @@
 /**
  * @file clock.h
+
  * @brief This file contains structures and functions for the 
  * engine's clock.
+ * 
+ * 
+ * 
  * @copyright Kulpan Game Engine
+ * 
  */
 
 #pragma once

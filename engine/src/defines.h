@@ -1,9 +1,14 @@
 /**
  * @file defines.h
- * @brief This file contains global type definitions which are used 
- * throughout the entire engine and applications referencing it. 
+
+ * @brief This file contains global type definitions which are used
+ * throughout the entire engine and applications referencing it.
  * Numeric types are asserted statically to gurantee expected size.
+ * 
+ * 
+ *
  * @copyright Kulpan Game Engine
+ *
  */
 
 #pragma once
@@ -110,7 +115,7 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 
 /**
  * @brief Any id set to this should be considered invalid,
- * and not actually pointing to a real object. 
+ * and not actually pointing to a real object.
  */
 #define INVALID_ID_U64 18446744073709551615UL
 #define INVALID_ID 4294967295U
@@ -180,8 +185,8 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
  * @param max The maximum value of the range.
  * @returns The clamped value.
  */
-#define KCLAMP(value, min, max) (value <= min) ? min : (value >= max) ? max \
-                                                                      : value;
+#define KCLAMP(value, min, max) ((value <= min) ? min : (value >= max) ? max \
+                                                                       : value)
 
 // Inlining
 #if defined(__clang__) || defined(__gcc__)
@@ -207,18 +212,18 @@ STATIC_ASSERT(sizeof(f64) == 8, "Expected f64 to be 8 bytes.");
 #endif
 
 /** @brief Gets the number of bytes from amount of gibibytes (GiB) (1024*1024*1024) */
-#define GIBIBYTES(amount) amount * 1024 * 1024 * 1024
+#define GIBIBYTES(amount) (amount * 1024 * 1024 * 1024)
 /** @brief Gets the number of bytes from amount of mebibytes (MiB) (1024*1024) */
-#define MEBIBYTES(amount) amount * 1024 * 1024
+#define MEBIBYTES(amount) (amount * 1024 * 1024)
 /** @brief Gets the number of bytes from amount of kibibytes (KiB) (1024) */
-#define KIBIBYTES(amount) amount * 1024
+#define KIBIBYTES(amount) (amount * 1024)
 
 /** @brief Gets the number of bytes from amount of gigabytes (GB) (1000*1000*1000) */
-#define GIGABYTES(amount) amount * 1000 * 1000 * 1000
+#define GIGABYTES(amount) (amount * 1000 * 1000 * 1000)
 /** @brief Gets the number of bytes from amount of megabytes (MB) (1000*1000) */
-#define MEGABYTES(amount) amount * 1000 * 1000
+#define MEGABYTES(amount) (amount * 1000 * 1000)
 /** @brief Gets the number of bytes from amount of kilobytes (KB) (1000) */
-#define KILOBYTES(amount) amount * 1000
+#define KILOBYTES(amount) (amount * 1000)
 
 KINLINE u64 get_aligned(u64 operand, u64 granularity) {
     return ((operand + (granularity - 1)) & ~(granularity - 1));

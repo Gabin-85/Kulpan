@@ -20,6 +20,7 @@ b8 kmutex_create(kmutex* out_mutex);
 
 /**
  * @brief Destroys the provided mutex.
+ * 
  * @param mutex A pointer to the mutex to be destroyed.
  */
 void kmutex_destroy(kmutex* mutex);

@@ -1,9 +1,7 @@
 /**
  * @file kstring.h
  * @brief This file contains a basic C string handling library.
- *
  * @copyright Kulpan Game Engine
- *
  */
 
 #pragma once
@@ -25,6 +23,13 @@ KAPI u64 string_length(const char* str);
  * @returns A pointer to a newly-created character array (string).
  */
 KAPI char* string_duplicate(const char* str);
+
+/**
+ * @brief Frees the memory of the given string.
+ * 
+ * @param str The string to be freed.
+ */
+KAPI void string_free(char* str);
 
 /**
  * @brief Case-sensitive string comparison.
@@ -293,6 +298,7 @@ KAPI void string_append_string(char* dest, const char* source, const char* appen
 
 /**
  * @brief Appends the supplied integer to source and outputs to dest.
+ *
  * @param dest The destination for the string.
  * @param source The string to be appended to.
  * @param i The integer to be appended.
@@ -301,6 +307,7 @@ KAPI void string_append_int(char* dest, const char* source, i64 i);
 
 /**
  * @brief Appends the supplied float to source and outputs to dest.
+ *
  * @param dest The destination for the string.
  * @param source The string to be appended to.
  * @param f The float to be appended.
@@ -309,6 +316,7 @@ KAPI void string_append_float(char* dest, const char* source, f32 f);
 
 /**
  * @brief Appends the supplied boolean (as either "true" or "false") to source and outputs to dest.
+ *
  * @param dest The destination for the string.
  * @param source The string to be appended to.
  * @param b The boolean to be appended.
@@ -317,6 +325,7 @@ KAPI void string_append_bool(char* dest, const char* source, b8 b);
 
 /**
  * @brief Appends the supplied character to source and outputs to dest.
+ *
  * @param dest The destination for the string.
  * @param source The string to be appended to.
  * @param c The character to be appended.
@@ -325,6 +334,7 @@ KAPI void string_append_char(char* dest, const char* source, char c);
 
 /**
  * @brief Extracts the directory from a full file path.
+ *
  * @param dest The destination for the path.
  * @param path The full path to extract from.
  */
@@ -332,6 +342,7 @@ KAPI void string_directory_from_path(char* dest, const char* path);
 
 /**
  * @brief Extracts the filename (including file extension) from a full file path.
+ *
  * @param dest The destination for the filename.
  * @param path The full path to extract from.
  */
@@ -339,6 +350,7 @@ KAPI void string_filename_from_path(char* dest, const char* path);
 
 /**
  * @brief Extracts the filename (excluding file extension) from a full file path.
+ *
  * @param dest The destination for the filename.
  * @param path The full path to extract from.
  */

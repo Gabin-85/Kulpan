@@ -225,7 +225,7 @@ void shader_destroy(shader* s) {
     for (u32 i = 0; i < sampler_count; ++i) {
         kfree(s->global_texture_maps[i], sizeof(texture_map), MEMORY_TAG_RENDERER);
     }
-    darray_destroy(&s->global_texture_maps);
+    darray_destroy(s->global_texture_maps);
 
     // Free the name.
     if (s->name) {
@@ -376,7 +376,6 @@ b8 add_attribute(shader* shader, const shader_attribute_config* config) {
 }
 
 b8 add_sampler(shader* shader, shader_uniform_config* config) {
-
     // Samples can't be used for push constants.
     if (config->scope == SHADER_SCOPE_LOCAL) {
         KERROR("add_sampler cannot add a sampler at local scope.");
@@ -398,7 +397,7 @@ b8 add_sampler(shader* shader, shader_uniform_config* config) {
         }
         location = global_texture_count;
 
-        // NOTE: Creating a default texture map to be used here. Can always be updated later.
+        // NOTE: creating a default texture map to be used here. Can always be updated later.
         texture_map default_map = {};
         default_map.filter_magnify = TEXTURE_FILTER_MODE_LINEAR;
         default_map.filter_minify = TEXTURE_FILTER_MODE_LINEAR;

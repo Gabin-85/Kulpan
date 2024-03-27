@@ -54,6 +54,7 @@ then
 echo "Error:"$ERRORLEVEL && exit
 fi
 
+
 echo "Copying assets..."
 echo cp -R "assets" "bin"
 cp -R "assets" "bin"

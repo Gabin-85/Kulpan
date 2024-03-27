@@ -10,6 +10,7 @@
 
 /**
  * @brief Creates a new Vulkan image.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param type The type of texture. Provides hints to creation.
  * @param width The width of the image. For cubemaps, this is for each side of the cube.
@@ -37,6 +38,7 @@ void vulkan_image_create(
 
 /**
  * @brief Creates a view for the given image.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param type The type of texture. Provides hints to creation.
  * @param format The image format.
@@ -52,6 +54,7 @@ void vulkan_image_view_create(
 
 /**
  * @brief Transitions the provided image from old_layout to new_layout.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param type The type of texture. Provides hints to creation.
  * @param command_buffer A pointer to the command buffer to be used.
@@ -85,6 +88,7 @@ void vulkan_image_copy_from_buffer(
 
 /**
  * @brief Destroys the given image.
+ * 
  * @param context A pointer to the Vulkan context.
  * @param image A pointer to the image to be destroyed.
  */
