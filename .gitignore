@@ -1,0 +1,7 @@
+bin/
+obj/
+*.spv
+*.ksm
+docs/
+
+engine/src/version.h
