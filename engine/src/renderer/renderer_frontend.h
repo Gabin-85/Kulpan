@@ -341,7 +341,7 @@ texture* renderer_depth_attachment_get(u8 index);
 /**
  * @brief Returns the current window attachment index.
  */
-u8 renderer_window_attachment_index_get();
+KAPI u8 renderer_window_attachment_index_get();
 
 /**
  * @brief Returns the number of attachments required for window-based render targets.

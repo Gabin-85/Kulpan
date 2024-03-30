@@ -29,4 +29,4 @@ KAPI void ui_text_destroy(ui_text* text);
 KAPI void ui_text_set_position(ui_text* u_text, vec3 position);
 KAPI void ui_text_set_text(ui_text* u_text, const char* text);
 
-void ui_text_draw(ui_text* u_text);
+KAPI void ui_text_draw(ui_text* u_text);

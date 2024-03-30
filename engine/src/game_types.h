@@ -2,11 +2,7 @@
  * @file game_types.h
 
  * @brief This file contains types to be consumed by the game library.
- * 
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 
 #pragma once
@@ -15,6 +11,11 @@
 #include "memory/linear_allocator.h"
 
 struct render_packet;
+
+typedef struct game_frame_data {
+    // A darray of world geometries to be rendered this frame.
+    geometry_render_data* world_geometries;
+} game_frame_data;
 
 /**
  * @brief Represents the basic game state in a game.
@@ -84,4 +85,7 @@ typedef struct game {
      * at the beginning of the frame.
      */
     linear_allocator frame_allocator;
+
+    /** @brief Data which is built up, used and discarded every frame. */
+    game_frame_data frame_data;
 } game;

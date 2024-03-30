@@ -62,7 +62,7 @@ KAPI material* material_system_acquire(const char* name);
  * @param config The config of the material to load.
  * @return A pointer to the loaded material.
  */
-material* material_system_acquire_from_config(material_config config);
+KAPI material* material_system_acquire_from_config(material_config config);
 
 /**
  * @brief Releases a material with the given name. Ignores non-existant materials.
@@ -90,7 +90,7 @@ KAPI material* material_system_get_default();
  * @param render_mode The render mode.
  * @return True on success; otherwise false.
  */
-b8 material_system_apply_global(u32 shader_id, u64 renderer_frame_number, const mat4* projection, const mat4* view, const vec4* ambient_colour, const vec3* view_position, u32 render_mode);
+KAPI b8 material_system_apply_global(u32 shader_id, u64 renderer_frame_number, const mat4* projection, const mat4* view, const vec4* ambient_colour, const vec3* view_position, u32 render_mode);
 
 /**
  * @brief Applies instance-level material data for the given material.
@@ -99,7 +99,7 @@ b8 material_system_apply_global(u32 shader_id, u64 renderer_frame_number, const 
  * @param needs_update Indicates if material internals require updating, or if they should just be bound.
  * @return True on success; otherwise false.
  */
-b8 material_system_apply_instance(material* m, b8 needs_update);
+KAPI b8 material_system_apply_instance(material* m, b8 needs_update);
 
 /**
  * @brief Applies local-level material data (typically just model matrix).
@@ -108,4 +108,4 @@ b8 material_system_apply_instance(material* m, b8 needs_update);
  * @param model A constant pointer to the model matrix to be applied.
  * @return True on success; otherwise false.
  */
-b8 material_system_apply_local(material* m, const mat4* model);
+KAPI b8 material_system_apply_local(material* m, const mat4* model);
