@@ -52,7 +52,7 @@ void material_system_shutdown(void* state);
  * @param name The name of the material to find.
  * @return A pointer to the loaded material. Can be a pointer to the default material if not found.
  */
-material* material_system_acquire(const char* name);
+KAPI material* material_system_acquire(const char* name);
 
 /**
  * @brief Attempts to acquire a material from the given configuration. If it has not yet been loaded,
@@ -71,12 +71,12 @@ material* material_system_acquire_from_config(material_config config);
  *
  * @param name The name of the material to unload.
  */
-void material_system_release(const char* name);
+KAPI void material_system_release(const char* name);
 
 /**
  * @brief Gets a pointer to the default material. Does not reference count.
  */
-material* material_system_get_default();
+KAPI material* material_system_get_default();
 
 /**
  * @brief Applies global-level data for the material shader id.
