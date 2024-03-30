@@ -271,7 +271,7 @@ char* get_memory_usage_str() {
 
         f64 percent_used = (f64)(used_space) / total_space;
 
-        i32 length = snprintf(buffer + offset, 8000, "Total memory usage: %.2f%s of %.2f%s (%.2f%%/100)\n", used_amount, used_unit, total_amount, total_unit, percent_used);
+        i32 length = snprintf(buffer + offset, 8000, "Total memory usage: %.2f%s of %.2f%s (%.2f%%/100)\n", used_amount, used_unit, total_amount, total_unit, percent_used*100.0);
         offset += length;
     }
 

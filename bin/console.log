@@ -1,0 +1,608 @@
+[DEBUG]: Logger subsystem initialized. Here is a test:
+
+TEST
+TEST
+TEST
+TEST
+TEST
+TEST
+
+[INFO]:  Input subsystem initialized.
+[DEBUG]: Window resize: 1280, 720
+[WARN]:  renderer backend does not exist to accept resize: 1280 720
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[TRACE]: Loader registered.
+[INFO]:  Resource system initialized with base path '../assets'.
+
+[INFO]:  Vulkan renderer start initializing ...
+[DEBUG]: Required extensions:
+            - VK_KHR_surface
+            - VK_KHR_win32_surface
+            - VK_EXT_debug_utils
+         Required extension found: [VK_KHR_surface]
+         Required extension found: [VK_KHR_win32_surface]
+         Required extension found: [VK_EXT_debug_utils]
+[INFO]:  Validation layers enabled. Enumerating...
+            - Searching for layer: VK_LAYER_KHRONOS_validation... Found!
+[INFO]:  All required validation layers are present.
+[INFO]:  Vulkan instance created.
+[DEBUG]: Creating Vulkan debugger...
+[DEBUG]: Vulkan debugger created.
+[DEBUG]: Creating Vulkan surface...
+[DEBUG]: Vulkan surface created.
+            Evaluating device: 'Intel(R) UHD Graphics', index 0.
+            Graphical | Present | Compute | Transfer | Name
+                    1 |       1 |       1 |        1 | Intel(R) UHD Graphics
+            Device meets queue requirements.
+            Graphics Family Index: 0
+            Present Family Index:  0
+            Transfer Family Index: 0
+            Compute Family Index:  0
+            Selected device: 'Intel(R) UHD Graphics'.
+            GPU type is Integrated.
+            GPU Driver version: 0.405.791
+            Vulkan API version: 1.3.261
+            Local GPU memory: 3.82 GiB
+[INFO]:  Physical device selected.
+[INFO]:  Creating logical device...
+[INFO]:  Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.275.0\Bin\.\VkLayer_khronos_validation.dll)
+[INFO]:         Using "Intel(R) UHD Graphics" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\iigd_dch.inf_amd64_da775d7ecf291310\.\igvk64.dll"
+[INFO]:  Logical device created.
+[INFO]:  Queues obtained.
+[INFO]:  Creating graphics command pool...
+[INFO]:  Graphics command pool created.
+[INFO]:  Creating swapchain...
+[INFO]:  Swapchain created.
+[DEBUG]: Creating vulkan command buffers...
+[DEBUG]: Vulkan command buffers created.
+[INFO]:  Vulkan renderer initialized successfully.
+
+[DEBUG]: Creating graphics pipeline...
+[DEBUG]: Graphics pipeline created!
+[WARN]:  Freelists are very inefficient with amounts of memory less than 448B; it is recommended to not use this structure in this case.
+[DEBUG]: Creating graphics pipeline...
+[DEBUG]: Graphics pipeline created!
+[DEBUG]: Creating graphics pipeline...
+[WARN]:  Validation Performance Warning: [ WARNING-Shader-OutputNotConsumed ] Object 0: handle = 0x9f9b41000000003c, type = VK_OBJECT_TYPE_SHADER_MODULE; Object 1: handle = 0x59ffe0000000003d, type = VK_OBJECT_TYPE_SHADER_MODULE; | MessageID = 0xc81ad50e | vkCreateGraphicsPipelines(): pCreateInfos[0] (SPIR-V Interface) VK_SHADER_STAGE_VERTEX_BIT declared to output location 0 Component 0 but is not an Input declared by VK_SHADER_STAGE_FRAGMENT_BIT.
+[DEBUG]: Graphics pipeline created!
+[INFO]:  6 processor cores detected.
+[TRACE]: Available threads: 5
+[DEBUG]: Main thread id is: 0x2e44
+[DEBUG]: Spawning 5 job threads.
+[DEBUG]: Starting process on thread id: 0x2430
+[DEBUG]: Starting process on thread id: 0x30dc
+[TRACE]: Starting job thread #0 (id=0x2430, type=0xe).
+[TRACE]: Starting job thread #1 (id=0x30dc, type=0x2).
+[DEBUG]: Starting process on thread id: 0x2d38
+[TRACE]: Starting job thread #2 (id=0x2d38, type=0x2).
+[DEBUG]: Starting process on thread id: 0x814
+[DEBUG]: Starting process on thread id: 0x8b0
+[TRACE]: Starting job thread #3 (id=0x814, type=0x2).
+[TRACE]: Starting job thread #4 (id=0x8b0, type=0x2).
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[DEBUG]: game_initialize() called!
+
+[INFO]:  System memory use (tagged):
+  UNKNOWN    : 0.00B
+  ARRAY      : 56.47KiB
+  LINEAR_ALLC: 64.00MiB
+  DARRAY     : 14.80KiB
+  HASH_TABLE : 6.00KiB
+  DICT       : 0.00B
+  RING_QUEUE : 192.00KiB
+  BST        : 0.00B
+  STRING     : 664.00B
+  APPLICATION: 3.53KiB
+  JOB        : 4.75KiB
+  TEXTURE    : 3.84KiB
+  MAT_INST   : 0.00B
+  RENDERER   : 8.26MiB
+  GAME       : 16.00B
+  TRANSFORM  : 0.00B
+  ENTITY     : 0.00B
+  ENTITY_NODE: 0.00B
+  SCENE      : 0.00B
+  RESOURCE   : 19.06MiB
+  VULKAN     : 13.84MiB
+  VULKAN_EXT : 0.00B
+  DIRECT3D   : 0.00B
+  OPENGL     : 0.00B
+  GPU_LOCAL  : 281.34MiB
+  BITMAP_FONT: 0.00B
+  SYSTEM_FONT: 176.00B
+Total memory usage: 105.48MiB of 1.00GiB (10.30/100)
+
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'UbuntuMono21px_0'.
+[TRACE]: Successfully loaded texture 'kulpan'.
+[TRACE]: Successfully loaded texture 'transparent_test'.
+[TRACE]: Successfully loaded texture 'orange_lines_512_SPEC'.
+[INFO]:  Vulkan renderer backend->resized: w/h/gen: 1280/720/1
+[INFO]:  Creating swapchain...
+[INFO]:  Swapchain created.
+[DEBUG]: Creating vulkan command buffers...
+[DEBUG]: Vulkan command buffers created.
+[INFO]:  Resized, booting.
+[DEBUG]: Window resize: 678, 736
+[INFO]:  Vulkan renderer backend->resized: w/h/gen: 678/736/2
+[INFO]:  Creating swapchain...
+[INFO]:  Swapchain created.
+[DEBUG]: Creating vulkan command buffers...
+[DEBUG]: Vulkan command buffers created.
+[INFO]:  Resized, booting.
+[INFO]:  Left shift pressed.
+[DEBUG]: 'l_shift' key pressed in window.
+[INFO]:  Left shift released.
+[DEBUG]: 'l_shift' key released in window.
+[INFO]:  Left shift pressed.
+[DEBUG]: 'l_shift' key pressed in window.
+[INFO]:  Left shift released.
+[DEBUG]: 'l_shift' key released in window.
+[INFO]:  Left shift pressed.
+[DEBUG]: 'l_shift' key pressed in window.
+[INFO]:  Left shift released.
+[DEBUG]: 'l_shift' key released in window.
+[INFO]:  Right shift pressed.
+[DEBUG]: 'r_shift' key pressed in window.
+[INFO]:  Right shift released.
+[DEBUG]: 'r_shift' key released in window.
+[INFO]:  Right shift pressed.
+[DEBUG]: 'r_shift' key pressed in window.
+[INFO]:  Right shift released.
+[DEBUG]: 'r_shift' key released in window.
+[INFO]:  Right shift pressed.
+[DEBUG]: 'r_shift' key pressed in window.
+[INFO]:  Right shift released.
+[DEBUG]: 'r_shift' key released in window.
+[INFO]:  Left shift pressed.
+[DEBUG]: 'l_shift' key pressed in window.
+[INFO]:  Left shift released.
+[DEBUG]: 'l_shift' key released in window.
+[INFO]:  Left ctrl pressed.
+[DEBUG]: 'l_ctrl' key pressed in window.
+[INFO]:  Left ctrl released.
+[DEBUG]: 'l_ctrl' key released in window.
+[INFO]:  Left ctrl pressed.
+[DEBUG]: 'l_ctrl' key pressed in window.
+[INFO]:  Left ctrl released.
+[DEBUG]: 'l_ctrl' key released in window.
+[INFO]:  Left ctrl pressed.
+[DEBUG]: 'l_ctrl' key pressed in window.
+[INFO]:  Left ctrl released.
+[DEBUG]: 'l_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[INFO]:  Right ctrl pressed.
+[DEBUG]: 'r_ctrl' key pressed in window.
+[INFO]:  Right ctrl released.
+[DEBUG]: 'r_ctrl' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'capslock' key pressed in window.
+[DEBUG]: 'capslock' key released in window.
+[DEBUG]: 'l_super' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'space' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'space' key released in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'space' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'space' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'd' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'd' key released in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'l' key pressed in window.
+[DEBUG]: 'l' key released in window.
+[DEBUG]: Loading models...
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Successfully loaded mesh 'falcon'.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Job queued.
+[TRACE]: Successfully loaded mesh 'sponza'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_column_b_spec'.
+[TRACE]: Successfully loaded texture 'sponza_column_b_diff'.
+[TRACE]: Successfully loaded texture 'sponza_column_b_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_curtain_spec'.
+[TRACE]: Successfully loaded texture 'sponza_curtain_diff'.
+[TRACE]: Successfully loaded texture 'sponza_curtain_ddn'.
+[TRACE]: Successfully loaded texture 'sponza_curtain_blue_diff'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'sponza_flagpole_diff'.
+[TRACE]: Successfully loaded texture 'sponza_flagpole_spec'.
+[TRACE]: Successfully loaded texture 'sponza_flagpole_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'sponza_column_c_diff'.
+[TRACE]: Successfully loaded texture 'sponza_column_c_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_column_c_ddn'.
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_floor_a_diff'.
+[TRACE]: Successfully loaded texture 'sponza_curtain_green_diff'.
+[TRACE]: Successfully loaded texture 'sponza_floor_a_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_floor_a_ddn'.
+[TRACE]: Successfully loaded texture 'spnza_bricks_a_diff'.
+[TRACE]: Successfully loaded texture 'spnza_bricks_a_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'spnza_bricks_a_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_column_a_diff'.
+[TRACE]: Successfully loaded texture 'sponza_column_a_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_details_diff'.
+[TRACE]: Successfully loaded texture 'sponza_column_a_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_details_ddn'.
+[TRACE]: Successfully loaded texture 'sponza_details_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'vase_hanging'.
+[TRACE]: Successfully loaded texture 'vase_hanging_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'chain_texture'.
+[TRACE]: Successfully loaded texture 'vase_hanging_spec'.
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Successfully loaded texture 'chain_texture_ddn'.
+[TRACE]: Successfully loaded texture 'chain_texture_spec'.
+[TRACE]: Successfully loaded texture 'sponza_arch_diff'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_arch_spec'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_arch_ddn'.
+[TRACE]: Successfully loaded texture 'sponza_ceiling_a_diff'.
+[TRACE]: Successfully loaded texture 'sponza_ceiling_a_ddn'.
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_ceiling_a_spec'.
+[TRACE]: Successfully loaded texture 'sponza_fabric_spec'.
+[TRACE]: Successfully loaded texture 'falc_wreck_low_DefaultMaterial_AlbedoTransparency'.
+[TRACE]: Successfully loaded texture 'falc_wreck_low_DefaultMaterial_MetallicSmoothness'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_fabric_green_diff'.
+[TRACE]: Successfully loaded texture 'falc_wreck_low_DefaultMaterial_Normal'.
+[TRACE]: Successfully loaded texture 'sponza_thorn_diff'.
+[TRACE]: Successfully loaded texture 'sponza_thorn_spec'.
+[TRACE]: Successfully loaded texture 'sponza_fabric_ddn'.
+[TRACE]: Successfully loaded texture 'sponza_fabric_blue_diff'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'sponza_thorn_ddn'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Successfully loaded texture 'vase_round'.
+[TRACE]: Successfully loaded texture 'vase_plant'.
+[TRACE]: Successfully loaded texture 'vase_round_ddn'.
+[TRACE]: Successfully loaded texture 'vase_plant_spec'.
+[TRACE]: Successfully loaded texture 'vase_round_spec'.
+[TRACE]: Successfully loaded texture 'vase_plant_ddn'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Assigning job to thread: 2
+[TRACE]: Assigning job to thread: 3
+[TRACE]: Assigning job to thread: 4
+[TRACE]: Successfully loaded texture 'background'.
+[TRACE]: Successfully loaded texture 'lion'.
+[TRACE]: Successfully loaded texture 'background_spec'.
+[TRACE]: Successfully loaded texture 'sponza_fabric_diff'.
+[TRACE]: Successfully loaded texture 'background_ddn'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Successfully loaded texture 'lion_spec'.
+[TRACE]: Successfully loaded texture 'vase_dif'.
+[TRACE]: Successfully loaded texture 'lion_ddn'.
+[TRACE]: Successfully loaded texture 'vase_ddn'.
+[TRACE]: Assigning job to thread: 0
+[TRACE]: Assigning job to thread: 1
+[TRACE]: Successfully loaded texture 'sponza_roof_diff'.
+[TRACE]: Successfully loaded texture 'vase_spec'.
+[TRACE]: Successfully loaded texture 'sponza_roof_ddn'.
+[TRACE]: Successfully loaded texture 'sponza_roof_spec'.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'space' key pressed in window.
+[DEBUG]: 'space' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'z' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'space' key pressed in window.
+[DEBUG]: 'z' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'space' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'left' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'left' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 's' key pressed in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 's' key released in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'q' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'q' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'x' key pressed in window.
+[DEBUG]: 'x' key released in window.
+[DEBUG]: 'up' key pressed in window.
+[DEBUG]: 'up' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[DEBUG]: 'down' key pressed in window.
+[DEBUG]: 'down' key released in window.
+[DEBUG]: 'right' key pressed in window.
+[DEBUG]: 'right' key released in window.
+[INFO]:  EVENT_CODE_APPLICATION_QUIT recieved, shutting down.
+
+[DEBUG]: Destroying Vulkan device...
+[INFO]:  Destroying command pools...
+[INFO]:  Destroying logical device...
+[INFO]:  Releasing physical device resources...
+[DEBUG]: Destroying Vulkan surface...
+[DEBUG]: Destroying Vulkan debugger...
+[DEBUG]: Destroying Vulkan instance...
