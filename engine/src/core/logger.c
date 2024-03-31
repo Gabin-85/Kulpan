@@ -4,6 +4,7 @@
 #include "platform/filesystem.h"
 #include "core/kstring.h"
 #include "core/kmemory.h"
+#include "core/console.h"
 
 // TODO: temporary
 #include <stdarg.h>
@@ -72,6 +73,9 @@ void log_output(log_level level, const char* message, ...) {
 
     // Prepend log level to message.
     string_format(out_message, "%s%s\n", level_strings[level], out_message);
+
+    // Pass along to console consumers.
+    console_write_line(level, out_message);
 
     // Print accordingly
     if (is_error) {

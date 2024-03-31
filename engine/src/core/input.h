@@ -1,18 +1,15 @@
 /**
  * @file input.h
-
  * @brief This file contains everything having to do with input on deskop
  * environments from keyboards and mice. Gamepads and touch controls will
  * likely be handled separately at a future date.
- * 
- * 
- * 
  * @copyright Kulpan Game Engine
- * 
  */
 #pragma once
 
 #include "defines.h"
+
+struct keymap;
 
 /**
  * @brief Represents available mouse buttons.
@@ -432,3 +429,7 @@ void input_process_mouse_wheel(i8 z_delta);
  * @return const char*
  */
 KAPI const char* input_keycode_str(keys key);
+
+KAPI void input_keymap_push(const struct keymap* map);
+
+KAPI void input_keymap_pop();
