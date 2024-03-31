@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "core/application.h"
+#include "core/engine.h"
 #include "memory/linear_allocator.h"
 
 struct render_packet;
@@ -77,8 +77,8 @@ typedef struct game {
     /** @brief Game-specific game state. Created and managed by the game. */
     void* state;
 
-    /** @brief A block of memory to hold the application state. Created and managed by the engine. */
-    void* application_state;
+    /** @brief A block of memory to hold the engine state. Created and managed by the engine. */
+    void* engine_state;
 
     /** 
      * @brief An allocator used for allocations needing to be made every frame. Contents are wiped

@@ -23,7 +23,7 @@ b8 create_game(game* out_game) {
     out_game->state_memory_requirement = sizeof(game_state);
     out_game->state = 0;
 
-    out_game->application_state = 0;
+    out_game->engine_state = 0;
 
     return true;
 }

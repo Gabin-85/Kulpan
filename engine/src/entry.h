@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "core/application.h"
+#include "core/engine.h"
 #include "core/logger.h"
 #include "game_types.h"
 
@@ -46,13 +46,13 @@ int main(void) {
     }
 
     // Initialization.
-    if (!application_create(&game_inst)) {
+    if (!engine_create(&game_inst)) {
         KFATAL("Application failed to create!.");
         return 1;
     }
 
     // Begin the game loop.
-    if (!application_run()) {
+    if (!engine_run()) {
         KINFO("Application did not shutdown gracefully.");
         return 2;
     }
