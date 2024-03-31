@@ -1,23 +1,22 @@
 /**
  * @file engine.h
  * @brief This file contains structures and logic pertaining to the
- * overall engine application itself. 
- * The application is responsible for managing both the platform layers
+ * overall engine itself. 
+ * The engine is responsible for managing both the platform layers
  * as well as all systems within the engine.
  * @copyright Kulpan Game Engine
  */
-
 #pragma once
 
 #include "defines.h"
 #include "systems/font_system.h"
 #include "renderer/renderer_types.inl"
 
-struct game;
+struct application;
 
 /** 
  * @brief Represents configuration for the application. The application config
- * is fed to the engine on creation, so it knows hot to configure itself internally.
+ * is fed to the engine on creation, so it knows how to configure itself internally.
  */
 typedef struct application_config {
     /** @brief Window starting position x axis, if applicable. */
@@ -48,7 +47,7 @@ typedef struct application_config {
  * @param game_inst A pointer to the application instance associated with the engine
  * @returns True on success; otherwise false.
  */
-KAPI b8 engine_create(struct game* game_inst);
+KAPI b8 engine_create(struct application* game_inst);
 
 /**
  * @brief Starts the main engine loop.

@@ -35,7 +35,7 @@ b8 debug_console_consumer_write(void* inst, log_level level, const char* message
         // here because the strings need to live on so that they can
         // be accessed by this debug console. Ordinarily a cleanup
         // via string_cleanup_split_array would be warranted.
-        char** split_message = darray_create(split_message);
+        char** split_message = darray_create(char*);
         u32 count = string_split(message, '\n', &split_message, true, false);
         // Push each to the array as a new line.
         for (u32 i = 0; i < count; ++i) {
@@ -85,26 +85,52 @@ static b8 debug_console_on_key(u16 code, void* sender, void* listener_inst, even
                     char_code = key_code + 32;
                 }
             } else if ((key_code >= KEY_0 && key_code <= KEY_9)) {
-                if (shift_held) {
+                if (!shift_held) {
                     // NOTE: this handles US standard keyboard layouts.
                     // Will need to handle other layouts as well.
-                    switch(key_code) {
-                        case KEY_0: char_code = 'a'; break;
-                        case KEY_1: char_code = '&'; break;
-                        case KEY_2: char_code = 'e'; break;
-                        case KEY_3: char_code = '"'; break;
-                        case KEY_4: char_code = '\''; break;
-                        case KEY_5: char_code = '('; break;
-                        case KEY_6: char_code = '-'; break;
-                        case KEY_7: char_code = 'e'; break;
-                        case KEY_8: char_code = '_'; break;
-                        case KEY_9: char_code = 'c'; break;
+                    switch (key_code) {
+                        case KEY_0:
+                            char_code = 'a';
+                            break;
+                        case KEY_1:
+                            char_code = '&';
+                            break;
+                        case KEY_2:
+                            char_code = 'e';
+                            break;
+                        case KEY_3:
+                            char_code = '"';
+                            break;
+                        case KEY_4:
+                            char_code = '\'';
+                            break;
+                        case KEY_5:
+                            char_code = '(';
+                            break;
+                        case KEY_6:
+                            char_code = '-';
+                            break;
+                        case KEY_7:
+                            char_code = 'e';
+                            break;
+                        case KEY_8:
+                            char_code = '_';
+                            break;
+                        case KEY_9:
+                            char_code = 'c';
+                            break;
                     }
                 }
             } else {
                 switch (key_code) {
                     case KEY_SPACE:
                         char_code = key_code;
+                        break;
+                    case KEY_MINUS:
+                        char_code = shift_held ? '_' : '-';
+                        break;
+                    case KEY_EQUAL:
+                        char_code = shift_held ? '+' : '=';
                         break;
                     default:
                         // Not valid for entry, use 0
@@ -173,6 +199,13 @@ b8 debug_console_load() {
     event_register(EVENT_CODE_KEY_RELEASED, 0, debug_console_on_key);
 
     return true;
+}
+
+void debug_console_unload() {
+    if (state_ptr) {
+        ui_text_destroy(&state_ptr->text_control);
+        ui_text_destroy(&state_ptr->entry_control);
+    }
 }
 
 void debug_console_update() {

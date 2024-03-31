@@ -75,7 +75,11 @@
         "shader_loader.h": "c",
         "resource_system.h": "c",
         "linear_allocator.h": "c",
-        "transform.h": "c"
+        "transform.h": "c",
+        "math_types.h": "c",
+        "application_types.h": "c",
+        "event.h": "c",
+        "font_system.h": "c"
     },
     // File copyright documentation tag.  Array of strings will be converted to one line per element.  Can template {year}.
     "doxdocgen.file.copyrightTag": [

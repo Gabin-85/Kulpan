@@ -1,5 +1,5 @@
 #include "engine.h"
-#include "game_types.h"
+#include "application_types.h"
 
 #include "version.h"
 
@@ -20,6 +20,7 @@
 
 // systems
 #include "core/console.h"
+#include "core/kvar.h"
 #include "systems/texture_system.h"
 #include "systems/material_system.h"
 #include "systems/geometry_system.h"
@@ -31,7 +32,7 @@
 #include "systems/font_system.h"
 
 typedef struct engine_state_t {
-    game* game_inst;
+    application* game_inst;
     b8 is_running;
     b8 is_suspended;
     i16 width;
@@ -42,6 +43,9 @@ typedef struct engine_state_t {
 
     u64 console_memory_requirement;
     void* console_state;
+
+    u64 kvar_memory_requirement;
+    void* kvar_state;
 
     u64 event_system_memory_requirement;
     void* event_system_state;
@@ -93,7 +97,7 @@ static engine_state_t* engine_state;
 b8 engine_on_event(u16 code, void* sender, void* listener_inst, event_context context);
 b8 engine_on_resized(u16 code, void* sender, void* listener_inst, event_context context);
 
-b8 engine_create(game* game_inst) {
+b8 engine_create(struct application* game_inst) {
     if (game_inst->engine_state) {
         KERROR("engine_create called more than once.");
         return false;
@@ -134,6 +138,11 @@ b8 engine_create(game* game_inst) {
     console_initialize(&engine_state->console_memory_requirement, 0);
     engine_state->console_state = linear_allocator_allocate(&engine_state->systems_allocator, engine_state->console_memory_requirement);
     console_initialize(&engine_state->console_memory_requirement, engine_state->console_state);
+
+    // KVars
+    kvar_initialize(&engine_state->kvar_memory_requirement, 0);
+    engine_state->kvar_state = linear_allocator_allocate(&engine_state->systems_allocator, engine_state->kvar_memory_requirement);
+    kvar_initialize(&engine_state->kvar_memory_requirement, engine_state->kvar_state);
 
     // Events
     event_system_initialize(&engine_state->event_system_memory_requirement, 0);
