@@ -26,10 +26,10 @@ typedef struct render_view_system_config {
  *
  * @param memory_requirement A pointer to hold the memory requirement in bytes.
  * @param state A block of memory to be used for the state.
- * @param config Configuration for the system.
+ * state_ptr->max_view_count = typed_config->max_view_count;
  * @return True on success; otherwise false.
  */
-b8 render_view_system_initialize(u64* memory_requirement, void* state, render_view_system_config config);
+b8 render_view_system_initialize(u64* memory_requirement, void* state, void* config);
 
 /**
  * @brief Shuts the render view system down.
