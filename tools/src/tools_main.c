@@ -90,7 +90,7 @@ void print_help() {
     const char* extension = "";
 #endif
     KINFO(
-        "Kulpan Game Engine Tools, Copyright 2021-2022 Travis Vroman.\n\
+        "Kulpan Game Engine Tools.\n\
   usage:  tools%s <mode> [arguments...]\n\
   \n\
   modes:\n\
